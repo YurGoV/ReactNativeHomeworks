@@ -12,10 +12,12 @@ import {
     KeyboardAvoidingView, // новий імпорт
     Platform, // новий імпорт
     Alert,
-    Button,
+    Button, Text,
 } from "react-native";
 
 import {styles} from "./App.styles";
+import RegistrationScreen from "./Screens/RegistrationScreen";
+import LoginScreen from "./Screens/LoginScreen";
 
 
 const loadFonts = async () => {
@@ -37,7 +39,78 @@ const initialState = {
     password: '',
 }
 
+const registration = true;
+// const registration = false;
+
+
 export default function App() {
+
+    console.log(Platform.OS);
+
+    const [state, setState] = useState(initialState);
+    const [isReady, setIsReady] = useState(true)
+
+    const nameHandler = (value) =>
+        setState((prevState) => ({
+            ...prevState, email: value
+        }));
+    const passwordHandler = (value) =>
+        setState((prevState) => ({
+            ...prevState, password: value
+        }));
+
+    const onLogin = () => {
+        console.log(state);
+        Keyboard.dismiss()
+        setState(initialState);
+
+    };
+
+    if (!isReady) {
+        // return <AppLoading startAsync={loadFonts}
+        //                    onFinish={() => setIsReady(true)}
+        //                    onError={(err) => console.log(err)}/>
+        // return <AppLoading/>
+        setIsReady(true)
+    }
+
+    return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+                <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+                    behavior={Platform.OS == "ios" ? "padding" : "height"}
+                >
+                    {/*<Text>Open up App.js YAHO-OO // YESS )to start working on your app!</Text>*/}
+
+                    {registration ? (
+                        <>
+                            <Text>REGISTRATION SCREEN</Text>
+                            <RegistrationScreen
+                                state={state}
+                                nameHandler={nameHandler}
+                                passwordHandler={passwordHandler}
+                                onPress={onLogin}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <Text>LOGIN SCREEN</Text>
+                            <LoginScreen
+                                state={state}
+                                nameHandler={nameHandler}
+                                passwordHandler={passwordHandler}
+                                onPress={onLogin}
+                            />
+                        </>
+                    )}
+                    <StatusBar style="auto"/>
+                </KeyboardAvoidingView>
+            </View>
+        </TouchableWithoutFeedback>
+    );
+}
+
+/*export default function App() {
 
     console.log(Platform.OS);
 
@@ -84,7 +157,7 @@ export default function App() {
                 <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
                     behavior={Platform.OS == "ios" ? "padding" : "height"}
                 >
-                    {/*<Text>Open up App.js YAHO-OO // YESS )to start working on your app!</Text>*/}
+                    {/!*<Text>Open up App.js YAHO-OO // YESS )to start working on your app!</Text>*!/}
 
                     <TextInput
                         value={state.email}
@@ -106,6 +179,6 @@ export default function App() {
             </View>
         </TouchableWithoutFeedback>
     );
-}
+}*/
 
 
