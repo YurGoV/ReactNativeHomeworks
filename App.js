@@ -32,24 +32,52 @@ const loadFonts = async () => {
 //     });
 // };
 
+const initialState = {
+    email: '',
+    password: '',
+}
+
 export default function App() {
 
-    const [name, setName] = useState("");
-    const [password, setPassword] = useState("");
-    const [isReady, setIsReady] = useState(false)
+    console.log(Platform.OS);
 
-    const nameHandler = (text) => setName(text);
-    const passwordHandler = (text) => setPassword(text);
+    // const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
+    const [state, setState] = useState(initialState);
+    const [isReady, setIsReady] = useState(true)
+
+    const nameHandler = (value) =>
+        setState((prevState) => ({
+            ...prevState, email: value
+        }));
+    const passwordHandler = (value) =>
+        setState((prevState) => ({
+            ...prevState, password: value
+        }));
 
     const onLogin = () => {
-        Alert.alert("Credentials", `${name} + ${password}`);
+        // console.log(evt);
+        // Alert.alert("Credentials", `${email} + ${password}`);
+        console.log(state);
+        // setState({
+        //     email: email,
+        //     password: password,
+        // })
+
+        Keyboard.dismiss()
+        setState(initialState);
+
     };
 
     if (!isReady) {
-        return <AppLoading startAsync={loadFonts}
-                           onFinish={() => setIsReady(true)}
-                           onError={(err) => console.log(err)}/>
+        // return <AppLoading startAsync={loadFonts}
+        //                    onFinish={() => setIsReady(true)}
+        //                    onError={(err) => console.log(err)}/>
+        // return <AppLoading/>
+        setIsReady(true)
     }
+    // let email;
+    // let password;
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
@@ -59,13 +87,13 @@ export default function App() {
                     {/*<Text>Open up App.js YAHO-OO // YESS )to start working on your app!</Text>*/}
 
                     <TextInput
-                        value={name}
+                        value={state.email}
                         onChangeText={nameHandler}
                         placeholder="Username"
                         style={styles.input}
                     />
                     <TextInput
-                        value={password}
+                        value={state.password}
                         onChangeText={passwordHandler}
                         placeholder="Password"
                         secureTextEntry={true}
