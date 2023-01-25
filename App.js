@@ -12,7 +12,9 @@ import {
     KeyboardAvoidingView, // новий імпорт
     Platform, // новий імпорт
     Alert,
-    Button, Text,
+    Button,
+    Text,
+    ImageBackground,
 } from "react-native";
 
 import {styles} from "./App.styles";
@@ -35,12 +37,13 @@ const loadFonts = async () => {
 // };
 
 const initialState = {
+    login: '',
     email: '',
     password: '',
 }
 
-const registration = true;
-// const registration = false;
+// const registration = true;
+const registration = false;
 
 
 export default function App() {
@@ -50,6 +53,10 @@ export default function App() {
     const [state, setState] = useState(initialState);
     const [isReady, setIsReady] = useState(true)
 
+    const loginHandler = (value) =>
+        setState((prevState) => ({
+            ...prevState, login: value
+        }));
     const nameHandler = (value) =>
         setState((prevState) => ({
             ...prevState, email: value
@@ -58,6 +65,13 @@ export default function App() {
         setState((prevState) => ({
             ...prevState, password: value
         }));
+
+
+    const onRegistration = () => {
+        console.log(state);
+        Keyboard.dismiss()
+        setState(initialState);
+    };
 
     const onLogin = () => {
         console.log(state);
@@ -77,34 +91,35 @@ export default function App() {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
-                <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-                    behavior={Platform.OS == "ios" ? "padding" : "height"}
-                >
-                    {/*<Text>Open up App.js YAHO-OO // YESS )to start working on your app!</Text>*/}
+                <ImageBackground resizeMode="cover" source={require('./img/background.png')} style={styles.img}>
+                    <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+                        behavior={Platform.OS == "ios" ? "padding" : "height"}
+                    >
+                        {/*<Text>Open up App.js YAHO-OO // YESS )to start working on your app!</Text>*/}
 
-                    {registration ? (
-                        <>
-                            <Text>REGISTRATION SCREEN</Text>
-                            <RegistrationScreen
-                                state={state}
-                                nameHandler={nameHandler}
-                                passwordHandler={passwordHandler}
-                                onPress={onLogin}
-                            />
-                        </>
-                    ) : (
-                        <>
-                            <Text>LOGIN SCREEN</Text>
-                            <LoginScreen
-                                state={state}
-                                nameHandler={nameHandler}
-                                passwordHandler={passwordHandler}
-                                onPress={onLogin}
-                            />
-                        </>
-                    )}
-                    <StatusBar style="auto"/>
-                </KeyboardAvoidingView>
+                        {registration ? (
+                            <View style={styles.regField}>
+                                <RegistrationScreen
+                                    state={state}
+                                    loginHandler={loginHandler}
+                                    nameHandler={nameHandler}
+                                    passwordHandler={passwordHandler}
+                                    onPress={onRegistration}
+                                />
+                            </View>
+                        ) : (
+                            <View style={styles.regField}>
+                                <LoginScreen
+                                    state={state}
+                                    nameHandler={nameHandler}
+                                    passwordHandler={passwordHandler}
+                                    onPress={onLogin}
+                                />
+                            </View>
+                        )}
+                        <StatusBar style="auto"/>
+                    </KeyboardAvoidingView>
+                </ImageBackground>
             </View>
         </TouchableWithoutFeedback>
     );
