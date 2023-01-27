@@ -42,8 +42,8 @@ const initialState = {
     password: '',
 }
 
-// const registration = true;
-const registration = false;
+const registration = true;
+// const registration = false;
 
 
 export default function App() {

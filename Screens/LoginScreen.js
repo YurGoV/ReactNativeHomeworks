@@ -1,15 +1,9 @@
-import React, {useState} from "react";
+import React from "react";
 
 
 import {
-    View,
-    TextInput,
-    TouchableWithoutFeedback, // імпорт компонента обгортки
-    Keyboard, // імпорт компонента клавіатури
-    KeyboardAvoidingView, // новий імпорт
-    Platform, // новий імпорт
-    Alert,
-    Button, Text, Pressable,
+    View, TextInput,
+    Text, Pressable,
 } from "react-native";
 import {styles} from "./Screens.styles";
 
@@ -19,7 +13,10 @@ const LoginScreen = ({state, nameHandler, passwordHandler, onPress}) => {
 
     return (
         <View style={styles.regInputs}>
-            <Text>L O G I N</Text>
+
+            <View style={styles.textPosition}>
+                <Text>L O G I N</Text>
+            </View>
 
             <TextInput
                 value={state.email}
@@ -34,10 +31,11 @@ const LoginScreen = ({state, nameHandler, passwordHandler, onPress}) => {
                 secureTextEntry={true}
                 style={styles.input}
             />
-            {/*<Button title={"Login"} style={styles.button} onPress={onPress}/>*/}
             <Pressable title={"Login"} style={styles.button} onPress={onPress}>
                 <Text>L O G I N</Text>
             </Pressable>
+            <Text>Немає акаунта? Зареєструватися</Text>
+
         </View>
     )
 

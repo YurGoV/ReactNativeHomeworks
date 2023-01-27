@@ -1,15 +1,9 @@
-import React, {useState} from "react";
+import React from "react";
 
 
 import {
-    View,
-    TextInput,
-    TouchableWithoutFeedback, // імпорт компонента обгортки
-    Keyboard, // імпорт компонента клавіатури
-    KeyboardAvoidingView, // новий імпорт
-    Platform, // новий імпорт
-    Alert,
-    Button, Text,
+    View, TextInput,
+    Text, Pressable, Image,
 } from "react-native";
 import {styles} from "./Screens.styles";
 
@@ -18,7 +12,19 @@ const RegistrationScreen = ({state, loginHandler, nameHandler, passwordHandler, 
 
     return (
         <View style={styles.regInputs}>
-            <Text>R E G I S T R A T I O N</Text>
+
+            <View style={styles.avatarPlace}>
+                <Image source={require('../img/avatar.png')}/>
+            </View>
+            <Pressable title={"Login"} style={styles.add} onPress={onPress}>
+                <View>
+                    <Image source={require('../img/add.png')}/>
+                </View>
+            </Pressable>
+            <View style={styles.textPosition}>
+                <Text>R E G I S T E R</Text>
+            </View>
+
             <TextInput
                 value={state.login}
                 onChangeText={loginHandler}
@@ -38,7 +44,10 @@ const RegistrationScreen = ({state, loginHandler, nameHandler, passwordHandler, 
                 secureTextEntry={true}
                 style={styles.input}
             />
-            <Button title={"Login"} style={styles.input} onPress={onPress}/>
+            <Pressable title={"Register"} style={styles.button} onPress={onPress}>
+                <Text>R E G I S T E R</Text>
+            </Pressable>
+            <Text>Вже є акаунт? Увійти</Text>
         </View>
     )
 
