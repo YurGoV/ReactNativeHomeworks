@@ -1,8 +1,10 @@
 import {StatusBar} from 'expo-status-bar';
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import * as Font from 'expo-font';
 import {AppLoading} from 'expo';
 // import AppLoading from 'expo-app-loading';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 
 import {
     View,
@@ -22,12 +24,12 @@ import RegistrationScreen from "./Screens/RegistrationScreen";
 import LoginScreen from "./Screens/LoginScreen";
 
 
-const loadFonts = async () => {
-    await Font.loadAsync({
-        "Roboto-Regular": require("./img/fonts/Roboto-Regular.ttf"),
-        "Roboto-Bold": require("./img/fonts/Roboto-Bold.ttf"),
-    });
-};
+// const loadFonts = async () => {
+//     await Font.loadAsync({
+//         "Roboto-Regular": require("./img/fonts/Roboto-Regular.ttf"),
+//         "Roboto-Bold": require("./img/fonts/Roboto-Bold.ttf"),
+//     });
+// };
 
 // const loadFonts = () => {
 //     return Font.loadAsync({
@@ -35,6 +37,8 @@ const loadFonts = async () => {
 //         "Roboto-Bold": require("./img/fonts/Roboto-Bold.ttf"),
 //     });
 // };
+
+
 
 const initialState = {
     login: '',
@@ -48,10 +52,25 @@ const registration = true;
 
 export default function App() {
 
+    const [state, setState] = useState(initialState);
+    // const [isReady, setIsReady] = useState(true)
+
     console.log(Platform.OS);
 
-    const [state, setState] = useState(initialState);
-    const [isReady, setIsReady] = useState(true)
+    const [fontsLoaded] = useFonts({
+        'Roboto': require('./img/fonts/Roboto-Regular.ttf'),
+    });
+    const onLayoutRootView = useCallback(async () => {
+        if (fontsLoaded) {
+            await SplashScreen.hideAsync();
+        }
+    }, [fontsLoaded]);
+
+    if (!fontsLoaded) {
+        return null;
+    }
+    console.log('lll');
+
 
     const loginHandler = (value) =>
         setState((prevState) => ({
@@ -80,13 +99,13 @@ export default function App() {
 
     };
 
-    if (!isReady) {
-        // return <AppLoading startAsync={loadFonts}
-        //                    onFinish={() => setIsReady(true)}
-        //                    onError={(err) => console.log(err)}/>
-        // return <AppLoading/>
-        setIsReady(true)
-    }
+    // if (!isReady) {
+    //     // return <AppLoading startAsync={loadFonts}
+    //     //                    onFinish={() => setIsReady(true)}
+    //     //                    onError={(err) => console.log(err)}/>
+    //     // return <AppLoading/>
+    //     setIsReady(true)
+    // }
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

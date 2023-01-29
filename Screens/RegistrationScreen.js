@@ -22,7 +22,7 @@ const RegistrationScreen = ({state, loginHandler, nameHandler, passwordHandler, 
                 </View>
             </Pressable>
             <View style={styles.textPosition}>
-                <Text>R E G I S T E R</Text>
+                <Text style={{fontFamily: 'Roboto', fontSize: 30}}>REGISTER</Text>
             </View>
 
             <TextInput
@@ -47,7 +47,7 @@ const RegistrationScreen = ({state, loginHandler, nameHandler, passwordHandler, 
             <Pressable title={"Register"} style={styles.button} onPress={onPress}>
                 <Text>R E G I S T E R</Text>
             </Pressable>
-            <Text>Вже є акаунт? Увійти</Text>
+            <Text>Already have an account? Sign in</Text>
         </View>
     )
 

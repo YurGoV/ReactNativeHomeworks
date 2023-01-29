@@ -15,7 +15,7 @@ const LoginScreen = ({state, nameHandler, passwordHandler, onPress}) => {
         <View style={styles.regInputs}>
 
             <View style={styles.textPosition}>
-                <Text>L O G I N</Text>
+                <Text style={{fontFamily: 'Roboto', fontSize: 30}}>LOGIN</Text>
             </View>
 
             <TextInput
@@ -34,7 +34,7 @@ const LoginScreen = ({state, nameHandler, passwordHandler, onPress}) => {
             <Pressable title={"Login"} style={styles.button} onPress={onPress}>
                 <Text>L O G I N</Text>
             </Pressable>
-            <Text>Немає акаунта? Зареєструватися</Text>
+            <Text>No account? Sign up</Text>
 
         </View>
     )
