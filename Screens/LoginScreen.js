@@ -35,10 +35,8 @@ const LoginScreen = ({state, nameHandler, passwordHandler, onPress}) => {
                 <Text>L O G I N</Text>
             </Pressable>
             <Text>No account? Sign up</Text>
-
         </View>
     )
-
 };
 
 export default LoginScreen;

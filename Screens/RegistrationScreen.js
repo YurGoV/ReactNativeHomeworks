@@ -50,7 +50,6 @@ const RegistrationScreen = ({state, loginHandler, nameHandler, passwordHandler, 
             <Text>Already have an account? Sign in</Text>
         </View>
     )
-
 };
 
 export default RegistrationScreen;
