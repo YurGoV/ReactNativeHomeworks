@@ -1,6 +1,7 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useCallback, useState} from "react";
 import {useFonts} from 'expo-font';
+import {NavigationContainer} from "@react-navigation/native";
 import * as SplashScreen from 'expo-splash-screen';
 
 import {
@@ -12,9 +13,8 @@ import {
     ImageBackground,
 } from "react-native";
 
-import {styles} from "./App.styles";
-import RegistrationScreen from "./Screens/RegistrationScreen";
-import LoginScreen from "./Screens/LoginScreen";
+import {useRoute} from "./router";
+
 
 
 const initialState = {
@@ -24,12 +24,19 @@ const initialState = {
 }
 
 // const registration = true;
-const registration = false;
+// const registration = false;
+const screen = 'reg';
+// const screen = 'log';
+// const screen = 'pos';
+
+
+
 
 
 export default function App() {
 
     const [state, setState] = useState(initialState);
+    const routing = useRoute(true)
 
     console.log(Platform.OS);
 
@@ -46,64 +53,28 @@ export default function App() {
         return null;
     }
 
-    const loginHandler = (value) =>
-        setState((prevState) => ({
-            ...prevState, login: value
-        }));
-    const nameHandler = (value) =>
-        setState((prevState) => ({
-            ...prevState, email: value
-        }));
-    const passwordHandler = (value) =>
-        setState((prevState) => ({
-            ...prevState, password: value
-        }));
-
-
-    const onRegistration = () => {
-        console.log(state);
-        Keyboard.dismiss()
-        setState(initialState);
-    };
-
-    const onLogin = () => {
-        console.log(state);
-        Keyboard.dismiss()
-        setState(initialState);
-    };
-
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.container}>
-                <ImageBackground resizeMode="cover" source={require('./img/background.png')} style={styles.img}>
-                    <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-                        behavior={Platform.OS == "ios" ? "padding" : "height"}
-                    >
-                        {registration ? (
-                            <View style={styles.regField}>
-                                <RegistrationScreen
-                                    state={state}
-                                    loginHandler={loginHandler}
-                                    nameHandler={nameHandler}
-                                    passwordHandler={passwordHandler}
-                                    onPress={onRegistration}
-                                />
-                            </View>
-                        ) : (
-                            <View style={styles.regField}>
-                                <LoginScreen
-                                    state={state}
-                                    nameHandler={nameHandler}
-                                    passwordHandler={passwordHandler}
-                                    onPress={onLogin}
-                                />
-                            </View>
-                        )}
-                        <StatusBar style="auto"/>
-                    </KeyboardAvoidingView>
-                </ImageBackground>
-            </View>
-        </TouchableWithoutFeedback>
+        <NavigationContainer>
+            {routing}
+
+        </NavigationContainer>
     );
 }
+
+
+/*
+
+   <MainStack.Navigator initialRouteName="Login">
+                <MainStack.Screen name="Registration"
+                                  component={RegistrationScreen} options={{
+                                      headerShown: false,}}/>
+                <MainStack.Screen name="Login"
+                                  component={LoginScreen} options={{
+                                      headerShown: false,}}/>
+                <MainStack.Screen name="Home"
+                                  component={Home} options={{
+                    headerShown: false,}}/>
+            </MainStack.Navigator>
+
+*/

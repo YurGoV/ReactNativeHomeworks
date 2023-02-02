@@ -1,33 +1,6 @@
 import {StyleSheet} from "react-native";
 
 export const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
-        minHeight: "100%",
-        minWidth: "100%",
-        alignItems: "flex-end",
-        justifyContent: "flex-end",
-        backgroundColor: "white",
-    },
-
-    img: {
-        minWidth: "100%",
-        flex: 1,
-        justifyContent: 'flex-end',
-    },
-
-    regField: {
-        marginTop: 'auto',
-        display: 'flex',
-        height: "80%",
-        minWidth: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "white",
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-    },
-
     regInputs: {
         display: 'flex',
         position: "relative",
@@ -88,10 +61,4 @@ export const styles = StyleSheet.create({
         top: -50,
         right: '39%',
     },
-
-    tabText: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
 });

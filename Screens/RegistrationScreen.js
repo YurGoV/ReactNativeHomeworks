@@ -1,22 +1,68 @@
-import React from "react";
+import React, {useState} from "react";
 
 
 import {
     View, TextInput,
-    Text, Pressable, Image,
+    Text, Pressable, Image, Keyboard, Platform, TouchableWithoutFeedback, ImageBackground, KeyboardAvoidingView,
 } from "react-native";
 import {styles} from "./Screens.styles";
 
 
-const RegistrationScreen = ({state, loginHandler, nameHandler, passwordHandler, onPress}) => {
+const initialState = {
+    login: '',
+    email: '',
+    password: '',
+}
+
+
+// const RegistrationScreen = ({state, loginHandler, nameHandler, passwordHandler, onPress}) => {
+
+const RegistrationScreen = ({navigation}) => {
+
+    const [state, setState] = useState(initialState);
+
+    const loginHandler = (value) =>
+        setState((prevState) => ({
+            ...prevState, login: value
+        }));
+    const nameHandler = (value) =>
+        setState((prevState) => ({
+            ...prevState, email: value
+        }));
+    const passwordHandler = (value) =>
+        setState((prevState) => ({
+            ...prevState, password: value
+        }));
+
+
+    const onRegistration = () => {
+        console.log(state);
+        Keyboard.dismiss()
+        setState(initialState);
+    };
+
+    const onLogin = () => {
+        console.log(state);
+        Keyboard.dismiss()
+        setState(initialState);
+        navigation.navigate("Home")
+    };
 
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+                <ImageBackground resizeMode="cover" source={require('../img/background.png')} style={styles.img}>
+                    <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+                        behavior={Platform.OS == "ios" ? "padding" : "height"}
+                    >
+                        <View style={styles.regField}>
+
         <View style={styles.regInputs}>
 
             <View style={styles.avatarPlace}>
                 <Image source={require('../img/avatar.png')}/>
             </View>
-            <Pressable title={"Login"} style={styles.add} onPress={onPress}>
+            <Pressable title={"Login"} style={styles.add} onPress={onRegistration}>
                 <View>
                     <Image source={require('../img/add.png')}/>
                 </View>
@@ -44,11 +90,17 @@ const RegistrationScreen = ({state, loginHandler, nameHandler, passwordHandler, 
                 secureTextEntry={true}
                 style={styles.input}
             />
-            <Pressable title={"Register"} style={styles.button} onPress={onPress}>
+            <Pressable title={"Register"} style={styles.button} onPress={onRegistration}>
                 <Text>R E G I S T E R</Text>
             </Pressable>
-            <Text>Already have an account? Sign in</Text>
+            <Pressable onPress={() => navigation.navigate("Login")}><Text>Already have an account? Sign in</Text></Pressable>
+
         </View>
+                        </View>
+                    </KeyboardAvoidingView>
+                </ImageBackground>
+            </View>
+        </TouchableWithoutFeedback>
     )
 };
 

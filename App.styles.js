@@ -37,4 +37,10 @@ export const styles = StyleSheet.create({
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
     },
+    mainTab: {
+        // flex: 1,
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        backgroundColor: 'grey'
+    }
 });
