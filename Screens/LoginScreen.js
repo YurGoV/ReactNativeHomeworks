@@ -35,7 +35,7 @@ const LoginScreen = ({navigation}) => {
         console.log(state);
         Keyboard.dismiss()
         setState(initialState);
-        navigation.navigate("Home")
+        navigation.navigate("Home", {isLogged: true})
     };
 
 

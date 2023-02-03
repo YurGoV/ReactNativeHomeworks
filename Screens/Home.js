@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import PostsScreen from "./PostsScreen";
 
 const Home = (params) => {
-    console.log(params);
+    // console.log(params);
     return (
         <PostsScreen></PostsScreen>
     );

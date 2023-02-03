@@ -91,6 +91,17 @@ export const styles = StyleSheet.create({
         right: '39%',
     },
 
+    profileLogOut: {
+        display: 'flex',
+        position: "absolute",
+        minHeight: 25,
+        minWidth: 25,
+        borderRadius: 100,
+        // color: 'blue',
+        top: -50,
+        right: '10%',
+    },
+
     tabText: {
         flex: 1,
         justifyContent: 'center',

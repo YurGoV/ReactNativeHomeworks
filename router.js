@@ -5,7 +5,7 @@ import {styles} from "./App.styles";
 import PostScreen from "./Screens/PostsScreen";
 import CreatePostsScreen from "./Screens/CreatePostsScreen";
 import ProfileScreen from "./Screens/ProfileScreen";
-import React from "react";
+import React, {useState} from "react";
 import {createStackNavigator} from "@react-navigation/stack";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 
@@ -23,8 +23,11 @@ import {
 const MainStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
-export const useRoute = (isAuth) => {
-    if (!isAuth) {
+export const useRoute = () => {
+
+    const [authState, setAuthState] = useState(true);
+
+    if (!authState) {
         return (
             <MainStack.Navigator initialRouteName="Login">
                 <MainStack.Screen name="Registration"

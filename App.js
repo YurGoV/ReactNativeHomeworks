@@ -17,20 +17,13 @@ import {useRoute} from "./router";
 
 
 
-const initialState = {
-    login: '',
-    email: '',
-    password: '',
-}
-
-
-
 
 
 export default function App() {
 
-    const [state, setState] = useState(initialState);
-    const routing = useRoute(true)
+
+
+    const routing = useRoute()
 
     console.log(Platform.OS);
 
