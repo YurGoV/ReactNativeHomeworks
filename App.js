@@ -23,12 +23,6 @@ const initialState = {
     password: '',
 }
 
-// const registration = true;
-// const registration = false;
-const screen = 'reg';
-// const screen = 'log';
-// const screen = 'pos';
-
 
 
 
@@ -36,7 +30,7 @@ const screen = 'reg';
 export default function App() {
 
     const [state, setState] = useState(initialState);
-    const routing = useRoute(true)
+    const routing = useRoute(false)
 
     console.log(Platform.OS);
 
