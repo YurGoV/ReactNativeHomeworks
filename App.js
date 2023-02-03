@@ -30,7 +30,7 @@ const initialState = {
 export default function App() {
 
     const [state, setState] = useState(initialState);
-    const routing = useRoute(false)
+    const routing = useRoute(true)
 
     console.log(Platform.OS);
 

@@ -57,45 +57,46 @@ const RegistrationScreen = ({navigation}) => {
                     >
                         <View style={styles.regField}>
 
-        <View style={styles.regInputs}>
+                            <View style={styles.regInputs}>
 
-            <View style={styles.avatarPlace}>
-                <Image source={require('../img/avatar.png')}/>
-            </View>
-            <Pressable title={"Login"} style={styles.add} onPress={onRegistration}>
-                <View>
-                    <Image source={require('../img/add.png')}/>
-                </View>
-            </Pressable>
-            <View style={styles.textPosition}>
-                <Text style={{fontFamily: 'Roboto', fontSize: 30}}>REGISTER</Text>
-            </View>
+                                <View style={styles.avatarPlace}>
+                                    <Image source={require('../img/avatar.png')}/>
+                                </View>
+                                <Pressable title={"Login"} style={styles.add} onPress={onRegistration}>
+                                    <View>
+                                        <Image source={require('../img/add.png')}/>
+                                    </View>
+                                </Pressable>
+                                <View style={styles.textPosition}>
+                                    <Text style={{fontFamily: 'Roboto', fontSize: 30}}>REGISTER</Text>
+                                </View>
 
-            <TextInput
-                value={state.login}
-                onChangeText={loginHandler}
-                placeholder="Login"
-                style={styles.input}
-            />
-            <TextInput
-                value={state.email}
-                onChangeText={nameHandler}
-                placeholder="Username"
-                style={styles.input}
-            />
-            <TextInput
-                value={state.password}
-                onChangeText={passwordHandler}
-                placeholder="Password"
-                secureTextEntry={true}
-                style={styles.input}
-            />
-            <Pressable title={"Register"} style={styles.button} onPress={onRegistration}>
-                <Text>R E G I S T E R</Text>
-            </Pressable>
-            <Pressable onPress={() => navigation.navigate("Login")}><Text>Already have an account? Sign in</Text></Pressable>
+                                <TextInput
+                                    value={state.login}
+                                    onChangeText={loginHandler}
+                                    placeholder="Login"
+                                    style={styles.input}
+                                />
+                                <TextInput
+                                    value={state.email}
+                                    onChangeText={nameHandler}
+                                    placeholder="Username"
+                                    style={styles.input}
+                                />
+                                <TextInput
+                                    value={state.password}
+                                    onChangeText={passwordHandler}
+                                    placeholder="Password"
+                                    secureTextEntry={true}
+                                    style={styles.input}
+                                />
+                                <Pressable title={"Register"} style={styles.button} onPress={onRegistration}>
+                                    <Text>R E G I S T E R</Text>
+                                </Pressable>
+                                <Pressable onPress={() => navigation.navigate("Login")}><Text>Already have an account?
+                                    Sign in</Text></Pressable>
 
-        </View>
+                            </View>
                         </View>
                     </KeyboardAvoidingView>
                 </ImageBackground>

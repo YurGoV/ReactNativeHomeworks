@@ -14,7 +14,9 @@ const ProfileScreen = ({state, loginHandler, nameHandler, passwordHandler, onPre
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
+            backgroundColor: 'white',
         }} >
+
 
             <Text>PROFILE SCREEN</Text>
         </View>

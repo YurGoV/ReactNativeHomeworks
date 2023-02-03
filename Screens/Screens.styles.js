@@ -54,6 +54,7 @@ export const styles = StyleSheet.create({
 
     },
 
+
     button: {
         display: 'flex',
         alignItems: 'center',
@@ -65,8 +66,9 @@ export const styles = StyleSheet.create({
         borderRadius: 100,
         marginBottom: 10,
         backgroundColor: '#FF6C00',
-
     },
+
+
 
     avatarPlace: {
         display: "flex",

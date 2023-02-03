@@ -8,16 +8,31 @@ import {
 import {styles} from "./Posts.styles";
 
 
-const PostsScreen = ({state, loginHandler, nameHandler, passwordHandler, onPress}) => {
+const PostsScreen = () => {
 
     return (
         <View style={{
             flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-        }}>
+            padding: 20,
+            backgroundColor: 'white',
 
-                <Text>POSTS SCREEN</Text>
+        }}>
+            <View style={{
+                flexDirection: 'row',
+            }}>
+                <Image source={require('../img/avatar.png')}/>
+                <View style={{
+                    justifyContent: 'center',
+                    paddingLeft: 20
+                }}>
+
+                <Text>Natali Romanova</Text>
+                    <Text>example@email.com</Text>
+
+                </View>
+
+            </View>
+
         </View>
     )
 };

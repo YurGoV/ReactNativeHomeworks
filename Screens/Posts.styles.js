@@ -27,6 +27,17 @@ export const styles = StyleSheet.create({
 
     },
 
+    postInput: {
+        width: 300,
+        height: 50,
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: "lightgrey",
+        // borderRadius: 5,
+        marginTop: 10,
+
+    },
+
     button: {
         display: 'flex',
         alignItems: 'center',
@@ -38,6 +49,21 @@ export const styles = StyleSheet.create({
         borderRadius: 100,
         marginBottom: 10,
         backgroundColor: '#FF6C00',
+
+    },
+
+    postButton: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: 300,
+        height: 50,
+        padding: 10,
+        borderColor: "grey",
+        borderRadius: 100,
+        marginBottom: 10,
+        backgroundColor: '#F6F6F6',
+        marginTop: 20,
 
     },
 

@@ -17,7 +17,7 @@ import {
     Keyboard, // імпорт компонента клавіатури
     KeyboardAvoidingView, // новий імпорт
     Platform, // новий імпорт
-    ImageBackground,
+    ImageBackground, Pressable, Text,
 } from "react-native";
 
 const MainStack = createStackNavigator();
@@ -55,25 +55,40 @@ export const useRoute = (isAuth) => {
             }
         }}>
             <MainTab.Screen options={{
-                headerShown: false,
+                // headerShown: false,
+                title: 'Posts',
+                headerTitleAlign: 'center',
+                headerRightContainerStyle: {
+                    paddingRight: 40,
+                },
+                headerRight: () => (
+                    <Pressable
+                        onPress={() => alert("This is a logout button!")}
+                        title="LogOut"
+                    >
+                        <MaterialCommunityIcons name="logout" size={24} color="grey"/>
+                    </Pressable>
+                ),
                 tabBarIcon: ({focused, size, color}) => (
-                    <MaterialCommunityIcons name="post" size={size} color={color} />                ),
+                    <MaterialCommunityIcons name="post" size={size} color={color}/>),
             }}
                             name={'PostScreen'} component={PostScreen}/>
             <MainTab.Screen options={{
-                headerShown: false,
+                title: 'Create post',
+                headerTitleAlign: 'center',
+                // headerShown: false,
                 tabBarIcon: ({focused, size, color}) => (
-                    <MaterialIcons name="create" size={size} color={color} />
+                    <MaterialIcons name="create" size={size} color={color}/>
                 ),
             }}
-                name={'CreatePostsScreen'} component={CreatePostsScreen} />
-            <MainTab.Screen  options={{
+                            name={'CreatePostsScreen'} component={CreatePostsScreen}/>
+            <MainTab.Screen options={{
                 headerShown: false,
                 tabBarIcon: ({focused, size, color}) => (
-                    <MaterialCommunityIcons name="face-man-profile" size={size} color={color} />
+                    <MaterialCommunityIcons name="face-man-profile" size={size} color={color}/>
                 ),
             }}
-                name={'ProfileScreen'} component={ProfileScreen} />
+                            name={'ProfileScreen'} component={ProfileScreen}/>
         </MainTab.Navigator>
     )
 }
