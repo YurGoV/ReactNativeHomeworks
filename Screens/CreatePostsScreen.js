@@ -2,7 +2,7 @@ import React from "react";
 
 import {
     View, TextInput,
-    Text, Pressable, Image,
+    Text, Pressable,
 } from "react-native";
 import {styles} from "./Posts.styles";
 import {MaterialIcons} from "@expo/vector-icons";
@@ -15,22 +15,17 @@ const CreatePostsScreen = () => {
             flex: 1,
             padding: 20,
             backgroundColor: 'white',
-            // justifyContent: 'center',
             alignItems: 'center',
         }}>
             <View style={{
-                // flexDirection: 'row',
                 backgroundColor: '#F6F6F6',
                 width: 350,
                 height: 250,
                 borderRadius: 8,
-                // position: 'relative',
-                // alignItems: 'center',
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
                 <View style={{
-                    // flexDirection: 'row',
                     alignContent: 'center',
                     backgroundColor: 'white',
                     width: 60,
@@ -59,10 +54,8 @@ const CreatePostsScreen = () => {
                 style={styles.postInput}
             />
             <TextInput
-                // value={state.password}
                 // onChangeText={passwordHandler}
                 placeholder="place"
-                // secureTextEntry={true}
                 style={styles.postInput}
             />
             <Pressable title={"Register"} style={styles.postButton} onPress={() => alert("This is an upload photo button!")}>

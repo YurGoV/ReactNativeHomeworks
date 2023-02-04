@@ -3,7 +3,10 @@ import React, {useState} from "react";
 
 import {
     View, TextInput,
-    Text, Pressable, Keyboard, Platform, ImageBackground, KeyboardAvoidingView, TouchableWithoutFeedback,
+    Text, Pressable, Keyboard,
+    Platform, ImageBackground,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
 } from "react-native";
 import {styles} from "./Screens.styles";
 
@@ -13,15 +16,10 @@ const initialState = {
     password: '',
 }
 
-// const LoginScreen = ({state, nameHandler, passwordHandler, onPress}) => {
 const LoginScreen = ({navigation}) => {
 
     const [state, setState] = useState(initialState);
 
-    const loginHandler = (value) =>
-        setState((prevState) => ({
-            ...prevState, login: value
-        }));
     const nameHandler = (value) =>
         setState((prevState) => ({
             ...prevState, email: value
@@ -41,44 +39,44 @@ const LoginScreen = ({navigation}) => {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-            <ImageBackground resizeMode="cover" source={require('../img/background.png')} style={styles.img}>
-                <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-                    behavior={Platform.OS == "ios" ? "padding" : "height"}
-                >
-                    <View style={styles.regField}>
+            <View style={styles.container}>
+                <ImageBackground resizeMode="cover" source={require('../img/background.png')} style={styles.img}>
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS == "ios" ? "padding" : "height"}
+                    >
+                        <View style={styles.regField}>
 
-                        <View style={styles.regInputs}>
+                            <View style={styles.regInputs}>
 
-                            <View style={styles.textPosition}>
-                                <Text style={{fontFamily: 'Roboto', fontSize: 30}}>LOGIN</Text>
+                                <View style={styles.textPosition}>
+                                    <Text style={{fontFamily: 'Roboto', fontSize: 30}}>LOGIN</Text>
+                                </View>
+
+                                <TextInput
+                                    value={state.email}
+                                    onChangeText={nameHandler}
+                                    placeholder="Email"
+                                    style={styles.input}
+                                />
+                                <TextInput
+                                    value={state.password}
+                                    onChangeText={passwordHandler}
+                                    placeholder="Password"
+                                    secureTextEntry={true}
+                                    style={styles.input}
+                                />
+                                <Pressable title={"Login"} style={styles.button} onPress={onLogin}>
+                                    <Text>L O G I N</Text>
+                                </Pressable>
+
+                                <Pressable onPress={() => navigation.navigate("Registration")}><Text>No account? Sign
+                                    up</Text></Pressable>
+
                             </View>
-
-                            <TextInput
-                                value={state.email}
-                                onChangeText={nameHandler}
-                                placeholder="Email"
-                                style={styles.input}
-                            />
-                            <TextInput
-                                value={state.password}
-                                onChangeText={passwordHandler}
-                                placeholder="Password"
-                                secureTextEntry={true}
-                                style={styles.input}
-                            />
-                            <Pressable title={"Login"} style={styles.button} onPress={onLogin}>
-                                <Text>L O G I N</Text>
-                            </Pressable>
-
-                            <Pressable onPress={() => navigation.navigate("Registration")}><Text>No account? Sign
-                                up</Text></Pressable>
-
                         </View>
-                    </View>
-                </KeyboardAvoidingView>
-            </ImageBackground>
-        </View>
+                    </KeyboardAvoidingView>
+                </ImageBackground>
+            </View>
         </TouchableWithoutFeedback>
     )
 };

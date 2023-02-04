@@ -7,7 +7,7 @@ import {
 import {styles} from "./Posts.styles";
 
 
-const MapScreen = ({state, loginHandler, nameHandler, passwordHandler, onPress}) => {
+const MapScreen = () => {
 
     return (
         <View >

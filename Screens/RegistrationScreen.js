@@ -3,7 +3,11 @@ import React, {useState} from "react";
 
 import {
     View, TextInput,
-    Text, Pressable, Image, Keyboard, Platform, TouchableWithoutFeedback, ImageBackground, KeyboardAvoidingView,
+    Text, Pressable, Image,
+    Keyboard, Platform,
+    TouchableWithoutFeedback,
+    ImageBackground,
+    KeyboardAvoidingView,
 } from "react-native";
 import {styles} from "./Screens.styles";
 
@@ -14,8 +18,6 @@ const initialState = {
     password: '',
 }
 
-
-// const RegistrationScreen = ({state, loginHandler, nameHandler, passwordHandler, onPress}) => {
 
 const RegistrationScreen = ({navigation}) => {
 
@@ -39,20 +41,15 @@ const RegistrationScreen = ({navigation}) => {
         console.log(state);
         Keyboard.dismiss()
         setState(initialState);
-    };
-
-    const onLogin = () => {
-        console.log(state);
-        Keyboard.dismiss()
-        setState(initialState);
         navigation.navigate("Home")
     };
+
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
                 <ImageBackground resizeMode="cover" source={require('../img/background.png')} style={styles.img}>
-                    <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+                    <KeyboardAvoidingView
                         behavior={Platform.OS == "ios" ? "padding" : "height"}
                     >
                         <View style={styles.regField}>
@@ -95,7 +92,6 @@ const RegistrationScreen = ({navigation}) => {
                                 </Pressable>
                                 <Pressable onPress={() => navigation.navigate("Login")}><Text>Already have an account?
                                     Sign in</Text></Pressable>
-
                             </View>
                         </View>
                     </KeyboardAvoidingView>

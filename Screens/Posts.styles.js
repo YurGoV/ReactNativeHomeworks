@@ -33,7 +33,6 @@ export const styles = StyleSheet.create({
         padding: 10,
         borderBottomWidth: 1,
         borderBottomColor: "lightgrey",
-        // borderRadius: 5,
         marginTop: 10,
 
     },

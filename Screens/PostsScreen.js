@@ -2,11 +2,11 @@ import React from "react";
 
 
 import {
-    View, TextInput,
-    Text, Pressable, Image,
+    View,
+    Text,
+    Image,
 } from "react-native";
-import {styles} from "./Posts.styles";
-
+// import {styles} from "./Posts.styles";
 
 const PostsScreen = () => {
 
@@ -15,7 +15,6 @@ const PostsScreen = () => {
             flex: 1,
             padding: 20,
             backgroundColor: 'white',
-
         }}>
             <View style={{
                 flexDirection: 'row',
@@ -25,14 +24,10 @@ const PostsScreen = () => {
                     justifyContent: 'center',
                     paddingLeft: 20
                 }}>
-
-                <Text>Natali Romanova</Text>
+                    <Text>Natali Romanova</Text>
                     <Text>example@email.com</Text>
-
                 </View>
-
             </View>
-
         </View>
     )
 };

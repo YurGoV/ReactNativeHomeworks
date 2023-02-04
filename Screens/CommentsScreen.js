@@ -1,10 +1,8 @@
 import React from "react";
 
 import {
-    View, TextInput,
-    Text, Pressable, Image,
+    View, Text,
 } from "react-native";
-import {styles} from "./Posts.styles";
 
 
 const CommentScreen = ({state, loginHandler, nameHandler, passwordHandler, onPress}) => {

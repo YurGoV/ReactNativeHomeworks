@@ -1,31 +1,23 @@
 import RegistrationScreen from "./Screens/RegistrationScreen";
 import LoginScreen from "./Screens/LoginScreen";
 import Home from "./Screens/Home";
-import {styles} from "./App.styles";
 import PostScreen from "./Screens/PostsScreen";
 import CreatePostsScreen from "./Screens/CreatePostsScreen";
 import ProfileScreen from "./Screens/ProfileScreen";
-import React, {useState} from "react";
+import React from "react";
 import {createStackNavigator} from "@react-navigation/stack";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 
-import {Ionicons, MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
+import {MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
 
 import {
-    View,
-    TouchableWithoutFeedback, // імпорт компонента обгортки
-    Keyboard, // імпорт компонента клавіатури
-    KeyboardAvoidingView, // новий імпорт
-    Platform, // новий імпорт
-    ImageBackground, Pressable, Text,
+    Pressable,
 } from "react-native";
 
 const MainStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
-export const useRoute = () => {
-
-    const [authState, setAuthState] = useState(true);
+export const useRoute = (authState) => {
 
     if (!authState) {
         return (
@@ -45,20 +37,13 @@ export const useRoute = () => {
             </MainStack.Navigator>
         );
     }
+
     return (
-        <MainTab.Navigator screenOptions={{
-            tabBarShowLabel: false,
-            tabBarStyle: {
-                // display: 'flex',
-                // backgroundColor: 'lightgrey',
-                // alignItems: 'center',
-                // textAlign: 'center',
-                // textJustify: 'center',
-                // justifyContent: 'center'
-            }
-        }}>
+        <MainTab.Navigator initialRouteName="Posts"
+                           screenOptions={{
+                               tabBarShowLabel: false,
+                           }}>
             <MainTab.Screen options={{
-                // headerShown: false,
                 title: 'Posts',
                 headerTitleAlign: 'center',
                 headerRightContainerStyle: {
@@ -79,7 +64,6 @@ export const useRoute = () => {
             <MainTab.Screen options={{
                 title: 'Create post',
                 headerTitleAlign: 'center',
-                // headerShown: false,
                 tabBarIcon: ({focused, size, color}) => (
                     <MaterialIcons name="create" size={size} color={color}/>
                 ),

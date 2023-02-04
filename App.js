@@ -1,40 +1,26 @@
-import {StatusBar} from 'expo-status-bar';
-import React, {useCallback, useState} from "react";
+import React, {useState} from "react";
 import {useFonts} from 'expo-font';
 import {NavigationContainer} from "@react-navigation/native";
-import * as SplashScreen from 'expo-splash-screen';
 
 import {
-    View,
-    TouchableWithoutFeedback, // імпорт компонента обгортки
-    Keyboard, // імпорт компонента клавіатури
-    KeyboardAvoidingView, // новий імпорт
-    Platform, // новий імпорт
-    ImageBackground,
+    Platform,
 } from "react-native";
 
 import {useRoute} from "./router";
 
 
-
-
-
 export default function App() {
 
+    const [authState, setAuthState] = useState(falsef);
 
 
-    const routing = useRoute()
+    const routing = useRoute(authState)
 
     console.log(Platform.OS);
 
     const [fontsLoaded] = useFonts({
         'Roboto': require('./img/fonts/Roboto-Regular.ttf'),
     });
-    const onLayoutRootView = useCallback(async () => {//todo: why inactive
-        if (fontsLoaded) {
-            await SplashScreen.hideAsync();
-        }
-    }, [fontsLoaded]);
 
     if (!fontsLoaded) {
         return null;
@@ -49,19 +35,3 @@ export default function App() {
     );
 }
 
-
-/*
-
-   <MainStack.Navigator initialRouteName="Login">
-                <MainStack.Screen name="Registration"
-                                  component={RegistrationScreen} options={{
-                                      headerShown: false,}}/>
-                <MainStack.Screen name="Login"
-                                  component={LoginScreen} options={{
-                                      headerShown: false,}}/>
-                <MainStack.Screen name="Home"
-                                  component={Home} options={{
-                    headerShown: false,}}/>
-            </MainStack.Navigator>
-
-*/
