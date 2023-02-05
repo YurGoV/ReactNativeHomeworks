@@ -37,7 +37,6 @@ export const useRoute = (authState) => {
             </MainStack.Navigator>
         );
     }
-
     return (
         <MainTab.Navigator initialRouteName="Posts"
                            screenOptions={{

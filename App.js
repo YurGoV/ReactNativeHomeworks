@@ -11,10 +11,10 @@ import {useRoute} from "./router";
 
 export default function App() {
 
-    const [authState, setAuthState] = useState(falsef);
+    const [authState, setAuthState] = useState(false);
 
 
-    const routing = useRoute(authState)
+    const routing = useRoute(authState, setAuthState)
 
     console.log(Platform.OS);
 
