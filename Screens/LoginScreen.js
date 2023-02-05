@@ -1,21 +1,41 @@
-import React from "react";
-
-
+import React, {useState} from "react";
 import {
     View, TextInput,
-    Text, Pressable,
+    Text, Pressable, Keyboard,
 } from "react-native";
 import {styles} from "./Screens.styles";
 
+const initialState = {
+    login: '',
+    email: '',
+    password: '',
+}
 
-const LoginScreen = ({state, nameHandler, passwordHandler, onPress}) => {
+const LoginScreen = () => {
 
+    const [state, setState] = useState(initialState);
+
+
+    const nameHandler = (value) =>
+        setState((prevState) => ({
+            ...prevState, email: value
+        }));
+    const passwordHandler = (value) =>
+        setState((prevState) => ({
+            ...prevState, password: value
+        }));
+
+    const onLogin = () => {
+        console.log(state);
+        Keyboard.dismiss()
+        setState(initialState);
+    };
 
     return (
         <View style={styles.regInputs}>
 
             <View style={styles.textPosition}>
-                <Text>L O G I N</Text>
+                <Text style={{fontFamily: 'Roboto', fontSize: 30}}>L O G I N</Text>
             </View>
 
             <TextInput
@@ -31,7 +51,7 @@ const LoginScreen = ({state, nameHandler, passwordHandler, onPress}) => {
                 secureTextEntry={true}
                 style={styles.input}
             />
-            <Pressable title={"Login"} style={styles.button} onPress={onPress}>
+            <Pressable title={"Login"} style={styles.button} onPress={onLogin}>
                 <Text>L O G I N</Text>
             </Pressable>
             <Text>Немає акаунта? Зареєструватися</Text>

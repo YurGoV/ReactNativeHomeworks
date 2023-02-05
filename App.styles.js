@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
         justifyContent: "flex-end",
         backgroundColor: "grey",
     },
+
     input: {
         width: 200,
         height: 44,

@@ -1,14 +1,39 @@
-import React from "react";
-
-
+import React, {useState} from "react";
 import {
     View, TextInput,
-    Text, Pressable, Image,
+    Text, Pressable,
+    Image, Keyboard,
 } from "react-native";
 import {styles} from "./Screens.styles";
 
+const initialState = {
+    login: '',
+    email: '',
+    password: '',
+}
 
-const RegistrationScreen = ({state, loginHandler, nameHandler, passwordHandler, onPress}) => {
+const RegistrationScreen = () => {
+
+    const [state, setState] = useState(initialState);
+
+    const loginHandler = (value) =>
+        setState((prevState) => ({
+            ...prevState, login: value
+        }));
+    const nameHandler = (value) =>
+        setState((prevState) => ({
+            ...prevState, email: value
+        }));
+    const passwordHandler = (value) =>
+        setState((prevState) => ({
+            ...prevState, password: value
+        }));
+
+    const onRegistration = () => {
+        console.log(state);
+        Keyboard.dismiss()
+        setState(initialState);
+    };
 
     return (
         <View style={styles.regInputs}>
@@ -16,13 +41,13 @@ const RegistrationScreen = ({state, loginHandler, nameHandler, passwordHandler, 
             <View style={styles.avatarPlace}>
                 <Image source={require('../img/avatar.png')}/>
             </View>
-            <Pressable title={"Login"} style={styles.add} onPress={onPress}>
+            <Pressable title={"Login"} style={styles.add} onPress={() => alert("This is a pick photo button!")}>
                 <View>
                     <Image source={require('../img/add.png')}/>
                 </View>
             </Pressable>
             <View style={styles.textPosition}>
-                <Text>R E G I S T E R</Text>
+                <Text style={{fontFamily: 'Roboto', fontSize: 30}}>R E G I S T E R</Text>
             </View>
 
             <TextInput
@@ -44,7 +69,7 @@ const RegistrationScreen = ({state, loginHandler, nameHandler, passwordHandler, 
                 secureTextEntry={true}
                 style={styles.input}
             />
-            <Pressable title={"Register"} style={styles.button} onPress={onPress}>
+            <Pressable title={"Register"} style={styles.button} onPress={onRegistration}>
                 <Text>R E G I S T E R</Text>
             </Pressable>
             <Text>Вже є акаунт? Увійти</Text>
