@@ -5,7 +5,7 @@ import {
 } from "react-native";
 
 
-const CommentScreen = ({state, loginHandler, nameHandler, passwordHandler, onPress}) => {
+const CommentScreen = () => {
 
     return (
         <View style={{

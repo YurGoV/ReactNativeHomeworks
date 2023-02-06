@@ -1,12 +1,9 @@
 import React from "react";
-
-
 import {
     View,
     Text,
     Image,
 } from "react-native";
-// import {styles} from "./Posts.styles";
 
 const PostsScreen = () => {
 
@@ -19,7 +16,7 @@ const PostsScreen = () => {
             <View style={{
                 flexDirection: 'row',
             }}>
-                <Image source={require('../img/avatar.png')}/>
+                <Image source={require('../../img/avatar.png')}/>
                 <View style={{
                     justifyContent: 'center',
                     paddingLeft: 20
