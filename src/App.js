@@ -21,7 +21,7 @@ const registration = false;
 export default function App() {
 
     const [fontsLoaded] = useFonts({
-        'Roboto': require('./img/fonts/Roboto-Regular.ttf'),
+        'Roboto': require('../img/fonts/Roboto-Regular.ttf'),
     });
 
     if (!fontsLoaded) {
@@ -31,7 +31,7 @@ export default function App() {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
-                <ImageBackground resizeMode="cover" source={require('./img/background.png')} style={styles.img}>
+                <ImageBackground resizeMode="cover" source={require('../img/background.png')} style={styles.img}>
                     <KeyboardAvoidingView
                         behavior={Platform.OS == "ios" ? "padding" : "height"}
                     >

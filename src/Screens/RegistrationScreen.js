@@ -39,11 +39,11 @@ const RegistrationScreen = () => {
         <View style={styles.regInputs}>
 
             <View style={styles.avatarPlace}>
-                <Image source={require('../img/avatar.png')}/>
+                <Image source={require('../../img/avatar.png')}/>
             </View>
             <Pressable title={"Login"} style={styles.add} onPress={() => alert("This is a pick photo button!")}>
                 <View>
-                    <Image source={require('../img/add.png')}/>
+                    <Image source={require('../../img/add.png')}/>
                 </View>
             </Pressable>
             <View style={styles.textPosition}>
