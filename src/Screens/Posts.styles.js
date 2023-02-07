@@ -66,6 +66,21 @@ export const styles = StyleSheet.create({
 
     },
 
+    retakePhotoButton: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: 50,
+        height: 50,
+        padding: 10,
+        borderColor: "grey",
+        borderRadius: 100,
+        marginBottom: 10,
+        backgroundColor: '#F6F6F6',
+        marginTop: 20,
+
+    },
+
     avatarPlace: {
         display: "flex",
         minHeight: 120,
