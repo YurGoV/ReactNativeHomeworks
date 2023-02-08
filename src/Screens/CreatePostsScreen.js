@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from "react";
-
 import {
     View, TextInput,
     Text, Pressable, Image,
 } from "react-native";
 import {styles} from "./Posts.styles";
 import {MaterialIcons} from "@expo/vector-icons";
-
 import {Camera} from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 
@@ -15,6 +13,9 @@ const initialPictureData = {
     place: '',
 }
 
+import * as Location from "expo-location";
+
+
 const CreatePostsScreen = () => {
 
     const [hasPermission, setHasPermission] = useState(null);
@@ -22,7 +23,10 @@ const CreatePostsScreen = () => {
     const [type, setType] = useState(Camera.Constants.Type.back);
     const [takenPicture, setTakenPicture] = useState(null);
     const [pictureData, setPictureData] = useState(initialPictureData);
-    console.log(takenPicture);
+    const [location, setLocation] = useState('l-l-l-l');
+
+
+    // console.log(takenPicture);
 
     useEffect(() => {
         (async () => {
@@ -31,6 +35,24 @@ const CreatePostsScreen = () => {
 
             setHasPermission(status === "granted");
         })();
+
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+                console.log("Permission to access location was denied");
+            }
+
+            let locationData = await Location.getCurrentPositionAsync({});
+            const coords = {
+                latitude: locationData.coords.latitude,
+                longitude: locationData.coords.longitude,
+            };
+
+            console.log(locationData);
+
+            setLocation(coords);
+        })();
+
     }, []);
 
     if (hasPermission === null) {
@@ -139,11 +161,12 @@ const CreatePostsScreen = () => {
                 </Pressable>
             )
             }
-
+            <Text>// todo {location.latitude}, {location.longitude}</Text>
             <TextInput
                 onChangeText={nameHandler}
                 placeholder="name"
                 style={styles.postInput}
+                // value={location.latitude}// todo: to weather
             />
             <TextInput
                 onChangeText={placeHandler}
@@ -154,6 +177,7 @@ const CreatePostsScreen = () => {
                        onPress={() => alert("This is an upload photo button!")}>
                 <Text>Publish</Text>
             </Pressable>
+
         </View>
     )
 };
