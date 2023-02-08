@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-
 import {
     View, TextInput,
     Text, Pressable, Keyboard,
@@ -64,8 +63,10 @@ const LoginScreen = ({navigation}) => {
                                 <Pressable title={"Login"} style={styles.button} onPress={onLogin}>
                                     <Text>L O G I N</Text>
                                 </Pressable>
-                                <Pressable onPress={() => navigation.navigate("Registration")}><Text>No account? Sign
-                                    up</Text></Pressable>
+                                <Pressable onPress={() => navigation.navigate("Registration")}
+                                           style={{paddingTop: 10}}>
+                                    <Text>No account? Sign up</Text>
+                                </Pressable>
                             </View>
                         </View>
                     </KeyboardAvoidingView>

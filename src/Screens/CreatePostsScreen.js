@@ -1,39 +1,18 @@
 import React from "react";
-
 import {
     View, TextInput,
     Text, Pressable,
 } from "react-native";
-import {styles} from "./Posts.styles";
 import {MaterialIcons} from "@expo/vector-icons";
+import {styles} from "./Posts.styles";
 
 
 const CreatePostsScreen = () => {
 
     return (
-        <View style={{
-            flex: 1,
-            padding: 20,
-            backgroundColor: 'white',
-            alignItems: 'center',
-        }}>
-            <View style={{
-                backgroundColor: '#F6F6F6',
-                width: 350,
-                height: 250,
-                borderRadius: 8,
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
-                <View style={{
-                    alignContent: 'center',
-                    backgroundColor: 'white',
-                    width: 60,
-                    height: 60,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 50,
-                }}>
+        <View style={styles.createPostMain}>
+            <View style={styles.createPostPhoto}>
+                <View style={styles.makePhotoButton}>
                     <Pressable
                         onPress={() => alert("This is a pick photo button!")}
                         title="LogOut"
@@ -42,11 +21,9 @@ const CreatePostsScreen = () => {
                     </Pressable>
 
                 </View>
-
-
             </View>
-            <Text>Upload photo</Text>
 
+            <Text>Upload photo</Text>
 
             <TextInput
                 // onChangeText={ ... }

@@ -9,14 +9,8 @@ import {
     Platform,
 } from "react-native";
 
-// import {useRoute} from "./router.js";
-
 
 export default function App() {
-
-    // const routing = useRoute()
-
-    console.log(Platform.OS);
 
     const [fontsLoaded] = useFonts({
         'Roboto': require('../img/fonts/Roboto-Regular.ttf'),
@@ -48,10 +42,3 @@ export default function App() {
     );
 }
 
-
-/*
-return (
-    <NavigationContainer>
-        {routing}
-    </NavigationContainer>
-);*/

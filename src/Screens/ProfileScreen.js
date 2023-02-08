@@ -13,10 +13,7 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 const ProfileScreen = ({navigation}) => {
 
     return (
-        <View style={{
-            flex: 1,
-            backgroundColor: 'white',
-        }}>
+        <View style={styles.profileMain}>
             <ImageBackground resizeMode="cover" source={require('../../img/background.png')} style={styles.img}>
                 <View style={styles.regField}>
                     <View style={styles.regInputs}>

@@ -1,16 +1,14 @@
 import React from "react";
-
 import {
     View, TextInput,
     Text, Pressable, Image,
 } from "react-native";
-import {styles} from "./Posts.styles";
 
 
 const MapScreen = () => {
 
     return (
-        <View >
+        <View>
 
             <Text>MAP SCREEN</Text>
         </View>

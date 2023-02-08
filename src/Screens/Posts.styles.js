@@ -86,4 +86,41 @@ export const styles = StyleSheet.create({
         top: -50,
         right: '39%',
     },
+
+    createPostMain: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: 'white',
+        alignItems: 'center',
+    },
+
+    createPostPhoto: {
+        backgroundColor: '#F6F6F6',
+        width: 350,
+        height: 250,
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    makePhotoButton: {
+        alignContent: 'center',
+        backgroundColor: 'white',
+        width: 60,
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 50,
+    },
+
+    postsMain: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: 'white',
+    },
+
+    postsProfileText: {
+        justifyContent: 'center',
+        paddingLeft: 20
+    }
 });

@@ -85,7 +85,8 @@ const RegistrationScreen = ({navigation}) => {
                                 <Pressable title={"Register"} style={styles.button} onPress={onRegistration}>
                                     <Text>R E G I S T E R</Text>
                                 </Pressable>
-                                <Pressable onPress={() => navigation.navigate("Login")}><Text>Already have an account?
+                                <Pressable onPress={() => navigation.navigate("Login")}
+                                           style={{paddingTop: 10}}><Text>Already have an account?
                                     Sign in</Text></Pressable>
                             </View>
                         </View>
