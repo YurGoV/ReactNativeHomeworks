@@ -29,8 +29,8 @@ export const styles = StyleSheet.create({
 
     postInput: {
         width: 300,
-        height: 50,
-        padding: 10,
+        height: 30,
+        padding: 5,
         borderBottomWidth: 1,
         borderBottomColor: "lightgrey",
         marginTop: 10,

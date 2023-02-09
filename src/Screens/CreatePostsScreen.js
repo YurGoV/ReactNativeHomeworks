@@ -8,25 +8,33 @@ import {MaterialIcons} from "@expo/vector-icons";
 import {Camera} from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 
-const initialPictureData = {
+const initialPictureHeaders = {
     name: '',
     place: '',
 }
 
 import * as Location from "expo-location";
+import axios from "axios";
 
 
-const CreatePostsScreen = () => {
+/*
+
+'http://api.weatherbit.io/v2.0/current'
+key=161b71ae33f348868722ad1c9f0e1796
+ "latitude": 48.458189, "longitude": 35.0306551,
+*/
+
+const CreatePostsScreen = ({navigation}) => {
 
     const [hasPermission, setHasPermission] = useState(null);
     const [cameraRef, setCameraRef] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
-    const [takenPicture, setTakenPicture] = useState(null);
-    const [pictureData, setPictureData] = useState(initialPictureData);
-    const [location, setLocation] = useState('l-l-l-l');
+    const [pictureUrl, setPictureUrl] = useState(null);
+    const [pictureHeaders, setPictureHeaders] = useState(initialPictureHeaders);
+    const [location, setLocation] = useState(null);
 
 
-    // console.log(takenPicture);
+    // console.log(pictureUrl);
 
     useEffect(() => {
         (async () => {
@@ -53,6 +61,16 @@ const CreatePostsScreen = () => {
             setLocation(coords);
         })();
 
+        axios.get('http://api.weatherbit.io/v2.0/current?lat=48.458189&lon=35.0306551&key=161b71ae33f348868722ad1c9f0e1796')
+            .then(response =>response.data.data)
+            .then(mainData => {
+                const {city_name, country_code, weather } = mainData[0]
+                console.log(city_name, country_code, weather.description);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
     }, []);
 
     if (hasPermission === null) {
@@ -63,12 +81,12 @@ const CreatePostsScreen = () => {
     }
 
     const nameHandler = (value) =>
-    setPictureData((prevState) => ({
+    setPictureHeaders((prevState) => ({
         ...prevState, name: value
     }));
 
     const placeHandler = (value) =>
-    setPictureData((prevState) => ({
+    setPictureHeaders((prevState) => ({
         ...prevState, place: value
     }));
 
@@ -81,14 +99,14 @@ const CreatePostsScreen = () => {
         }}>
             <View style={{
                 backgroundColor: '#F6F6F6',
-                width: 350,
-                height: 467,
+                width: 300,
+                height: 400,
                 borderRadius: 8,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderWidth: 1,
             }}>
-                {!takenPicture ? (
+                {!pictureUrl ? (
                     <Camera
                         style={{
                             flex: 1,
@@ -110,13 +128,13 @@ const CreatePostsScreen = () => {
                             alignItems: 'center',
                             borderRadius: 50,
                         }}>
-                            {!takenPicture &&
+                            {!pictureUrl &&
                                 <Pressable
                                     onPress={async () => {
                                         if (cameraRef) {
                                             const {uri} = await cameraRef.takePictureAsync();
                                             console.log(uri);
-                                            setTakenPicture(uri);
+                                            setPictureUrl(uri);
                                             await MediaLibrary.createAssetAsync(uri);
                                         }
                                     }}
@@ -136,12 +154,12 @@ const CreatePostsScreen = () => {
                             minWidth: '100%',
                             maxHeight: '100%',
                         }}
-                               source={{uri: takenPicture}}/>
+                               source={{uri: pictureUrl}}/>
                     </View>
                 )
                 }
             </View>
-            {!takenPicture ? (
+            {!pictureUrl ? (
                 <Pressable style={styles.retakePhotoButton}
                            onPress={() => {
                                setType(
@@ -156,12 +174,12 @@ const CreatePostsScreen = () => {
                 </Pressable>
             ) : (
                 <Pressable style={styles.retakePhotoButton}
-                           onPress={() => setTakenPicture(null)}>
+                           onPress={() => setPictureUrl(null)}>
                     <MaterialIcons name="add-a-photo" size={24} color="grey"/>
                 </Pressable>
             )
             }
-            <Text>// todo {location.latitude}, {location.longitude}</Text>
+            {/*<Text>// todo {location.latitude}, {location.longitude}</Text>*/}
             <TextInput
                 onChangeText={nameHandler}
                 placeholder="name"
@@ -174,7 +192,15 @@ const CreatePostsScreen = () => {
                 style={styles.postInput}
             />
             <Pressable title={"Register"} style={styles.postButton}
-                       onPress={() => alert("This is an upload photo button!")}>
+                       onPress={() => navigation.navigate("PostScreen", {
+                           pictureHeaders,
+                           location,
+                           pictureUrl,
+                       })}
+                       // onPress={() => navigation.navigate("PostScreen", {
+                       //     pictureHeaders: 'test'
+                       // })}
+            >
                 <Text>Publish</Text>
             </Pressable>
 

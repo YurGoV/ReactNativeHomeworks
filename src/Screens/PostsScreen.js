@@ -5,7 +5,15 @@ import {
     Image,
 } from "react-native";
 
-const PostsScreen = () => {
+const PostsScreen = ({navigation, route}) => {
+
+    // const {
+    //     pictureHeaders,
+    //
+    // } = route.params;
+    //
+    // console.log(pictureHeaders);
+    console.log(route);
 
     return (
         <View style={{
