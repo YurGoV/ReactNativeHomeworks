@@ -8,6 +8,7 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {
     Platform,
 } from "react-native";
+import MapScreen from "./Screens/MapScreen";
 
 // import {useRoute} from "./router.js";
 
@@ -41,6 +42,10 @@ export default function App() {
                 }}/>
                 <MainStack.Screen name="Home"
                                   component={Home} options={{
+                    headerShown: false,
+                }}/>
+                <MainStack.Screen name="Map"
+                                  component={MapScreen} options={{
                     headerShown: false,
                 }}/>
             </MainStack.Navigator>

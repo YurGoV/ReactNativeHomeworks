@@ -32,9 +32,12 @@ const CreatePostsScreen = ({navigation}) => {
     const [pictureUrl, setPictureUrl] = useState(null);
     const [pictureHeaders, setPictureHeaders] = useState(initialPictureHeaders);
     const [location, setLocation] = useState(null);
+    // const [placeDefault, setPlaceDefault] = useState('place');
 
-
-    // console.log(pictureUrl);
+    const placeHandler = (value) =>
+        setPictureHeaders((prevState) => ({
+            ...prevState, place: value
+        }));
 
     useEffect(() => {
         (async () => {
@@ -66,6 +69,8 @@ const CreatePostsScreen = ({navigation}) => {
             .then(mainData => {
                 const {city_name, country_code, weather } = mainData[0]
                 console.log(city_name, country_code, weather.description);
+                // setPlaceDefault(`${city_name}, ${country_code}, ${weather.description}`)
+                placeHandler(`${city_name}, ${country_code}, ${weather.description}`)
             })
             .catch((err) => {
                 console.log(err);
@@ -85,10 +90,7 @@ const CreatePostsScreen = ({navigation}) => {
         ...prevState, name: value
     }));
 
-    const placeHandler = (value) =>
-    setPictureHeaders((prevState) => ({
-        ...prevState, place: value
-    }));
+
 
     return (
         <View style={{
@@ -186,9 +188,12 @@ const CreatePostsScreen = ({navigation}) => {
                 style={styles.postInput}
                 // value={location.latitude}// todo: to weather
             />
+
             <TextInput
                 onChangeText={placeHandler}
-                placeholder="place"
+                placeholder='place'
+                // value={placeDefault}
+                value={pictureHeaders.place}
                 style={styles.postInput}
             />
             <Pressable title={"Register"} style={styles.postButton}
