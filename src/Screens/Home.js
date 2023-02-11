@@ -4,32 +4,18 @@ import CreatePostsScreen from "./CreatePostsScreen";
 import ProfileScreen from "./ProfileScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
-import {
-    Pressable,
-} from "react-native";
+
 
 const MainTab = createBottomTabNavigator();
 
-const Home = ({navigation}) => {
+const Home = () => {
     return (
         <MainTab.Navigator initialRouteName="Posts"
                            screenOptions={{
                                tabBarShowLabel: false,
                            }}>
             <MainTab.Screen options={{
-                title: 'Posts',
-                headerTitleAlign: 'center',
-                headerRightContainerStyle: {
-                    paddingRight: 40,
-                },
-                headerRight: () => (
-                    <Pressable
-                        onPress={() => navigation.navigate("Login")}
-                        title="LogOut"
-                    >
-                        <MaterialCommunityIcons name="logout" size={24} color="grey"/>
-                    </Pressable>
-                ),
+                headerShown: false,
                 tabBarIcon: ({focused, size, color}) => (
                     <MaterialCommunityIcons name="post" size={size} color={color}/>),
             }}

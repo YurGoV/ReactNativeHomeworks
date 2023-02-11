@@ -5,7 +5,7 @@ import {
 } from "react-native";
 
 
-const CommentScreen = () => {
+const CommentsScreen = () => {
 
     return (
         <View style={{
@@ -19,4 +19,4 @@ const CommentScreen = () => {
     )
 };
 
-export default CommentScreen;
+export default CommentsScreen;

@@ -1,49 +1,40 @@
 import React from "react";
 
 import {
-    View, TextInput,
-    Text, Pressable, Image, Dimensions,
+    View,
 } from "react-native";
 import {styles} from "./Posts.styles";
 
-import MapView, { Marker } from "react-native-maps";
+import MapView, {Marker} from "react-native-maps";
 
 
 const MapScreen = ({navigation, route}) => {
 
-    console.log('rp: ', route.params);
+    // console.log('rp: ', route.params);
     const {latitude, longitude} = route.params.location
-    console.log(latitude, longitude);
+    // console.log('live data: ', latitude, longitude);
 
-    const tempLocation = {"latitude": 48.4606115, "longitude": 35.0326543}
 
     return (
-        <View style={{
-            flex: 1,
-            backgroundColor: "#fff",
-            alignItems: "center",
-            justifyContent: "center",
-        }}>
+        <View style={styles.mapMain}>
 
-            {/*<Text>MAP SCREEN</Text>*/}
             <MapView
-                // style={styles.mapStyle}
-                style={{width: '80%',
-                    height: '70%',}}
+                style={styles.mapView}
                 region={{
-                    latitude: 48.4606115,
-                    longitude: 35.0326543,
+                    latitude: latitude,
+                    longitude: longitude,
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}
+
                 mapType="standard"
-                minZoomLevel = {15}
+                minZoomLevel={15}
                 onMapReady={() => console.log("Map is ready")}
                 onRegionChange={() => console.log("Region change")}
             >
                 <Marker
                     title="I am here"
-                    coordinate={{ latitude: 48.4606115, longitude: 35.0326543 }}
+                    coordinate={{latitude: latitude, longitude: longitude}}
                     description='Hello'
                 />
             </MapView>

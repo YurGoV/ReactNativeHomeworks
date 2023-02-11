@@ -7,22 +7,15 @@ import {styles} from "./Posts.styles";
 import {MaterialIcons} from "@expo/vector-icons";
 import {Camera} from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
+import * as Location from "expo-location";
+import axios from "axios";
+
 
 const initialPictureHeaders = {
     name: '',
     place: '',
 }
 
-import * as Location from "expo-location";
-import axios from "axios";
-
-
-/*
-
-'http://api.weatherbit.io/v2.0/current'
-key=161b71ae33f348868722ad1c9f0e1796
- "latitude": 48.458189, "longitude": 35.0306551,
-*/
 
 const CreatePostsScreen = ({navigation}) => {
 
@@ -32,7 +25,6 @@ const CreatePostsScreen = ({navigation}) => {
     const [pictureUrl, setPictureUrl] = useState(null);
     const [pictureHeaders, setPictureHeaders] = useState(initialPictureHeaders);
     const [location, setLocation] = useState(null);
-    // const [placeDefault, setPlaceDefault] = useState('place');
 
     const placeHandler = (value) =>
         setPictureHeaders((prevState) => ({
@@ -93,44 +85,18 @@ const CreatePostsScreen = ({navigation}) => {
 
 
     return (
-        <View style={{
-            flex: 1,
-            padding: 20,
-            backgroundColor: 'white',
-            alignItems: 'center',
-        }}>
-            <View style={{
-                backgroundColor: '#F6F6F6',
-                width: 300,
-                height: 400,
-                borderRadius: 8,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderWidth: 1,
-            }}>
+        <View style={styles.createPostMain}>
+            <View style={styles.createPostPhoto}>
                 {!pictureUrl ? (
                     <Camera
-                        style={{
-                            flex: 1,
-                            minWidth: '100%',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}
+                        style={styles.createPostCamera}
                         type={type}
                         ref={(ref) => {
                             setCameraRef(ref);
                         }}
                     >
-                        <View style={{
-                            alignContent: 'center',
-                            backgroundColor: 'white',
-                            width: 60,
-                            height: 60,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            borderRadius: 50,
-                        }}>
-                            {!pictureUrl &&
+                        <View style={styles.makePhotoButton}>
+                            {!pictureUrl &&// todo twiced pictureUrl
                                 <Pressable
                                     onPress={async () => {
                                         if (cameraRef) {
@@ -149,13 +115,7 @@ const CreatePostsScreen = ({navigation}) => {
                     </Camera>
                 ) : (
                     <View>
-                        <Image style={{
-                            flex: 1,
-                            // alignSelf: "flex-end",
-                            // marginTop: 'auto',
-                            minWidth: '100%',
-                            maxHeight: '100%',
-                        }}
+                        <Image style={styles.createPostCamera}
                                source={{uri: pictureUrl}}/>
                     </View>
                 )
@@ -181,18 +141,15 @@ const CreatePostsScreen = ({navigation}) => {
                 </Pressable>
             )
             }
-            {/*<Text>// todo {location.latitude}, {location.longitude}</Text>*/}
             <TextInput
                 onChangeText={nameHandler}
                 placeholder="name"
                 style={styles.postInput}
-                // value={location.latitude}// todo: to weather
             />
 
             <TextInput
                 onChangeText={placeHandler}
                 placeholder='place'
-                // value={placeDefault}
                 value={pictureHeaders.place}
                 style={styles.postInput}
             />
@@ -202,9 +159,6 @@ const CreatePostsScreen = ({navigation}) => {
                            location,
                            pictureUrl,
                        })}
-                       // onPress={() => navigation.navigate("PostScreen", {
-                       //     pictureHeaders: 'test'
-                       // })}
             >
                 <Text>Publish</Text>
             </Pressable>

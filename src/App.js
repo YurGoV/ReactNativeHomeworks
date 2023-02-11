@@ -10,12 +10,8 @@ import {
 } from "react-native";
 import MapScreen from "./Screens/MapScreen";
 
-// import {useRoute} from "./router.js";
-
 
 export default function App() {
-
-    // const routing = useRoute()
 
     console.log(Platform.OS);
 
@@ -53,10 +49,3 @@ export default function App() {
     );
 }
 
-
-/*
-return (
-    <NavigationContainer>
-        {routing}
-    </NavigationContainer>
-);*/

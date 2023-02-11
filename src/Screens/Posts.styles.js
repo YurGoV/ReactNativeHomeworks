@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     postInput: {
         width: 300,
         height: 30,
-        padding: 5,
+        padding: 3,
         borderBottomWidth: 1,
         borderBottomColor: "lightgrey",
         marginTop: 10,
@@ -66,21 +66,6 @@ export const styles = StyleSheet.create({
 
     },
 
-    retakePhotoButton: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minWidth: 50,
-        height: 50,
-        padding: 10,
-        borderColor: "grey",
-        borderRadius: 100,
-        marginBottom: 10,
-        backgroundColor: '#F6F6F6',
-        marginTop: 20,
-
-    },
-
     avatarPlace: {
         display: "flex",
         minHeight: 120,
@@ -101,4 +86,106 @@ export const styles = StyleSheet.create({
         top: -50,
         right: '39%',
     },
+
+    createPostMain: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: 'white',
+        alignItems: 'center',
+    },
+
+    createPostCamera: {
+        flex: 1,
+        minWidth: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    createPostPhoto: {
+        backgroundColor: '#F6F6F6',
+        width: 300,
+        height: 400,
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+    },
+
+    makePhotoButton: {
+        alignContent: 'center',
+        backgroundColor: 'white',
+        width: 60,
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 50,
+    },
+
+    retakePhotoButton: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: 50,
+        height: 50,
+        padding: 10,
+        borderColor: "grey",
+        borderRadius: 100,
+        marginBottom: 10,
+        backgroundColor: '#F6F6F6',
+        marginTop: 20,
+
+    },
+
+    postsMain: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: 'white',
+    },
+
+    postsOwnerSection: {
+        flexDirection: 'row',
+        paddingBottom: 10,
+    },
+
+    postsProfileText: {
+        justifyContent: 'center',
+        paddingLeft: 20
+    },
+
+    postSection: {
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: 'white',
+        justifyContent: 'flex-start',
+        maxHeight: 255,
+        maxWidth: '100%',
+        // borderWidth: 1,
+    },
+
+    postImage: {
+        // flex: 1,
+        // alignSelf: "flex-end",
+        // marginTop: 'auto',
+        minWidth: 187,
+        maxHeight: 250,
+        borderRadius: 8
+    },
+
+    postText: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: 'white',
+        justifyContent: 'space-between',
+    },
+
+    mapMain: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    mapView: {
+        width: '100%', height: '100%',
+    }
+
 });
