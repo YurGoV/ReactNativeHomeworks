@@ -28,7 +28,7 @@ const LoginScreen = ({navigation}) => {
         }));
 
     const onLogin = () => {
-        console.log(state);
+        // console.log(state);
         Keyboard.dismiss()
         setState(initialState);
         navigation.navigate("Home")

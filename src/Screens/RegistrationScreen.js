@@ -36,7 +36,7 @@ const RegistrationScreen = ({navigation}) => {
 
 
     const onRegistration = () => {
-        console.log(state);
+        // console.log(state);
         Keyboard.dismiss()
         setState(initialState);
         navigation.navigate("Home")

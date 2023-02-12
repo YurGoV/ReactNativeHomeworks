@@ -51,8 +51,7 @@ const CreatePostsScreen = ({navigation}) => {
                 longitude: locationData.coords.longitude,
             };
 
-            console.log(locationData);
-
+            // console.log(locationData);
             setLocation(coords);
         })();
 
@@ -60,8 +59,7 @@ const CreatePostsScreen = ({navigation}) => {
             .then(response =>response.data.data)
             .then(mainData => {
                 const {city_name, country_code, weather } = mainData[0]
-                console.log(city_name, country_code, weather.description);
-                // setPlaceDefault(`${city_name}, ${country_code}, ${weather.description}`)
+                // console.log(city_name, country_code, weather.description);
                 placeHandler(`${city_name}, ${country_code}, ${weather.description}`)
             })
             .catch((err) => {
@@ -101,7 +99,7 @@ const CreatePostsScreen = ({navigation}) => {
                                     onPress={async () => {
                                         if (cameraRef) {
                                             const {uri} = await cameraRef.takePictureAsync();
-                                            console.log(uri);
+                                            // console.log(uri);
                                             setPictureUrl(uri);
                                             await MediaLibrary.createAssetAsync(uri);
                                         }

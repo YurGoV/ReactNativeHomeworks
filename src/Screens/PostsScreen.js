@@ -48,7 +48,7 @@ const PostsScreen = ({navigation, route}) => {
         pictureUrl
     } = route.params;
 
-    console.log(pictureHeaders, location, pictureUrl);
+    // console.log(pictureHeaders, location, pictureUrl);
 
     return (
         <PostsStack.Navigator

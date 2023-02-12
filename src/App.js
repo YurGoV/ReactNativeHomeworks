@@ -13,7 +13,7 @@ import MapScreen from "./Screens/MapScreen";
 
 export default function App() {
 
-    console.log(Platform.OS);
+    // console.log(Platform.OS);
 
     const [fontsLoaded] = useFonts({
         'Roboto': require('../img/fonts/Roboto-Regular.ttf'),
