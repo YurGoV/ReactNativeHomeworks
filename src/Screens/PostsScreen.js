@@ -63,7 +63,7 @@ const PostsScreen = ({navigation, route}) => {
                                    },
                                    headerRight: () => (
                                        <Pressable
-                                           onPress={() => navigation.navigate("Login")}
+                                           onPress={() => navigation.navigate("Logout")}
                                            title="LogOut"
                                        >
                                            <MaterialCommunityIcons name="logout" size={24} color="grey"/>

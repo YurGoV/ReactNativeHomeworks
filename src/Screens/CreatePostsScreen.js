@@ -4,7 +4,7 @@ import {
     Text, Pressable, Image,
 } from "react-native";
 import {styles} from "./Posts.styles";
-import {MaterialIcons} from "@expo/vector-icons";
+import {Ionicons, MaterialIcons} from "@expo/vector-icons";
 import {Camera} from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
@@ -40,7 +40,7 @@ const CreatePostsScreen = ({navigation}) => {
         })();
 
         (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
+            let {status} = await Location.requestForegroundPermissionsAsync();
             if (status !== "granted") {
                 console.log("Permission to access location was denied");
             }
@@ -56,9 +56,9 @@ const CreatePostsScreen = ({navigation}) => {
         })();
 
         axios.get('http://api.weatherbit.io/v2.0/current?lat=48.458189&lon=35.0306551&key=161b71ae33f348868722ad1c9f0e1796')
-            .then(response =>response.data.data)
+            .then(response => response.data.data)
             .then(mainData => {
-                const {city_name, country_code, weather } = mainData[0]
+                const {city_name, country_code, weather} = mainData[0]
                 // console.log(city_name, country_code, weather.description);
                 placeHandler(`${city_name}, ${country_code}, ${weather.description}`)
             })
@@ -76,10 +76,9 @@ const CreatePostsScreen = ({navigation}) => {
     }
 
     const nameHandler = (value) =>
-    setPictureHeaders((prevState) => ({
-        ...prevState, name: value
-    }));
-
+        setPictureHeaders((prevState) => ({
+            ...prevState, name: value
+        }));
 
 
     return (
@@ -145,12 +144,21 @@ const CreatePostsScreen = ({navigation}) => {
                 style={styles.postInput}
             />
 
-            <TextInput
-                onChangeText={placeHandler}
-                placeholder='place'
-                value={pictureHeaders.place}
-                style={styles.postInput}
-            />
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Pressable title={"Map"}
+                           onPress={() => navigation.navigate("Map", {
+                               location,
+                           })}>
+                    <Ionicons name="location-outline" size={24} color="green"/>
+                </Pressable>
+                <TextInput
+                    onChangeText={placeHandler}
+                    placeholder='place'
+                    value={pictureHeaders.place}
+                    style={styles.postInput}
+                />
+            </View>
+
             <Pressable title={"Register"} style={styles.postButton}
                        onPress={() => navigation.navigate("PostScreen", {
                            pictureHeaders,
