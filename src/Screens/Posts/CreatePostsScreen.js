@@ -3,6 +3,7 @@ import {
     View, TextInput,
     Text, Pressable, Image,
 } from "react-native";
+// import {styles} from "../Posts.styles";
 import {styles} from "./Posts.styles";
 import {Ionicons, MaterialIcons} from "@expo/vector-icons";
 import {Camera} from "expo-camera";

@@ -5,7 +5,9 @@ import {
     Image, Pressable,
 } from "react-native";
 import {Ionicons} from '@expo/vector-icons';
+// import {styles} from '../Posts.styles'
 import {styles} from './Posts.styles'
+
 
 
 const PostsDefaultScreen = ({navigation, route}) => {
@@ -15,7 +17,7 @@ const PostsDefaultScreen = ({navigation, route}) => {
         return (
             <View style={styles.createPostMain}>
                 <View style={{flexDirection: 'row',}}>
-                    <Image source={require('../../img/avatar.png')}/>
+                    <Image source={require('../../../img/avatar.png')}/>
                     <View style={{justifyContent: 'center', paddingLeft: 20}}>
                         <Text>Natali Romanova</Text>
                         <Text>example@email.com</Text>
@@ -37,7 +39,7 @@ const PostsDefaultScreen = ({navigation, route}) => {
     return (
         <View style={styles.postsMain}>
             <View style={styles.postsOwnerSection}>
-                <Image source={require('../../img/avatar.png')}/>
+                <Image source={require('../../../img/avatar.png')}/>
                 <View style={styles.postsProfileText}>
                     <Text>Natali Romanova</Text>
                     <Text>example@email.com</Text>

@@ -1,6 +1,6 @@
 import React from "react";
-import PostScreen from "./PostsScreen";
-import CreatePostsScreen from "./CreatePostsScreen";
+import PostScreen from "../Posts/PostsScreen";
+import CreatePostsScreen from "../Posts/CreatePostsScreen";
 import ProfileScreen from "./ProfileScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';

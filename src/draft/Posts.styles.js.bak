@@ -159,7 +159,6 @@ export const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         maxHeight: 255,
         maxWidth: '100%',
-        // borderWidth: 1,
     },
 
     postImage: {

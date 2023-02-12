@@ -6,9 +6,9 @@ import {
     Image, Pressable,
 } from "react-native";
 import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
-import MapScreen from './MapScreen'
+import MapScreen from '../Additionall/MapScreen'
 import PostsDefaultScreen from "./PostsDefault";
-import CommentsScreen from "./CommentsScreen";
+import CommentsScreen from "../Additionall/CommentsScreen";
 
 
 const PostsStack = createStackNavigator();
@@ -29,7 +29,7 @@ const PostsScreen = ({navigation, route}) => {
                 <View style={{
                     flexDirection: 'row',
                 }}>
-                    <Image source={require('../../img/avatar.png')}/>
+                    <Image source={require('../../../img/avatar.png')}/>
                     <View style={{
                         justifyContent: 'center',
                         paddingLeft: 20

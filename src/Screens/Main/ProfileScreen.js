@@ -6,7 +6,9 @@ import {
     Image,
     ImageBackground,
 } from "react-native";
-import {styles} from "./Screens.styles";
+// import {styles} from "../Screens.styles";
+import {styles} from "./Main.styles";
+
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 
 
@@ -17,16 +19,16 @@ const ProfileScreen = ({navigation}) => {
             flex: 1,
             backgroundColor: 'white',
         }}>
-            <ImageBackground resizeMode="cover" source={require('../../img/background.png')} style={styles.img}>
+            <ImageBackground resizeMode="cover" source={require('../../../img/background.png')} style={styles.img}>
                 <View style={styles.regField}>
                     <View style={styles.regInputs}>
                         <View style={styles.avatarPlace}>
-                            <Image source={require('../../img/avatar.png')}/>
+                            <Image source={require('../../../img/avatar.png')}/>
                         </View>
                         <Pressable title={"Login"} style={styles.add}
                                    onPress={() => alert("This is a pick photo button!")}>
                             <View>
-                                <Image source={require('../../img/add.png')}/>
+                                <Image source={require('../../../img/add.png')}/>
                             </View>
                         </Pressable>
                         <Pressable

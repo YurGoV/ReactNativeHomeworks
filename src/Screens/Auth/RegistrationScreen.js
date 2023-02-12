@@ -1,12 +1,16 @@
 import React, {useState} from "react";
 import {
     View, TextInput,
-    Text, Pressable, Keyboard,
-    Platform, ImageBackground,
-    KeyboardAvoidingView,
+    Text, Pressable, Image,
+    Keyboard, Platform,
     TouchableWithoutFeedback,
+    ImageBackground,
+    KeyboardAvoidingView,
 } from "react-native";
-import {styles} from "./Screens.styles";
+// import {styles} from "../Screens.styles";
+import {styles} from "./Auth.styles";
+
+
 
 const initialState = {
     login: '',
@@ -14,10 +18,15 @@ const initialState = {
     password: '',
 }
 
-const LoginScreen = ({navigation}) => {
+
+const RegistrationScreen = ({navigation}) => {
 
     const [state, setState] = useState(initialState);
 
+    const loginHandler = (value) =>
+        setState((prevState) => ({
+            ...prevState, login: value
+        }));
     const nameHandler = (value) =>
         setState((prevState) => ({
             ...prevState, email: value
@@ -27,7 +36,8 @@ const LoginScreen = ({navigation}) => {
             ...prevState, password: value
         }));
 
-    const onLogin = () => {
+
+    const onRegistration = () => {
         // console.log(state);
         Keyboard.dismiss()
         setState(initialState);
@@ -38,19 +48,33 @@ const LoginScreen = ({navigation}) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
-                <ImageBackground resizeMode="cover" source={require('../../img/background.png')} style={styles.img}>
+                <ImageBackground resizeMode="cover" source={require('../../../img/background.png')} style={styles.img}>
                     <KeyboardAvoidingView
                         behavior={Platform.OS == "ios" ? "padding" : "height"}
                     >
                         <View style={styles.regField}>
                             <View style={styles.regInputs}>
-                                <View style={styles.textPosition}>
-                                    <Text style={{fontFamily: 'Roboto', fontSize: 30}}>LOGIN</Text>
+                                <View style={styles.avatarPlace}>
+                                    <Image source={require('../../../img/avatar.png')}/>
                                 </View>
+                                <Pressable title={"Login"} style={styles.add} onPress={onRegistration}>
+                                    <View>
+                                        <Image source={require('../../../img/add.png')}/>
+                                    </View>
+                                </Pressable>
+                                <View style={styles.textPosition}>
+                                    <Text style={{fontFamily: 'Roboto', fontSize: 30}}>REGISTER</Text>
+                                </View>
+                                <TextInput
+                                    value={state.login}
+                                    onChangeText={loginHandler}
+                                    placeholder="Login"
+                                    style={styles.input}
+                                />
                                 <TextInput
                                     value={state.email}
                                     onChangeText={nameHandler}
-                                    placeholder="Email"
+                                    placeholder="Username"
                                     style={styles.input}
                                 />
                                 <TextInput
@@ -60,11 +84,11 @@ const LoginScreen = ({navigation}) => {
                                     secureTextEntry={true}
                                     style={styles.input}
                                 />
-                                <Pressable title={"Login"} style={styles.button} onPress={onLogin}>
-                                    <Text>L O G I N</Text>
+                                <Pressable title={"Register"} style={styles.button} onPress={onRegistration}>
+                                    <Text>R E G I S T E R</Text>
                                 </Pressable>
-                                <Pressable onPress={() => navigation.navigate("Registration")}><Text>No account? Sign
-                                    up</Text></Pressable>
+                                <Pressable onPress={() => navigation.navigate("Login")}><Text>Already have an account?
+                                    Sign in</Text></Pressable>
                             </View>
                         </View>
                     </KeyboardAvoidingView>
@@ -74,4 +98,4 @@ const LoginScreen = ({navigation}) => {
     )
 };
 
-export default LoginScreen;
+export default RegistrationScreen;

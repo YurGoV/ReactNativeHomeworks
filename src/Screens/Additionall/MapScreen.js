@@ -3,7 +3,9 @@ import React from "react";
 import {
     View,
 } from "react-native";
-import {styles} from "./Posts.styles";
+// import {styles} from "../Posts.styles";
+import {styles} from "./Additional.styles";
+
 
 import MapView, {Marker} from "react-native-maps";
 

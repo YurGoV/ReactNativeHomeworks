@@ -1,14 +1,14 @@
 import React from "react";
 import {useFonts} from 'expo-font';
 import {NavigationContainer} from "@react-navigation/native";
-import RegistrationScreen from "./Screens/RegistrationScreen";
-import LoginScreen from "./Screens/LoginScreen";
-import Home from "./Screens/Home";
+import RegistrationScreen from "./Screens/Auth/RegistrationScreen";
+import LoginScreen from "./Screens/Auth/LoginScreen";
+import Home from "./Screens/Main/Home";
 import {createStackNavigator} from "@react-navigation/stack";
 import {
     Platform,
 } from "react-native";
-import MapScreen from "./Screens/MapScreen";
+import MapScreen from "./Screens/Additionall/MapScreen";
 
 
 export default function App() {
