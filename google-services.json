@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "284974135059",
+    "project_id": "reactnative-hw",
+    "storage_bucket": "reactnative-hw.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:284974135059:android:c6cf97ad722be58a028ce6",
+        "android_client_info": {
+          "package_name": "yurgo.testproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "284974135059-i5mca1fubgio8p6ogoq7iq9avcfakr2j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9Hapo0BACKQ_rgR7jRJWBSnTlkSY3-DQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "284974135059-i5mca1fubgio8p6ogoq7iq9avcfakr2j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
