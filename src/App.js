@@ -9,10 +9,14 @@ import {
     Platform,
 } from "react-native";
 import MapScreen from "./Screens/Additionall/MapScreen";
+import {Provider} from "react-redux";
+import {store} from "./redux/store";
+
+import {useRoute} from "./router";
 
 
 export default function App() {
-
+const routing = useRoute(true)
     // console.log(Platform.OS);
 
     const [fontsLoaded] = useFonts({
@@ -26,26 +30,30 @@ export default function App() {
     const MainStack = createStackNavigator();
 
     return (
-        <NavigationContainer>
-            <MainStack.Navigator initialRouteName="Registration">
-                <MainStack.Screen name="Registration"
-                                  component={RegistrationScreen} options={{
-                    headerShown: false,
-                }}/>
-                <MainStack.Screen name="Login"
-                                  component={LoginScreen} options={{
-                    headerShown: false,
-                }}/>
-                <MainStack.Screen name="Home"
-                                  component={Home} options={{
-                    headerShown: false,
-                }}/>
-                <MainStack.Screen name="Map"
-                                  component={MapScreen} options={{
-                    headerShown: false,
-                }}/>
-            </MainStack.Navigator>
-        </NavigationContainer>
+        <Provider store={store}>
+            <NavigationContainer>
+                {routing}
+            </NavigationContainer>
+        </Provider>
     );
 }
 
+/*
+<MainStack.Navigator initialRouteName="Registration">
+    <MainStack.Screen name="Registration"
+                      component={RegistrationScreen} options={{
+        headerShown: false,
+    }}/>
+    <MainStack.Screen name="Login"
+                      component={LoginScreen} options={{
+        headerShown: false,
+    }}/>
+    <MainStack.Screen name="Home"
+                      component={Home} options={{
+        headerShown: false,
+    }}/>
+    <MainStack.Screen name="Map"
+                      component={MapScreen} options={{
+        headerShown: false,
+    }}/>
+</MainStack.Navigator>*/

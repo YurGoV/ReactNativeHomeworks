@@ -9,6 +9,25 @@ import {
 } from "react-native";
 // import {styles} from "../Screens.styles";
 import {styles} from "./Auth.styles";
+// TEST
+/*import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+// import {auth} from '../../../firebase/config'
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAhYhunTMHDZdcIIrPKbtEkxnFdZOnR8oM",
+    authDomain: "reactnative-hw.firebaseapp.com",
+    projectId: "reactnative-hw",
+    storageBucket: "reactnative-hw.appspot.com",
+    messagingSenderId: "284974135059",
+    appId: "1:284974135059:web:b7dd7463a4450894028ce6",
+    measurementId: "G-DEXM0RCVCX"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);*/
+// TEST
 
 
 
@@ -38,7 +57,7 @@ const RegistrationScreen = ({navigation}) => {
 
 
     const onRegistration = () => {
-        // console.log(state);
+        console.log(state);
         Keyboard.dismiss()
         setState(initialState);
         navigation.navigate("Home")
