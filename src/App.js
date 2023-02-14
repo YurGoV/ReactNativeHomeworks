@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useFonts} from 'expo-font';
 import {NavigationContainer} from "@react-navigation/native";
 import RegistrationScreen from "./Screens/Auth/RegistrationScreen";
@@ -14,19 +14,44 @@ import {store} from "./redux/store";
 
 import {useRoute} from "./router";
 
+import {onAuthStateChanged} from "firebase/auth";
+
+
+import {auth} from '../firebase/config'
+
 
 export default function App() {
     const [iasReady, setIasReady] = useState(false);
-const routing = useRoute(false)
+    const [user, setUser] = useState(null);
+
     // console.log(Platform.OS);
 
     const [fontsLoaded] = useFonts({
         'Roboto': require('../img/fonts/Roboto-Regular.ttf'),
     });
 
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            const uid = user.uid;
+            console.log(uid);
+            setUser(uid);
+            // ...
+        } else {
+            // User is signed out
+            // ...
+        }
+    });
+
+
     if (!fontsLoaded) {
         return null;
     }
+
+    console.log('uuu', user);
+    const routing = useRoute(user);
+
 
     const MainStack = createStackNavigator();
 

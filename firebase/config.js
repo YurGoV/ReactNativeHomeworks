@@ -1,7 +1,16 @@
 import * as firebase from "firebase/app";
+// import firebase from "firebase/app";
+
 // import { initializeApp } from 'firebase/app';
 import "firebase/auth";
 // import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+    initializeAuth,
+    getReactNativePersistence
+} from 'firebase/auth/react-native';
+
+
 
 /*const firebaseConfig = {
     apiKey: "API_KEY",
@@ -23,10 +32,13 @@ const firebaseConfig = {
     measurementId: "G-DEXM0RCVCX"
 };
 
-// firebase.initializeApp(firebaseConfig);
+export const db = firebase.initializeApp(firebaseConfig);
 
 // const auth = initializeApp.auth();
+export const auth = initializeAuth(db, {
+    persistence: getReactNativePersistence(AsyncStorage)
+});
 
 // export { auth };
 // export default firebase;
-export default firebase.initializeApp(firebaseConfig)
+// export default firebase.initializeApp(firebaseConfig)

@@ -1,1 +1,1 @@
-pause: video 6.5 time 14:00
+pause: video 6.7

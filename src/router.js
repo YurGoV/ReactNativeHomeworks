@@ -39,7 +39,7 @@ export const useRoute = (authState) => {
         );
     }
     return (
-        <MainStack.Navigator initialRouteName="Posts"// todo: maybe home?
+        <MainStack.Navigator initialRouteName="Home"// todo: maybe home?
                            screenOptions={{
                                tabBarShowLabel: false,
                            }}>
@@ -51,17 +51,19 @@ export const useRoute = (authState) => {
                               component={MapScreen} options={{
                 headerShown: false,
             }}/>
-            <MainStack.Screen name="Login"
-                              component={LoginScreen} options={{
-                headerShown: false,
-            }}/>
-            <MainStack.Screen name="Registration"
-                              component={RegistrationScreen} options={{
-                headerShown: false,
-            }}/>
+
         </MainStack.Navigator>
     )
 }
+
+/*<MainStack.Screen name="Login"
+                  component={LoginScreen} options={{
+    headerShown: false,
+}}/>
+<MainStack.Screen name="Registration"
+                  component={RegistrationScreen} options={{
+    headerShown: false,
+}}/>*/
 
 // todo ma be after states and redux live only home, map & comments?
 
