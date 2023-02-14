@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {useFonts} from 'expo-font';
 import {NavigationContainer} from "@react-navigation/native";
 import RegistrationScreen from "./Screens/Auth/RegistrationScreen";
@@ -16,7 +16,8 @@ import {useRoute} from "./router";
 
 
 export default function App() {
-const routing = useRoute(true)
+    const [iasReady, setIasReady] = useState(false);
+const routing = useRoute(false)
     // console.log(Platform.OS);
 
     const [fontsLoaded] = useFonts({

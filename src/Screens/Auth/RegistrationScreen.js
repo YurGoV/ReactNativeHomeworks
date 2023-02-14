@@ -7,6 +7,11 @@ import {
     ImageBackground,
     KeyboardAvoidingView,
 } from "react-native";
+
+import {authSignUpUser} from "../../redux/auth/authOperations";
+import {useDispatch} from "react-redux";
+
+
 // import {styles} from "../Screens.styles";
 import {styles} from "./Auth.styles";
 // TEST
@@ -41,6 +46,7 @@ const initialState = {
 const RegistrationScreen = ({navigation}) => {
 
     const [state, setState] = useState(initialState);
+    const dispatch = useDispatch();
 
     const loginHandler = (value) =>
         setState((prevState) => ({
@@ -58,9 +64,10 @@ const RegistrationScreen = ({navigation}) => {
 
     const onRegistration = () => {
         console.log(state);
-        Keyboard.dismiss()
+        Keyboard.dismiss();
+        dispatch(authSignUpUser(state));
         setState(initialState);
-        navigation.navigate("Home")
+        // navigation.navigate("Home")
     };
 
 
@@ -93,7 +100,7 @@ const RegistrationScreen = ({navigation}) => {
                                 <TextInput
                                     value={state.email}
                                     onChangeText={nameHandler}
-                                    placeholder="Username"
+                                    placeholder="Email"
                                     style={styles.input}
                                 />
                                 <TextInput

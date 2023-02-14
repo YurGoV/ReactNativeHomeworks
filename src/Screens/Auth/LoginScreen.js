@@ -7,6 +7,10 @@ import {
     TouchableWithoutFeedback,
 } from "react-native";
 // import {styles} from "../Screens.styles";
+
+import {authSignInUser} from "../../redux/auth/authOperations";
+import {useDispatch} from "react-redux";
+
 import {styles} from "./Auth.styles";
 
 
@@ -19,6 +23,8 @@ const initialState = {
 const LoginScreen = ({navigation}) => {
 
     const [state, setState] = useState(initialState);
+    const dispatch = useDispatch();
+
 
     const nameHandler = (value) =>
         setState((prevState) => ({
@@ -32,8 +38,9 @@ const LoginScreen = ({navigation}) => {
     const onLogin = () => {
         // console.log(state);
         Keyboard.dismiss()
+        dispatch(authSignInUser(state));
         setState(initialState);
-        navigation.navigate("Home")
+        // navigation.navigate("Home")
     };
 
 
