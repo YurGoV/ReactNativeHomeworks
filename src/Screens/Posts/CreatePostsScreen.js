@@ -3,7 +3,6 @@ import {
     View, TextInput,
     Text, Pressable, Image,
 } from "react-native";
-// import {styles} from "../Posts.styles";
 import {styles} from "./Posts.styles";
 import {Ionicons, MaterialIcons} from "@expo/vector-icons";
 import {Camera} from "expo-camera";
@@ -27,6 +26,8 @@ const CreatePostsScreen = ({navigation}) => {
     const [pictureHeaders, setPictureHeaders] = useState(initialPictureHeaders);
     const [location, setLocation] = useState(null);
 
+    // console.log(location);
+
     const placeHandler = (value) =>
         setPictureHeaders((prevState) => ({
             ...prevState, place: value
@@ -45,27 +46,34 @@ const CreatePostsScreen = ({navigation}) => {
             if (status !== "granted") {
                 console.log("Permission to access location was denied");
             }
-
+            // console.log('location get started');
             let locationData = await Location.getCurrentPositionAsync({});
+            // console.log('location dada await passed');
             const coords = {
                 latitude: locationData.coords.latitude,
                 longitude: locationData.coords.longitude,
             };
 
-            // console.log(locationData);
-            setLocation(coords);
+            // console.log('locationDataa', coords);
+            await setLocation(coords);
+            // console.log('location aaa:', location);
+
         })();
 
-        axios.get('http://api.weatherbit.io/v2.0/current?lat=48.458189&lon=35.0306551&key=161b71ae33f348868722ad1c9f0e1796')
-            .then(response => response.data.data)
-            .then(mainData => {
-                const {city_name, country_code, weather} = mainData[0]
-                // console.log(city_name, country_code, weather.description);
-                placeHandler(`${city_name}, ${country_code}, ${weather.description}`)
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        if (location) {
+            // console.log('location lll:', location);
+            axios.get(`http://api.weatherbit.io/v2.0/current?lat=${location.latitude}&lon=${location.longitude}&key=161b71ae33f348868722ad1c9f0e1796`)// todo: refactor out
+                .then(response => response.data.data)
+                .then(mainData => {
+                    // console.log('create post mainData', mainData);
+                    const {city_name, country_code, weather} = mainData[0]
+                    // console.log(city_name, country_code, weather.description);
+                    placeHandler(`${city_name}, ${country_code}, ${weather.description}`)
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
 
     }, []);
 

@@ -9,7 +9,7 @@ import {
     Text,
     Image, Pressable,
 } from "react-native";
-import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 import MapScreen from '../Additionall/MapScreen'
 import PostsDefaultScreen from "./PostsDefault";
 import CommentsScreen from "../Additionall/CommentsScreen";
@@ -31,8 +31,6 @@ const PostsScreen = ({navigation, route}) => {
                 flex: 1,
                 padding: 20,
                 backgroundColor: 'white',
-                // width: 300,
-                // height: 400,
             }}>
                 <View style={{
                     flexDirection: 'row',
@@ -55,8 +53,6 @@ const PostsScreen = ({navigation, route}) => {
         pictureHeaders,
         pictureUrl
     } = route.params;
-
-    // console.log(pictureHeaders, location, pictureUrl);
 
     return (
         <PostsStack.Navigator

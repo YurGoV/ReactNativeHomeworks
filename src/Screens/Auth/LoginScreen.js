@@ -6,7 +6,6 @@ import {
     KeyboardAvoidingView,
     TouchableWithoutFeedback,
 } from "react-native";
-// import {styles} from "../Screens.styles";
 
 import {authSignInUser} from "../../redux/auth/authOperations";
 import {useDispatch} from "react-redux";
@@ -36,11 +35,9 @@ const LoginScreen = ({navigation}) => {
         }));
 
     const onLogin = () => {
-        // console.log(state);
         Keyboard.dismiss()
         dispatch(authSignInUser(state));
         setState(initialState);
-        // navigation.navigate("Home")
     };
 
 

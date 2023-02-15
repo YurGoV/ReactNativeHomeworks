@@ -16,7 +16,6 @@ const MapScreen = ({navigation, route}) => {
     const {latitude, longitude} = route.params.location
     // console.log('live data: ', latitude, longitude);
 
-
     return (
         <View style={styles.mapMain}>
 

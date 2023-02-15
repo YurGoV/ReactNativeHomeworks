@@ -5,7 +5,6 @@ import {
     Image, Pressable,
 } from "react-native";
 import {Ionicons} from '@expo/vector-icons';
-// import {styles} from '../Posts.styles'
 import {styles} from './Posts.styles'
 
 

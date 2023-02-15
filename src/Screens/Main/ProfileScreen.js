@@ -8,13 +8,12 @@ import {
 } from "react-native";
 import {authSignOutUser} from "../../redux/auth/authOperations";
 import {useDispatch} from "react-redux";
-// import {styles} from "../Screens.styles";
 import {styles} from "./Main.styles";
 
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 
 
-const ProfileScreen = ({navigation}) => {
+const ProfileScreen = () => {
     const dispatch = useDispatch();
     const signOut = () => {
         dispatch(authSignOutUser())
