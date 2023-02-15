@@ -1,6 +1,5 @@
 import {auth} from '../../../firebase/config'
 import {
-    getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     updateProfile,

@@ -37,7 +37,7 @@ const Main = () => {
 
     useEffect(() => {
         dispatch(authStateChangeUser())
-        console.log('Main, stateChange2: ', stateChange);
+        // console.log('Main, stateChange2: ', stateChange);
     }, [stateChange])
 
 

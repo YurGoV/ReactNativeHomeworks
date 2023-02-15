@@ -22,10 +22,6 @@ const MainTab = createBottomTabNavigator();
 export const useRoute = (authState) => {
 
 
-    useEffect(() => {// todo: no need???
-        console.log(authState);
-    }, [authState])
-
     if (authState) {
         return (
             <MainStack.Navigator initialRouteName="Home"// todo: maybe home?
@@ -45,7 +41,9 @@ export const useRoute = (authState) => {
         );
 
 
-    } else return (
+    }
+
+    return (
         <MainStack.Navigator initialRouteName="Login">
             <MainStack.Screen name="Registration"
                               component={RegistrationScreen} options={{
@@ -53,10 +51,6 @@ export const useRoute = (authState) => {
             }}/>
             <MainStack.Screen name="Login"
                               component={LoginScreen} options={{
-                headerShown: false,
-            }}/>
-            <MainStack.Screen name="Home"
-                              component={Home} options={{
                 headerShown: false,
             }}/>
         </MainStack.Navigator>

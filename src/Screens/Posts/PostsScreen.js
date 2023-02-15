@@ -1,5 +1,9 @@
 import React from "react";
 import {createStackNavigator} from "@react-navigation/stack";
+
+import {authSignOutUser} from "../../redux/auth/authOperations";
+import {useDispatch} from "react-redux";
+
 import {
     View,
     Text,
@@ -14,6 +18,10 @@ import CommentsScreen from "../Additionall/CommentsScreen";
 const PostsStack = createStackNavigator();
 
 const PostsScreen = ({navigation, route}) => {
+    const dispatch = useDispatch();
+    const signOut = () => {
+        dispatch(authSignOutUser())
+    }
 
     // todo: тимчасово, поки без БД
     if (!route.params) {
@@ -63,7 +71,7 @@ const PostsScreen = ({navigation, route}) => {
                                    },
                                    headerRight: () => (
                                        <Pressable
-                                           onPress={() => navigation.navigate("Logout")}
+                                           onPress={signOut}
                                            title="LogOut"
                                        >
                                            <MaterialCommunityIcons name="logout" size={24} color="grey"/>
