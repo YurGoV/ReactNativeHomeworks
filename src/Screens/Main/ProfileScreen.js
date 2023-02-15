@@ -6,6 +6,8 @@ import {
     Image,
     ImageBackground,
 } from "react-native";
+import {authSignOutUser} from "../../redux/auth/authOperations";
+import {useDispatch} from "react-redux";
 // import {styles} from "../Screens.styles";
 import {styles} from "./Main.styles";
 
@@ -13,6 +15,10 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 
 
 const ProfileScreen = ({navigation}) => {
+    const dispatch = useDispatch();
+    const signOut = () => {
+        dispatch(authSignOutUser())
+    }
 
     return (
         <View style={{
@@ -32,7 +38,7 @@ const ProfileScreen = ({navigation}) => {
                             </View>
                         </Pressable>
                         <Pressable
-                            onPress={() => navigation.navigate("Login")}
+                            onPress={signOut}
                             title="LogOut"
                             style={styles.profileLogOut}
                         >

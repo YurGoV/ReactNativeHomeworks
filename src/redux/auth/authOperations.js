@@ -1,5 +1,11 @@
 import {auth} from '../../../firebase/config'
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    updateProfile,
+    onAuthStateChanged
+} from "firebase/auth";
 import {authSlice} from './authReducer'
 
 
@@ -15,53 +21,148 @@ import {authSlice} from './authReducer'
 // });
 
 
-export const authSignUpUser = ({email, password, login}) => (dispatch, getState) => {
+export const authSignUpUser = ({email, password, login}) => async (dispatch, getState) => {
+    try {
+        // const user = await db.auth().createUserWithEmailAndPassword(email, password)
+        // const auth = getAuth();
+        await createUserWithEmailAndPassword(auth, email, password)
+        // .then((userCredential) => {//
+        // .then(() => {
+        //     // Signed in
+        //
+        //     // const user = userCredential.user;///
+        //
+        //     // user.updateProfile({
+        //     //     displayName: login,
+        //     // })
+        //     console.log('user created');
+        // })
+        await updateProfile(auth.currentUser, {
+            displayName: login,
+        })
+        // .then(() => {
+        //
+        //     console.log('user profile updated');
+        //     // console.log('userCredentia user:', userCredential.user);
+        // })
+
+
+        const updatedUser = await auth.currentUser;
+        // console.log('test: ', test);
+        const {uid, displayName} = updatedUser;
+        console.log(displayName, uid);
+        dispatch(authSlice.actions.updateUserProfile({
+            userId: uid,
+            login: displayName,
+        }))
+
+
+        /*
+             const uid = user.uid
+             dispatch(authSlice.actions.updateUserProfile({
+                 userId: uid,
+             }))
+             console.log('user: ', user);
+             console.log(uid);
+             // ...
+         })*/
+    } catch (err) {
+        // const user = await db.auth()
+
+        // catch((err) => {
+        console.log('error', err);
+        console.log('error message', err.message);
+        // })
+    }
+
+    // updateProfile(auth.currentUser, {
+    //     displayName: login,
+    // })
+    //     .then(() => {
+    //
+    //         console.log('updated');
+    //     })
+    //     .catch((err) => {
+    //         console.log('error', err);
+    //         console.log('error message', err.message);
+    //     })
+}
+
+export const authSignInUser = ({email, password}) => async (dispatch, getState) => {
     // try {
     // const user = await db.auth().createUserWithEmailAndPassword(email, password)
     // const auth = getAuth();
-    createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            const uid = user.uid
-            dispatch(authSlice.actions.updateUserProfile({userId: uid}))
-            console.log('user: ', user);
-            console.log(uid);
-            // ...
-        })
+    try {
+
+        await signInWithEmailAndPassword(auth, email, password)
+            /*.then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                const uid = user.uid
+                console.log('logIn user: ', user);
+                dispatch(authSlice.actions.updateUserProfile({userId: uid}))
+
+                // console.log(user);
+                // ...
+            })*/
+        const loggedUser = await auth.currentUser;
+        // console.log('test: ', test);
+        const {uid, displayName} = loggedUser;
+        console.log(displayName, uid);
+        dispatch(authSlice.actions.updateUserProfile({
+            userId: uid,
+            login: displayName,
+        }))
+
+    } catch (err) {
         // const user = await db.auth()
-        .catch((err) => {
-            console.log('error', err);
-            console.log('error message', err.message);
-        })
+
+        // catch((err) => {
+        console.log('error', err);
+        console.log('error message', err.message);
+        // })
+    }
 }
 
-export const authSignInUser = ({email, password}) => (dispatch, getState) => {
-    // try {
-    // const user = await db.auth().createUserWithEmailAndPassword(email, password)
-    // const auth = getAuth();
+export const authStateChangeUser = () => async (dispatch, getState) => {
 
+    try {
+        await onAuthStateChanged(auth, (user) => {
+            if (user) {
+                /*  // User is signed in, see docs for a list of available properties
+                  // https://firebase.google.com/docs/reference/js/firebase.User
+                  const uid = user.uid;
+                  console.log('onAuthStateChanged uid: ', uid);
+                  // console.log('onAuthStateChanged user: ', user);
+                  // setUser(uid);
+                  // ...*/
 
+                const authUser = auth.currentUser;
+                // console.log('test: ', test);
+                const {uid, displayName} = authUser;
+                console.log(displayName, uid);
+                dispatch(authSlice.actions.updateUserProfile({
+                    userId: uid,
+                    login: displayName,
+                }));
+                dispatch(authSlice.actions.authStateChange({currentState: true}))
 
-    signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            const uid = user.uid
-            console.log('logIn user: ', user);
-            dispatch(authSlice.actions.updateUserProfile({userId: uid}))
+            } else {
+                // User is signed out
+                // ...
+            }
+        });
 
-            // console.log(user);
-            // ...
-        })
-        // const user = await db.auth()
-        .catch((err) => {
-            console.log('error', err);
-            console.log('error message', err.message);
-        })
+    } catch (err) {
+        console.log('error', err);
+        console.log('error message', err.message);
+    }
+
 }
 
-const authSignOutUser = () => async(dispatch, getState)
-{
 
+export const authSignOutUser = () => async (dispatch, getState) => {
+    console.log('out');
+    await auth.signOut();
+    dispatch(authSlice.actions.authSignOut())
 }
