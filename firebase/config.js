@@ -30,7 +30,14 @@ const firebaseConfig = {
     measurementId: "G-DEXM0RCVCX"
 };
 
-export const db = firebase.initializeApp(firebaseConfig);// todo: is needed in export?
+// orig
+// export const db = firebase.initializeApp(firebaseConfig);// todo: is needed in export?
+
+const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+
+
+
 // export default firebase.initializeApp(firebaseConfig);
 
 
@@ -40,7 +47,11 @@ export const db = firebase.initializeApp(firebaseConfig);// todo: is needed in e
 
 
 // const auth = initializeApp.auth();
-export const auth = initializeAuth(db, {
+// orig
+// export const auth = initializeAuth(db, {
+//     persistence: getReactNativePersistence(AsyncStorage)
+// });
+export const auth = initializeAuth(app, {
     persistence: getReactNativePersistence(AsyncStorage)
 });
 

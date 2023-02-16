@@ -30,9 +30,11 @@ const PostsDefaultScreen = ({navigation, route}) => {
     const {
         location,
         pictureHeaders,
-        pictureUrl,
+        fireBaseUrl,
         key
     } = route.params;
+
+    console.log('params: ', route.params);
 
 
     return (
@@ -47,7 +49,7 @@ const PostsDefaultScreen = ({navigation, route}) => {
 
             <View style={styles.postSection}>
                 <Image style={styles.postImage}
-                       source={{uri: pictureUrl}}/>
+                       source={{uri: fireBaseUrl}}/>
                 <View style={styles.postText}>
                     <Text style={{paddingBottom: 20}}>{pictureHeaders.name}</Text>
                     <View>

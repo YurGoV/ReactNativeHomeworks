@@ -3,6 +3,9 @@ import {
     View, TextInput,
     Text, Pressable, Image,
 } from "react-native";
+
+import {useSelector} from "react-redux";
+
 import {styles} from "./Posts.styles";
 import {Ionicons, MaterialIcons} from "@expo/vector-icons";
 import {Camera} from "expo-camera";
@@ -13,7 +16,10 @@ import axios from "axios";
 import {db} from '../../../firebase/config'
 import 'firebase/storage';
 //???
-import { getStorage, ref, uploadBytes  } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL  } from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore";
+
+
 
 
 const initialPictureHeaders = {
@@ -30,6 +36,8 @@ const CreatePostsScreen = ({navigation}) => {
     const [pictureUrl, setPictureUrl] = useState(null);
     const [pictureHeaders, setPictureHeaders] = useState(initialPictureHeaders);
     const [location, setLocation] = useState(null);
+
+    const {login, userId} = useSelector((state) => state.auth);
 
     const storage = getStorage()
 
@@ -103,21 +111,37 @@ const CreatePostsScreen = ({navigation}) => {
         const file = await response.blob();
 
         const uniquePostId = Date.now().toString()// todo: refactoring
+
         const imageRef = await ref(storage, `test/${uniquePostId}`)
+        // const loadImage = await uploadBytes(imageRef, file);
+        await uploadBytes(imageRef, file);
 
-        const loadImage = await uploadBytes(imageRef, file);
-        console.log(loadImage);
+        return  await getDownloadURL(imageRef);
+    }
 
+    const uploadPost = async() => {
+        const uniquePostId = Date.now().toString()// todo: refactoring
+        const photo = await uploadPhoto();
+        const createPost = await setDoc(doc(db, "posts", `${uniquePostId}`), {
+            photo: photo,
+            location: location,
+            headers: pictureHeaders,
+            login: login,
+            userId: userId,
+        });
     }
 
     const makePost = async () => {
 
-        await uploadPhoto();
+        await uploadPost();
 
-        /*navigation.navigate("PostScreen", {
+       // const fireBaseUrl = await uploadPhoto();
+       //  console.log('fireBaseUrllll', fireBaseUrl);
+
+       /*await navigation.navigate("PostScreen", {
             pictureHeaders,
             location,
-            pictureUrl,
+            fireBaseUrl: await uploadPhoto(),
         })*/
     }
 
