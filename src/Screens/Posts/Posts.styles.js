@@ -93,7 +93,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: 'white',
         justifyContent: 'flex-start',
-        maxHeight: 255,
+        minHeight: 255,
         maxWidth: '100%',
     },
 

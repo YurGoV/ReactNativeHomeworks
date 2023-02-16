@@ -1,8 +1,12 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {createStackNavigator} from "@react-navigation/stack";
 
 import {authSignOutUser} from "../../redux/auth/authOperations";
 import {useDispatch} from "react-redux";
+
+
+import {db} from '../../../firebase/config'
+import {collection, query, where, getDocs} from "firebase/firestore";
 
 import {
     View,
@@ -18,13 +22,35 @@ import CommentsScreen from "../Additionall/CommentsScreen";
 const PostsStack = createStackNavigator();
 
 const PostsScreen = ({navigation, route}) => {
+    const [posts, setPosts] = useState([])
+
     const dispatch = useDispatch();
     const signOut = () => {
         dispatch(authSignOutUser())
     }
 
+    console.log('gappp');
+    const q = query(collection(db, "posts"));
+
+    const getAllPosts = async () => {
+        const querySnapshot = await getDocs(q);
+
+        setPosts(querySnapshot.docs.map((post) => ({
+            ...post.data(), id: post.id
+        })));
+    }
+
+    console.log('gappp');
+    useEffect(() => {
+
+        getAllPosts();
+        // console.log('posts', posts);
+
+    }, [])
+
+
     // todo: тимчасово, поки без БД
-    if (!route.params) {
+    if (posts.length === 0) {
         return (
 
             <View style={{
@@ -40,7 +66,7 @@ const PostsScreen = ({navigation, route}) => {
                         justifyContent: 'center',
                         paddingLeft: 20
                     }}>
-                        <Text>Natali Romanova</Text>
+                        <Text>Natali Romanovaaaaa</Text>
                         <Text>example@email.com</Text>
                     </View>
                 </View>
@@ -48,12 +74,12 @@ const PostsScreen = ({navigation, route}) => {
         )
     }
 
-    const {
-        location,
-        pictureHeaders,
-        pictureUrl
-    } = route.params;
-
+    // const {
+    //     location,
+    //     pictureHeaders,
+    //     pictureUrl
+    // } = route.params;
+    console.log('postsee', posts);
     return (
         <PostsStack.Navigator
             initialRouteName="PostsDefaultScreen"
@@ -75,7 +101,7 @@ const PostsScreen = ({navigation, route}) => {
                                    ),
                                    headerLeft: null
                                }}
-                               initialParams={{pictureHeaders, location, pictureUrl}}/>
+                               initialParams={{posts: [posts]}}/>
             <PostsStack.Screen name="Map" component={MapScreen}
                                options={{
                                    title: 'Photo location map'
