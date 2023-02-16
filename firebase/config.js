@@ -1,5 +1,13 @@
 import * as firebase from "firebase/app";
 // import firebase from "firebase/app";
+import 'firebase/storage';
+import 'firebase/firestore'
+import { getStorage, ref, uploadBytes} from "firebase/storage";
+
+/////
+import { getFirestore } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+/////
 
 // import { initializeApp } from 'firebase/app';
 import "firebase/auth";
@@ -12,16 +20,6 @@ import {
 
 
 
-/*const firebaseConfig = {
-    apiKey: "API_KEY",
-    authDomain: "DOMAIN",
-    databaseURL: "URL",
-    projectId: "PROJECT_ID",
-    storageBucket: "STORAGE",
-    messagingSenderId: "SENDER_ID",
-    appId: "APP_ID",
-};*/
-
 const firebaseConfig = {
     apiKey: "AIzaSyAhYhunTMHDZdcIIrPKbtEkxnFdZOnR8oM",
     authDomain: "reactnative-hw.firebaseapp.com",
@@ -32,13 +30,36 @@ const firebaseConfig = {
     measurementId: "G-DEXM0RCVCX"
 };
 
-export const db = firebase.initializeApp(firebaseConfig);
+export const db = firebase.initializeApp(firebaseConfig);// todo: is needed in export?
+// export default firebase.initializeApp(firebaseConfig);
+
+
+// export const storage = getStorage();
+
+// export firebase;
+
 
 // const auth = initializeApp.auth();
 export const auth = initializeAuth(db, {
     persistence: getReactNativePersistence(AsyncStorage)
 });
 
-// export { auth };
-// export default firebase;
-// export default firebase.initializeApp(firebaseConfig)
+
+// =============
+
+// add doc draft
+/*
+
+const aaap = initializeApp(firebaseConfig);
+const dbbb = getFirestore(aaap);
+
+import { doc, setDoc } from "firebase/firestore";
+const ttt = async () => await setDoc(doc(dbbb, "cities", "LA"), {
+    name: "Los Angeles",
+    state: "CA",
+    country: "USA"
+});
+
+console.log(ttt);
+*/
+

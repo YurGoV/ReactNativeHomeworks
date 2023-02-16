@@ -10,6 +10,11 @@ import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 import axios from "axios";
 
+import {db} from '../../../firebase/config'
+import 'firebase/storage';
+//???
+import { getStorage, ref, uploadBytes  } from "firebase/storage";
+
 
 const initialPictureHeaders = {
     name: '',
@@ -26,7 +31,10 @@ const CreatePostsScreen = ({navigation}) => {
     const [pictureHeaders, setPictureHeaders] = useState(initialPictureHeaders);
     const [location, setLocation] = useState(null);
 
-    // console.log(location);
+    const storage = getStorage()
+
+
+    console.log(pictureUrl);
 
     const placeHandler = (value) =>
         setPictureHeaders((prevState) => ({
@@ -62,7 +70,7 @@ const CreatePostsScreen = ({navigation}) => {
 
         if (location) {
             // console.log('location lll:', location);
-            axios.get(`http://api.weatherbit.io/v2.0/current?lat=${location.latitude}&lon=${location.longitude}&key=161b71ae33f348868722ad1c9f0e1796`)// todo: refactor out
+            axios.get(`http://api.weatherbit.io/v2.0/current?lat=${location.latitude}&lon=${location.longitude}&key=161b71ae33f348868722ad1c9f0e1796`)// todo: refactor out (services folder)
                 .then(response => response.data.data)
                 .then(mainData => {
                     // console.log('create post mainData', mainData);
@@ -88,6 +96,30 @@ const CreatePostsScreen = ({navigation}) => {
         setPictureHeaders((prevState) => ({
             ...prevState, name: value
         }));
+
+    const uploadPhoto = async () => {
+        console.log('start');
+        const response = await fetch(`${pictureUrl}`)
+        const file = await response.blob();
+
+        const uniquePostId = Date.now().toString()// todo: refactoring
+        const imageRef = await ref(storage, `test/${uniquePostId}`)
+
+        const loadImage = await uploadBytes(imageRef, file);
+        console.log(loadImage);
+
+    }
+
+    const makePost = async () => {
+
+        await uploadPhoto();
+
+        /*navigation.navigate("PostScreen", {
+            pictureHeaders,
+            location,
+            pictureUrl,
+        })*/
+    }
 
 
     return (
@@ -168,12 +200,8 @@ const CreatePostsScreen = ({navigation}) => {
                 />
             </View>
 
-            <Pressable title={"Register"} style={styles.postButton}
-                       onPress={() => navigation.navigate("PostScreen", {
-                           pictureHeaders,
-                           location,
-                           pictureUrl,
-                       })}
+            <Pressable title={"Post"} style={styles.postButton}
+                       onPress={makePost}
             >
                 <Text>Publish</Text>
             </Pressable>
@@ -184,3 +212,14 @@ const CreatePostsScreen = ({navigation}) => {
 
 export default CreatePostsScreen;
 
+/*
+rules_version = '2';
+service cloud.firestore {
+    match /databases/{database}/documents {
+    match /{document=**} {
+        allow read, write: if
+            request.time < timestamp.date(2023, 3, 14);
+    }
+}
+}
+*/
