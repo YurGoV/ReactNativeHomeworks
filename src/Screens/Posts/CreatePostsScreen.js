@@ -44,10 +44,11 @@ const CreatePostsScreen = ({navigation}) => {
 
     console.log(pictureUrl);
 
-    const placeHandler = (value) =>
+    const placeHandler = (value) => {
         setPictureHeaders((prevState) => ({
             ...prevState, place: value
         }));
+    }
 
     useEffect(() => {
         (async () => {
@@ -72,7 +73,7 @@ const CreatePostsScreen = ({navigation}) => {
 
             // console.log('locationDataa', coords);
             await setLocation(coords);
-            // console.log('location aaa:', location);
+            console.log('location aaa:', location);
 
         })();
 
@@ -110,6 +111,8 @@ const CreatePostsScreen = ({navigation}) => {
         const response = await fetch(`${pictureUrl}`)
         const file = await response.blob();
 
+        console.log(file);
+
         const uniquePostId = Date.now().toString()// todo: refactoring
 
         const imageRef = await ref(storage, `test/${uniquePostId}`)
@@ -122,12 +125,14 @@ const CreatePostsScreen = ({navigation}) => {
     const uploadPost = async() => {
         const uniquePostId = Date.now().toString()// todo: refactoring
         const photo = await uploadPhoto();
-        const createPost = await setDoc(doc(db, "posts", `${uniquePostId}`), {
+        console.log('photo', photo);
+        await setDoc(doc(db, "posts", `${uniquePostId}`), {
             photo: photo,
             location: location,
             headers: pictureHeaders,
             login: login,
             userId: userId,
+            // test: 'testt'
         });
     }
 

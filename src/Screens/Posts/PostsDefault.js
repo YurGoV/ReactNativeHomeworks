@@ -3,6 +3,7 @@ import {
     View,
     Text,
     Image, Pressable,
+    FlatList,
 } from "react-native";
 
 
@@ -53,35 +54,77 @@ const PostsDefaultScreen = ({navigation, route}) => {
                     <Text>example@email.com</Text>
                 </View>
             </View>
-            {posts.map(post => (
-            <View style={styles.postSection} key={post.id}>
-                <Image style={styles.postImage}
-                       source={{uri: post.photo}}/>
-                <View style={styles.postText}>
-                    <Text style={{paddingBottom: 20}}>{post.headers.name}</Text>
-                    <View>
-                        <Pressable title={"Map"}
-                                   onPress={() => navigation.navigate("Map", {
-                                       // post.location,
-                                   })}>
-                            <Ionicons name="location-outline" size={24} color="green"/>
-                            <Text tyle={{paddingBottom: 20}}>{post.headers.place}</Text>
-                        </Pressable>
-                    </View>
-                    <Pressable title={"Comments"}
-                               onPress={() => navigation.navigate("Comments", {
-                                   // post.location,
-                               })}>
-                        <Text style={{color: 'grey'}}>
-                            <Ionicons name="chatbubble-outline" size={24} color="grey"/> 0
-                        </Text>
-                    </Pressable>
-                </View>
+            <FlatList data={posts} keyExtractor={post => post.id}
+                      // extraData={selectedId}// todo: postsInState?
+                      renderItem={({item}) => (
+                          <View style={styles.postSection}>
+                              <Text style={{paddingBottom: 20}}>{item.headers.name}</Text>
+                              <Image style={styles.postImage}
+                                     source={{uri: item.photo}}/>
+                              <View style={styles.postText}>
 
-            </View>
-            ))}
+                                  <View>
+                                      {item.location ? (<Pressable title={"Map"}
+                                                  onPress={() => navigation.navigate("Map", {
+                                                      location: item.location,
+                                                  })}>
+                                          <Ionicons name="location-outline" size={24} color="green"/>
+                                          <Text style={{paddingBottom: 20}}>{item.headers.place}</Text>
+                                      </Pressable>) : (
+                                          <Text style={{paddingBottom: 20}}>{item.headers.place}</Text>
+                                      )}
+
+                                  </View>
+                                  <Pressable title={"Comments"}
+                                             onPress={() => navigation.navigate("Comments", {
+                                                 id: item.id,
+                                                 header: item.headers.name,
+                                                 photo: item.photo,
+                                                 place: item.headers.place,
+                                                 location: item.location,
+                                             })}>
+                                      <Text style={{color: 'grey'}}>
+                                          <Ionicons name="chatbubble-outline" size={24} color="grey"/> 0
+                                      </Text>
+                                  </Pressable>
+                              </View>
+
+                          </View>
+                      )}
+            />
+
         </View>
     )
 };
 
 export default PostsDefaultScreen;
+
+/*
+{posts.map(post => (
+    <View style={styles.postSection} key={post.id}>
+        <Image style={styles.postImage}
+               source={{uri: post.photo}}/>
+        <View style={styles.postText}>
+            <Text style={{paddingBottom: 20}}>{post.headers.name}</Text>
+            <View>
+                <Pressable title={"Map"}
+                           onPress={() => navigation.navigate("Map", {
+                               // post.location,
+                           })}>
+                    <Ionicons name="location-outline" size={24} color="green"/>
+                    <Text tyle={{paddingBottom: 20}}>{post.headers.place}</Text>
+                </Pressable>
+            </View>
+            <Pressable title={"Comments"}
+                       onPress={() => navigation.navigate("Comments", {
+                           // post.location,
+                       })}>
+                <Text style={{color: 'grey'}}>
+                    <Ionicons name="chatbubble-outline" size={24} color="grey"/> 0
+                </Text>
+            </Pressable>
+        </View>
+
+    </View>
+))}
+*/

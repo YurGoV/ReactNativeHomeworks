@@ -76,6 +76,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         backgroundColor: 'white',
+        alignItems: 'center',
     },
 
     postsOwnerSection: {
@@ -90,16 +91,17 @@ export const styles = StyleSheet.create({
 
     postSection: {
         flex: 1,
-        flexDirection: 'row',
+        // flexDirection: 'column',
         backgroundColor: 'white',
         justifyContent: 'flex-start',
+        // alignItems: 'center',
         minHeight: 255,
         maxWidth: '100%',
     },
 
     postImage: {
-        minWidth: 187,
-        maxHeight: 250,
+        width: 270,
+        height: 360,
         borderRadius: 8
     },
 

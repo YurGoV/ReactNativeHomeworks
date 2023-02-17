@@ -49,7 +49,7 @@ const PostsScreen = ({navigation, route}) => {
     }, [])
 
 
-    // todo: тимчасово, поки без БД
+
     if (posts.length === 0) {
         return (
 
