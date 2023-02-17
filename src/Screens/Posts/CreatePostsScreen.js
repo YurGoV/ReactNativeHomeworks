@@ -111,7 +111,7 @@ const CreatePostsScreen = ({navigation}) => {
         const response = await fetch(`${pictureUrl}`)
         const file = await response.blob();
 
-        console.log(file);
+        // console.log(file);
 
         const uniquePostId = Date.now().toString()// todo: refactoring
 

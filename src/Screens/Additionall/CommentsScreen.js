@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import {
-    View, Text, Image, Pressable, TextInput,
+    View, Text, Image, Pressable, TextInput, FlatList,
 } from "react-native";
 import {Ionicons} from '@expo/vector-icons';
 import {useSelector} from "react-redux";
@@ -14,6 +14,7 @@ import {styles} from "../Posts/Posts.styles";
 const CommentsScreen = ({navigation, route}) => {
 
     const [comment, setComment] = useState(null);
+    const [comments, setComments] = useState([]);
     const {login} = useSelector(state => state.auth);
 
 
@@ -33,36 +34,37 @@ const CommentsScreen = ({navigation, route}) => {
 
     // const q = query(collection(db, "posts", id, 'comments'));
     const q = query(collection(db, "posts", id, 'comments'));
-    const getAllComments = async () => {
-        // const postRef = doc(db, 'posts', id, 'comments');
-        // const postData = await getDoc(postRef)
-        // const allComments = await getDocs(q);
-        // console.log('post dataaaa', postData);
-        // const comments = await getDocs(q);
-        // console.log('commm dataaaa', comments.docs);
-        // comments.forEach((doc) => {
-        //     // doc.data() is never undefined for query doc snapshots
-        //     console.log(doc, " => ", doc.data());
-        // });
 
-        const comments = await getDocs(q);
-        let commentsArr = []
-        await comments.forEach((comm) => {
-               commentsArr.push(comm.data())
-        })
-
-        console.log(commentsArr);
-
-/*        // const ttt = await comments.map(comment => comment.data())
-        const ttt = commentsArr.map(comment => comment.data())
+    useEffect(() => {
 
 
-        console.log(ttt);*/
+        let allComments = []
+        const getAllComments = async () => {
+
+            let allComments = []
+
+            const comments = await getDocs(q);
+
+            await comments.forEach((comm) => {
+                // console.log(comm.id);
+                allComments.push({...comm.data(), id: comm.id})
+            })
+
+            // console.log('accccccccccc', allComments);
+            setComments(allComments)
+
+        }
+        const t = getAllComments();
+
+        console.log(t);
+        //
+        console.log('accccccccccc', allComments);
+
+    }, [])
 
 
-    }
+    console.log(comments);
 
-    const t = getAllComments();
 
     const createComment = async () => {
         const uniqueCommentId = Date.now().toString()// todo: refactoring
@@ -73,16 +75,40 @@ const CommentsScreen = ({navigation, route}) => {
         });
     }
 
+    // https://blog.logrocket.com/deep-dive-react-native-flatlist/#flatlist-customization
 
     return (
         <View style={styles.postsMain}>
             <View style={styles.postSection}>
                 <Text style={{paddingBottom: 5}}>{header}</Text>
-                <Image style={styles.postImage}
+                <Image style={{
+                    width: 150,
+                    height: 200,
+                    borderRadius: 8
+                }}
                        source={{uri: photo}}/>
+
+                <FlatList data={comments}
+                          keyExtractor={comment => comment.id}
+                          renderItem={({item}) => (
+                              <View style={{
+                                  display: 'flex',
+                                  width: 300,
+                                  height: 30,
+                                  border: '1px solid grey',
+                                  borderWidth: 1,
+                                  borderRadius: 8,
+                                  marginTop: 5,
+                              }}>
+                                  <Text>{item.comment}</Text>
+                              </View>
+                          )}/>
+
+                <Text>'lalala'</Text>
+
                 <View style={styles.postText}>
 
-                    <Text tyle={{paddingBottom: 20}}>{place}</Text>
+                    <Text style={{paddingBottom: 20}}>{place}</Text>
 
                 </View>
 
