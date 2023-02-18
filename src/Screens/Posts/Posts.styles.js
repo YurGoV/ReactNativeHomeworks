@@ -58,7 +58,21 @@ export const styles = StyleSheet.create({
         marginTop: 10,
     },
 
-    postButton: {
+    postButtonActive: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: 300,
+        height: 50,
+        padding: 10,
+        borderColor: "grey",
+        borderRadius: 100,
+        marginBottom: 10,
+        backgroundColor: '#FF6C00',
+        marginTop: 20,
+    },
+
+    postButtonInactive: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

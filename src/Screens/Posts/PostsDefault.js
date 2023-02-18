@@ -44,8 +44,8 @@ const PostsDefaultScreen = ({navigation, route}) => {
         console.log(item.id);})*/
 
     const posts = route.params.posts[0];
-    console.log(' ');
-    console.log('pppppppppppppppp', posts);
+    // console.log(' ');
+    // console.log('pppppppppppppppp', posts);
 
     return (
         <View style={styles.postsMain}>

@@ -16,10 +16,8 @@ import axios from "axios";
 import {db} from '../../../firebase/config'
 import 'firebase/storage';
 //???
-import { getStorage, ref, uploadBytes, getDownloadURL  } from "firebase/storage";
-import { doc, setDoc } from "firebase/firestore";
-
-
+import {getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import {doc, setDoc} from "firebase/firestore";
 
 
 const initialPictureHeaders = {
@@ -42,7 +40,7 @@ const CreatePostsScreen = ({navigation}) => {
     const storage = getStorage()
 
 
-    console.log(pictureUrl);
+    console.log('pictureUrl', pictureUrl);
 
     const placeHandler = (value) => {
         setPictureHeaders((prevState) => ({
@@ -77,7 +75,7 @@ const CreatePostsScreen = ({navigation}) => {
 
         })();
 
-        if (location) {
+        /*if (location) {
             // console.log('location lll:', location);
             axios.get(`http://api.weatherbit.io/v2.0/current?lat=${location.latitude}&lon=${location.longitude}&key=161b71ae33f348868722ad1c9f0e1796`)// todo: refactor out (services folder)
                 .then(response => response.data.data)
@@ -90,9 +88,25 @@ const CreatePostsScreen = ({navigation}) => {
                 .catch((err) => {
                     console.log(err);
                 })
-        }
+        }*/
 
     }, []);
+
+    useEffect(() => {
+        if (location) {
+            axios.get(`http://api.weatherbit.io/v2.0/current?lat=${location.latitude}&lon=${location.longitude}&key=161b71ae33f348868722ad1c9f0e1796`)// todo: refactor out (services folder)
+                .then(response => response.data.data)
+                .then(mainData => {
+                    // console.log('create post mainData', mainData);
+                    const {city_name, country_code, weather} = mainData[0]
+                    // console.log(city_name, country_code, weather.description);
+                    placeHandler(`${city_name}, ${country_code}, ${weather.description}`)
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+    }, [location])
 
     if (hasPermission === null) {
         return <View/>;
@@ -107,7 +121,7 @@ const CreatePostsScreen = ({navigation}) => {
         }));
 
     const uploadPhoto = async () => {
-        console.log('start');
+        // console.log('start');
         const response = await fetch(`${pictureUrl}`)
         const file = await response.blob();
 
@@ -119,13 +133,14 @@ const CreatePostsScreen = ({navigation}) => {
         // const loadImage = await uploadBytes(imageRef, file);
         await uploadBytes(imageRef, file);
 
-        return  await getDownloadURL(imageRef);
+        return await getDownloadURL(imageRef);
     }
 
-    const uploadPost = async() => {
+    const uploadPost = async () => {
         const uniquePostId = Date.now().toString()// todo: refactoring
+        // const uniquePostId = Date.now()// todo: refactoring
         const photo = await uploadPhoto();
-        console.log('photo', photo);
+        // console.log('photo', photo);
         await setDoc(doc(db, "posts", `${uniquePostId}`), {
             photo: photo,
             location: location,
@@ -139,15 +154,16 @@ const CreatePostsScreen = ({navigation}) => {
     const makePost = async () => {
 
         await uploadPost();
+        await navigation.navigate("PostScreen")
 
-       // const fireBaseUrl = await uploadPhoto();
-       //  console.log('fireBaseUrllll', fireBaseUrl);
+        // const fireBaseUrl = await uploadPhoto();
+        //  console.log('fireBaseUrllll', fireBaseUrl);
 
-       /*await navigation.navigate("PostScreen", {
-            pictureHeaders,
-            location,
-            fireBaseUrl: await uploadPhoto(),
-        })*/
+        /*await navigation.navigate("PostScreen", {
+             pictureHeaders,
+             location,
+             fireBaseUrl: await uploadPhoto(),
+         })*/
     }
 
 
@@ -215,12 +231,18 @@ const CreatePostsScreen = ({navigation}) => {
             />
 
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Pressable title={"Map"}
-                           onPress={() => navigation.navigate("Map", {
-                               location,
-                           })}>
-                    <Ionicons name="location-outline" size={24} color="green"/>
-                </Pressable>
+
+                {location ? (
+                    <Pressable title={"Map"}
+                               onPress={() => navigation.navigate("Map", {
+                                   location,
+                               })}>
+                        <Ionicons name="location-outline" size={24} color="green"/>
+                    </Pressable>
+                ) : (
+                    <Ionicons name="location-outline" size={24} color="grey"/>
+                )}
+
                 <TextInput
                     onChangeText={placeHandler}
                     placeholder='place'
@@ -229,17 +251,30 @@ const CreatePostsScreen = ({navigation}) => {
                 />
             </View>
 
-            <Pressable title={"Post"} style={styles.postButton}
-                       onPress={makePost}
-            >
-                <Text>Publish</Text>
-            </Pressable>
+            {!pictureUrl ? (//todo: disabled???
+                <View style={styles.postButtonInactive}>
+                    <Text>Publish</Text>
+                </View>
+            ) : (
+                <Pressable title={"Post"} style={styles.postButtonActive}//todo: if is photo
+                           onPress={makePost}
+                           // disabled={false}
+                           // style={{backgroundColor: 'white'}}
+                >
+                    <Text>Publish</Text>
+                </Pressable>
+            )}
+
+
+
 
         </View>
     )
 };
 
 export default CreatePostsScreen;
+
+// todo: camera 2nd shoot error: https://stackoverflow.com/questions/73469845/solved-expo-camera-takepictureasync-undefined-unhandled-promise-rejection-typ
 
 /*
 rules_version = '2';

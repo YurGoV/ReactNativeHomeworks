@@ -27,7 +27,7 @@ export const authSignUpUser = ({email, password, login}) => async (dispatch, get
         }))
 
     } catch (err) {
-        console.log('error', err);
+        // console.log('error', err);
         console.log('error message', err.message);
     }
 }
@@ -38,14 +38,14 @@ export const authSignInUser = ({email, password}) => async (dispatch, getState) 
         await signInWithEmailAndPassword(auth, email, password)
         const loggedUser = await auth.currentUser;
         const {uid, displayName} = loggedUser;
-        console.log(displayName, uid);
+        // console.log(displayName, uid);
         dispatch(authSlice.actions.updateUserProfile({
             userId: uid,
             login: displayName,
         }))
 
     } catch (err) {
-        console.log('error', err);
+        // console.log('error', err);
         console.log('error message', err.message);
     }
 }
@@ -58,7 +58,7 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
                 const authUser = auth.currentUser;
                 // console.log('test: ', test);
                 const {uid, displayName} = authUser;
-                console.log(displayName, uid);
+                // console.log(displayName, uid);
                 dispatch(authSlice.actions.updateUserProfile({
                     userId: uid,
                     login: displayName,
@@ -68,7 +68,7 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
         });
 
     } catch (err) {
-        console.log('error', err);
+        // console.log('error', err);
         console.log('error message', err.message);
     }
 }

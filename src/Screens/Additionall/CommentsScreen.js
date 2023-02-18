@@ -14,6 +14,7 @@ import {styles} from "../Posts/Posts.styles";
 const CommentsScreen = ({navigation, route}) => {
 
     const [comment, setComment] = useState(null);
+    const [commentId, setCommentId] = useState(null)
     const [comments, setComments] = useState([]);
     const {login} = useSelector(state => state.auth);
 
@@ -26,8 +27,8 @@ const CommentsScreen = ({navigation, route}) => {
         location = null,
     } = route.params;
 
-    console.log(route.params);
-    console.log('commmmmmm', comment);
+    // console.log(route.params);
+    // console.log('commmmmmm', comment);
 
     const commentHandler = (value) =>
         setComment(value);
@@ -38,7 +39,7 @@ const CommentsScreen = ({navigation, route}) => {
     useEffect(() => {
 
 
-        let allComments = []
+        // let allComments = []
         const getAllComments = async () => {
 
             let allComments = []
@@ -46,33 +47,39 @@ const CommentsScreen = ({navigation, route}) => {
             const comments = await getDocs(q);
 
             await comments.forEach((comm) => {
-                // console.log(comm.id);
+                console.log(typeof comm.id);
                 allComments.push({...comm.data(), id: comm.id})
             })
 
             // console.log('accccccccccc', allComments);
-            setComments(allComments)
+            const allOrderedComments = allComments.sort(
+                (firstComment, secondComment) =>
+                    secondComment.id - firstComment.id);
+            setComments(allOrderedComments)
 
         }
         const t = getAllComments();
 
-        console.log(t);
+        // console.log(t);
         //
-        console.log('accccccccccc', allComments);
+        // console.log('accccccccccc', allComments);
 
-    }, [])
+    }, [commentId])
 
 
-    console.log(comments);
+    // console.log(comments);
 
 
     const createComment = async () => {
         const uniqueCommentId = Date.now().toString()// todo: refactoring
 
-        await setDoc(doc(db, 'posts', id, 'comments', uniqueCommentId), {
+       await setDoc(doc(db, 'posts', id, 'comments', uniqueCommentId), {
             comment: comment,
             login: login,
         });
+        // setComments([...comments, comment])
+        setCommentId(uniqueCommentId);
+        setComment(null)
     }
 
     // https://blog.logrocket.com/deep-dive-react-native-flatlist/#flatlist-customization
@@ -104,7 +111,7 @@ const CommentsScreen = ({navigation, route}) => {
                               </View>
                           )}/>
 
-                <Text>'lalala'</Text>
+                {/*<Text>'lalala'</Text>*/}
 
                 <View style={styles.postText}>
 
@@ -118,11 +125,19 @@ const CommentsScreen = ({navigation, route}) => {
                     placeholder="comment"
                     style={styles.postInput}
                 />
-                <Pressable title={"Post"} style={styles.postButton}
-                           onPress={createComment}
-                >
-                    <Text>Publish</Text>
-                </Pressable>
+
+                {!comment ? (// todo: repeated twice (in Create Posts also - refactoring
+                    <View style={styles.postButtonInactive}>
+                        <Text>Publish</Text>
+                    </View>
+                ) : (
+                    <Pressable title={"Post"} style={styles.postButtonActive}
+                               onPress={createComment}
+                    >
+                        <Text>Publish</Text>
+                    </Pressable>
+                )}
+
 
             </View>
         </View>

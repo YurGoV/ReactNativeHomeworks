@@ -28,26 +28,41 @@ const PostsScreen = ({navigation, route}) => {
     const signOut = () => {
         dispatch(authSignOutUser())
     }
-
-    console.log('gappp');
+    // console.log('');
+    // console.log('postssssss', posts);
     const q = query(collection(db, "posts"));
 
+    // todo:
+    // https://firebase.google.com/docs/firestore/data-model
     const getAllPosts = async () => {
         const querySnapshot = await getDocs(q);
-
-        setPosts(querySnapshot.docs.map((post) => ({
+        const allPosts = querySnapshot.docs.map((post) => ({
             ...post.data(), id: post.id
-        })));
+        }));
+
+        // console.log('aaaaaaaaaaaaaaaa', allPosts.sort((firstContact, secondContact) => secondContact.id - firstContact.id));
+
+        // setPosts(allPosts);
+        const sortedPosts = allPosts.sort(
+            (firstContact, secondContact) =>
+                secondContact.id - firstContact.id);
+        setPosts(sortedPosts);
+        // const sortedPosts = allPosts.sort
+        // ((firstContact, secondContact) =>
+        //     secondContact.id - firstContact.id);
+        // setPosts(sortedPosts)
+        // setPosts(querySnapshot.docs.map((post) => ({
+        //     ...post.data(), id: post.id
+        // })));
     }
 
-    console.log('gappp');
+    // console.log('gappp');
     useEffect(() => {
 
         getAllPosts();
         // console.log('posts', posts);
 
     }, [])
-
 
 
     if (posts.length === 0) {
@@ -79,7 +94,7 @@ const PostsScreen = ({navigation, route}) => {
     //     pictureHeaders,
     //     pictureUrl
     // } = route.params;
-    console.log('postsee', posts);
+    // console.log('postsee', posts);
     return (
         <PostsStack.Navigator
             initialRouteName="PostsDefaultScreen"
