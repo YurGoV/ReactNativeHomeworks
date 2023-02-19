@@ -23,6 +23,10 @@ const PostsStack = createStackNavigator();
 
 const PostsScreen = ({navigation, route}) => {
     const [posts, setPosts] = useState([])
+    // const [newPost, setNewPost] = useState('')
+
+    // console.log('navigation', navigation);
+    // setNewPost(route.params.newPost);
 
     const dispatch = useDispatch();
     const signOut = () => {
@@ -59,10 +63,41 @@ const PostsScreen = ({navigation, route}) => {
     // console.log('gappp');
     useEffect(() => {
 
-        getAllPosts();
-        // console.log('posts', posts);
+        (async () => {
+            const querySnapshot = await getDocs(q);
+            const allPosts = querySnapshot.docs.map((post) => ({
+                ...post.data(), id: post.id
+            }));
 
-    }, [])
+            // console.log('aaaaaaaaaaaaaaaa', allPosts.sort((firstContact, secondContact) => secondContact.id - firstContact.id));
+
+            // setPosts(allPosts);
+            const sortedPosts = allPosts.sort(
+                (firstContact, secondContact) =>
+                    secondContact.id - firstContact.id);
+            setPosts(sortedPosts);
+            // const sortedPosts = allPosts.sort
+            // ((firstContact, secondContact) =>
+            //     secondContact.id - firstContact.id);
+            // setPosts(sortedPosts)
+            // setPosts(querySnapshot.docs.map((post) => ({
+            //     ...post.data(), id: post.id
+            // })));
+        })();
+
+
+        // getAllPosts();
+
+
+        // console.log('posts', posts);
+        if (route.params) {
+            console.log('route.params', route.params);
+            setPosts((prevState) => [...prevState, route.params]);
+        }
+        console.log('');
+        console.log('ppppppppppppppppp', posts);
+
+    }, [route.params])
 
 
     if (posts.length === 0) {

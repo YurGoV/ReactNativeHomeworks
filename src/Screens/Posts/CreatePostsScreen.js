@@ -40,7 +40,7 @@ const CreatePostsScreen = ({navigation}) => {
     const storage = getStorage()
 
 
-    console.log('pictureUrl', pictureUrl);
+    // console.log('pictureUrl', pictureUrl);
 
     const placeHandler = (value) => {
         setPictureHeaders((prevState) => ({
@@ -147,26 +147,38 @@ const CreatePostsScreen = ({navigation}) => {
             headers: pictureHeaders,
             login: login,
             userId: userId,
-            // test: 'testt'
+            commentsCount: 0,
         });
     }
 
     const makePost = async () => {
+        // await uploadPost();
 
-        await uploadPost();
-        await navigation.navigate("PostScreen")
+        const uniquePostId = Date.now().toString()// todo: refactoring
+        // const uniquePostId = Date.now()// todo: refactoring
+        const photo = await uploadPhoto();
+        // console.log('photo', photo);
+        await setDoc(doc(db, "posts", `${uniquePostId}`), {
+            photo: photo,
+            location: location,
+            headers: pictureHeaders,
+            login: login,
+            userId: userId,
+            commentsCount: 0,
+        });
 
-        // const fireBaseUrl = await uploadPhoto();
-        //  console.log('fireBaseUrllll', fireBaseUrl);
-
-        /*await navigation.navigate("PostScreen", {
-             pictureHeaders,
-             location,
-             fireBaseUrl: await uploadPhoto(),
-         })*/
+        await navigation.navigate("PostScreen", {
+            photo: photo,
+            location: location,
+            headers: pictureHeaders,
+            login: login,
+            userId: userId,
+            commentsCount: 0,
+        })
     }
-
-
+    /*, {
+                newPost: Date.now().toString(),
+            }*/
     return (
         <View style={styles.createPostMain}>
             <View style={styles.createPostPhoto}>

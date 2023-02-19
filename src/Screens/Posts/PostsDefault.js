@@ -9,6 +9,8 @@ import {
 
 import {Ionicons} from '@expo/vector-icons';
 import {styles} from './Posts.styles'
+import {collection, getDocs, query} from "firebase/firestore";
+import {db} from "../../../firebase/config";
 
 
 const PostsDefaultScreen = ({navigation, route}) => {
@@ -27,10 +29,7 @@ const PostsDefaultScreen = ({navigation, route}) => {
             </View>
         )
     }
-/* todo: !!!
-    https://github.com/Karlsoninit/rn-social_code/blob/master/7.5_code_%D0%BF%D0%BE%D0%BB%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85%20%D1%81%20%D1%81%D0%B5%D1%80%D0%B2%D0%B5%D1%80%D0%B0/screens/nestedScreens/DefaultScreenPosts.js
-        https://reactnative.dev/docs/flatlist
-        */
+
     // const {
     //     location,
     //     pictureHeaders,
@@ -43,9 +42,11 @@ const PostsDefaultScreen = ({navigation, route}) => {
     /*const posts = route.params.posts[0].map((item) => {
         console.log(item.id);})*/
 
+
     const posts = route.params.posts[0];
-    // console.log(' ');
+    // console.log(' ppppp', posts);
     // console.log('pppppppppppppppp', posts);
+
 
     return (
         <View style={styles.postsMain}>
@@ -57,19 +58,21 @@ const PostsDefaultScreen = ({navigation, route}) => {
                 </View>
             </View>
             <FlatList data={posts} keyExtractor={post => post.id}
-                      // extraData={selectedId}// todo: postsInState?
+                // extraData={selectedId}// todo: postsInState?
                       renderItem={({item}) => (
                           <View style={styles.postSection}>
                               <Text style={{paddingBottom: 20}}>{item.headers.name}</Text>
                               <Image style={styles.postImage}
-                                     source={{uri: item.photo}}/>
+                                     source={{uri: item.photo}}
+                                     // onLoad={() => loaded(item.id)}
+                              />
                               <View style={styles.postText}>
 
                                   <View>
                                       {item.location ? (<Pressable title={"Map"}
-                                                  onPress={() => navigation.navigate("Map", {
-                                                      location: item.location,
-                                                  })}>
+                                                                   onPress={() => navigation.navigate("Map", {
+                                                                       location: item.location,
+                                                                   })}>
                                           <Ionicons name="location-outline" size={24} color="green"/>
                                           <Text style={{paddingBottom: 20}}>{item.headers.place}</Text>
                                       </Pressable>) : (
@@ -86,7 +89,8 @@ const PostsDefaultScreen = ({navigation, route}) => {
                                                  location: item.location,
                                              })}>
                                       <Text style={{color: 'grey'}}>
-                                          <Ionicons name="chatbubble-outline" size={24} color="grey"/> 0
+                                          <Ionicons name="chatbubble-outline" size={24} color="grey"/>
+                                          {item.commentsCount ?? 0}
                                       </Text>
                                   </Pressable>
                               </View>

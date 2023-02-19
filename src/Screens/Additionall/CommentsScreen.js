@@ -5,7 +5,7 @@ import {
 } from "react-native";
 import {Ionicons} from '@expo/vector-icons';
 import {useSelector} from "react-redux";
-import {collection, doc, query, setDoc, getDocs, getDoc} from "firebase/firestore";
+import {collection, doc, query, setDoc, getDocs, updateDoc} from "firebase/firestore";
 import {db} from '../../../firebase/config'
 
 import {styles} from "../Posts/Posts.styles";
@@ -34,7 +34,8 @@ const CommentsScreen = ({navigation, route}) => {
         setComment(value);
 
     // const q = query(collection(db, "posts", id, 'comments'));
-    const q = query(collection(db, "posts", id, 'comments'));
+    const commentsRef = query(collection(db, "posts", id, 'comments'));
+    const postRef = doc(db, "posts", id);
 
     useEffect(() => {
 
@@ -44,12 +45,15 @@ const CommentsScreen = ({navigation, route}) => {
 
             let allComments = []
 
-            const comments = await getDocs(q);
+            const comments = await getDocs(commentsRef);
 
             await comments.forEach((comm) => {
-                console.log(typeof comm.id);
+                // console.log(typeof comm.id);
                 allComments.push({...comm.data(), id: comm.id})
             })
+
+            const commentsCount = comments.size;
+            await updateDoc(postRef, {commentsCount: commentsCount})
 
             // console.log('accccccccccc', allComments);
             const allOrderedComments = allComments.sort(
