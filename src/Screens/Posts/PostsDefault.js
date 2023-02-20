@@ -25,7 +25,7 @@ const PostsDefaultScreen = ({navigation, route}) => {
         uniquePostId = route.params.uniquePostId;
     }
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     /*  const signOut = () => {
           dispatch(authSignOutUser())
       }*/

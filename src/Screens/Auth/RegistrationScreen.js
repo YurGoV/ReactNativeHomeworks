@@ -46,7 +46,7 @@ const RegistrationScreen = ({navigation}) => {
         setState(initialState);
     };
 
-
+// todo: no empty login (inactive button)
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>

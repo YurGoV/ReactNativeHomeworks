@@ -5,8 +5,10 @@ import {
 } from "react-native";
 import {Ionicons} from '@expo/vector-icons';
 import {useSelector} from "react-redux";
-import {collection, doc, query, setDoc, getDocs, updateDoc} from "firebase/firestore";
+import {collection, doc, query, setDoc, getDocs, updateDoc, deleteDoc} from "firebase/firestore";
 import {db} from '../../../firebase/config'
+
+import {MaterialIcons} from '@expo/vector-icons';
 
 import {styles} from "../Posts/Posts.styles";
 
@@ -17,6 +19,7 @@ const CommentsScreen = ({navigation, route}) => {
     const [commentId, setCommentId] = useState(null)
     const [comments, setComments] = useState([]);
     const {login} = useSelector(state => state.auth);
+    const {userId} = useSelector(state => state.auth);
 
 
     const {
@@ -77,13 +80,21 @@ const CommentsScreen = ({navigation, route}) => {
     const createComment = async () => {
         const uniqueCommentId = Date.now().toString()// todo: refactoring
 
-       await setDoc(doc(db, 'posts', id, 'comments', uniqueCommentId), {
-            comment: comment,
-            login: login,
+        await setDoc(doc(db, 'posts', id, 'comments', uniqueCommentId), {
+            comment,
+            login,
+            userId,
         });
         // setComments([...comments, comment])
         setCommentId(uniqueCommentId);
         setComment(null)
+    }
+
+    const deleteComment = async (uniqueCommentId) => {
+        // console.log('');
+        // console.log('uniqueCommentId', uniqueCommentId);
+        await deleteDoc(doc(db,"posts", id, 'comments', uniqueCommentId));
+        setCommentId(uniqueCommentId + 'deleted');
     }
 
     // https://blog.logrocket.com/deep-dive-react-native-flatlist/#flatlist-customization
@@ -104,18 +115,39 @@ const CommentsScreen = ({navigation, route}) => {
                           renderItem={({item}) => (
                               <View style={{
                                   display: 'flex',
+                                  flexDirection: 'row',
+                                  justifyContent: 'space-between',
                                   width: 300,
-                                  height: 30,
-                                  border: '1px solid grey',
+                                  minHeight: 30,
+                                  // border: '1px solid lightgrey',
+                                  borderColor: 'lightgrey',
+                                  backgroundColor: '#F6F6F6',
                                   borderWidth: 1,
                                   borderRadius: 8,
                                   marginTop: 5,
+                                  padding: 5,
                               }}>
-                                  <Text>{item.comment}</Text>
+                                  <View style={{maxWidth: 270}}>
+                                      {item.userId !== userId ? (
+                                      <Text style={{fontStyle: 'italic'}}>author: {item.login}</Text>
+                                          ) : (
+                                          <Text style={{fontStyle: 'italic'}}>author: You</Text>
+                                      )}
+                                      <Text>{item.comment}</Text>
+                                  </View>
+                                  <View style={{minWidth: 30}}>
+
+                                      {item.userId === userId
+                                          && <Pressable title={"Delete"}
+                                                        onPress={() => deleteComment(item.id)}
+                                          >
+                                              <MaterialIcons name="delete-outline" size={24} color="#FFCCCB"/>
+                                          </Pressable>}
+                                  </View>
+
                               </View>
                           )}/>
 
-                {/*<Text>'lalala'</Text>*/}
 
                 <View style={styles.postText}>
 

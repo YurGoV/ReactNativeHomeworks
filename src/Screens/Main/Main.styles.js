@@ -60,4 +60,28 @@ export const styles = StyleSheet.create({
         top: -50,
         right: '10%',
     },
+
+    postSection: {
+        flex: 1,
+        // flexDirection: 'column',
+        backgroundColor: 'white',
+        justifyContent: 'flex-start',
+        // alignItems: 'center',
+        minHeight: 255,
+        maxWidth: '100%',
+    },
+
+    postImage: {
+        width: 270,
+        height: 360,
+        borderRadius: 8
+    },
+
+    postText: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: 'white',
+        justifyContent: 'space-between',
+    },
+
 });
