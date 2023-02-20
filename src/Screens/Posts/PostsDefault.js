@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {
     View,
     Text,
@@ -11,42 +11,45 @@ import {Ionicons} from '@expo/vector-icons';
 import {styles} from './Posts.styles'
 import {collection, getDocs, query} from "firebase/firestore";
 import {db} from "../../../firebase/config";
+import {useDispatch} from "react-redux";
+import {authSignOutUser} from "../../redux/auth/authOperations";
 
 
 const PostsDefaultScreen = ({navigation, route}) => {
 
+    const [posts, setPosts] = useState([])
 
-    if (!route.params) {
-        return (
-            <View style={styles.createPostMain}>
-                <View style={{flexDirection: 'row',}}>
-                    <Image source={require('../../../img/avatar.png')}/>
-                    <View style={{justifyContent: 'center', paddingLeft: 20}}>
-                        <Text>Natali Romanova</Text>
-                        <Text>example@email.com</Text>
-                    </View>
-                </View>
-            </View>
-        )
+
+    let uniquePostId = '';
+    if (route.params) {
+        uniquePostId = route.params.uniquePostId;
     }
 
-    // const {
-    //     location,
-    //     pictureHeaders,
-    //     fireBaseUrl,
-    //     key
-    // } = route.params;
+    const dispatch = useDispatch();
+    /*  const signOut = () => {
+          dispatch(authSignOutUser())
+      }*/
 
-    // console.log('paramsssssssssssssssss: ', route.params.posts[0]);
-
-    /*const posts = route.params.posts[0].map((item) => {
-        console.log(item.id);})*/
+    const q = query(collection(db, "posts"));
 
 
-    const posts = route.params.posts[0];
-    // console.log(' ppppp', posts);
-    // console.log('pppppppppppppppp', posts);
+    const getAllPosts = async () => {
+        const querySnapshot = await getDocs(q);
+        const allPosts = querySnapshot.docs.map((post) => ({
+            ...post.data(), id: post.id
+        }));
 
+        const sortedPosts = allPosts.sort(
+            (firstContact, secondContact) =>
+                secondContact.id - firstContact.id);
+        setPosts(sortedPosts);
+    }
+
+    useEffect(() => {
+
+        getAllPosts();
+
+    }, [uniquePostId])
 
     return (
         <View style={styles.postsMain}>
@@ -64,7 +67,7 @@ const PostsDefaultScreen = ({navigation, route}) => {
                               <Text style={{paddingBottom: 20}}>{item.headers.name}</Text>
                               <Image style={styles.postImage}
                                      source={{uri: item.photo}}
-                                     // onLoad={() => loaded(item.id)}
+                                  // onLoad={() => loaded(item.id)}
                               />
                               <View style={styles.postText}>
 
@@ -104,33 +107,3 @@ const PostsDefaultScreen = ({navigation, route}) => {
 };
 
 export default PostsDefaultScreen;
-
-/*
-{posts.map(post => (
-    <View style={styles.postSection} key={post.id}>
-        <Image style={styles.postImage}
-               source={{uri: post.photo}}/>
-        <View style={styles.postText}>
-            <Text style={{paddingBottom: 20}}>{post.headers.name}</Text>
-            <View>
-                <Pressable title={"Map"}
-                           onPress={() => navigation.navigate("Map", {
-                               // post.location,
-                           })}>
-                    <Ionicons name="location-outline" size={24} color="green"/>
-                    <Text tyle={{paddingBottom: 20}}>{post.headers.place}</Text>
-                </Pressable>
-            </View>
-            <Pressable title={"Comments"}
-                       onPress={() => navigation.navigate("Comments", {
-                           // post.location,
-                       })}>
-                <Text style={{color: 'grey'}}>
-                    <Ionicons name="chatbubble-outline" size={24} color="grey"/> 0
-                </Text>
-            </Pressable>
-        </View>
-
-    </View>
-))}
-*/

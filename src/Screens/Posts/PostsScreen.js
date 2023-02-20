@@ -22,23 +22,23 @@ import CommentsScreen from "../Additionall/CommentsScreen";
 const PostsStack = createStackNavigator();
 
 const PostsScreen = ({navigation, route}) => {
-    const [posts, setPosts] = useState([])
+    /*const [posts, setPosts] = useState([])*/
     // const [newPost, setNewPost] = useState('')
 
     // console.log('navigation', navigation);
     // setNewPost(route.params.newPost);
 
-    const dispatch = useDispatch();
+    /*const dispatch = useDispatch();
     const signOut = () => {
         dispatch(authSignOutUser())
     }
     // console.log('');
     // console.log('postssssss', posts);
-    const q = query(collection(db, "posts"));
+    const q = query(collection(db, "posts"));*/
 
     // todo:
     // https://firebase.google.com/docs/firestore/data-model
-    const getAllPosts = async () => {
+    /*const getAllPosts = async () => {
         const querySnapshot = await getDocs(q);
         const allPosts = querySnapshot.docs.map((post) => ({
             ...post.data(), id: post.id
@@ -58,10 +58,10 @@ const PostsScreen = ({navigation, route}) => {
         // setPosts(querySnapshot.docs.map((post) => ({
         //     ...post.data(), id: post.id
         // })));
-    }
+    }*/
 
     // console.log('gappp');
-    useEffect(() => {
+    /*useEffect(() => {
 
         (async () => {
             const querySnapshot = await getDocs(q);
@@ -97,10 +97,10 @@ const PostsScreen = ({navigation, route}) => {
         console.log('');
         console.log('ppppppppppppppppp', posts);
 
-    }, [route.params])
+    }, [route.params])*/
 
 
-    if (posts.length === 0) {
+   /* if (posts.length === 0) {
         return (
 
             <View style={{
@@ -122,7 +122,7 @@ const PostsScreen = ({navigation, route}) => {
                 </View>
             </View>
         )
-    }
+    }*/
 
     // const {
     //     location,
@@ -130,6 +130,12 @@ const PostsScreen = ({navigation, route}) => {
     //     pictureUrl
     // } = route.params;
     // console.log('postsee', posts);
+
+    const dispatch = useDispatch();
+    const signOut = () => {
+        dispatch(authSignOutUser())
+    }
+
     return (
         <PostsStack.Navigator
             initialRouteName="PostsDefaultScreen"
@@ -151,7 +157,7 @@ const PostsScreen = ({navigation, route}) => {
                                    ),
                                    headerLeft: null
                                }}
-                               initialParams={{posts: [posts]}}/>
+                               /*initialParams={{posts: [posts]}}*//>
             <PostsStack.Screen name="Map" component={MapScreen}
                                options={{
                                    title: 'Photo location map'
