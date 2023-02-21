@@ -20,6 +20,10 @@ const CommentsScreen = ({navigation, route}) => {
     const [comments, setComments] = useState([]);
     const {login} = useSelector(state => state.auth);
     const {userId} = useSelector(state => state.auth);
+    const {avatar} = useSelector(state => state.auth);
+    // console.log('photoURL in comments screen', photoURL);
+    const test = useSelector(state => state.auth);
+    console.log('state.auth in comments screen', test);
 
 
     const {

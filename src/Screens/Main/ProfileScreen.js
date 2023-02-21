@@ -12,7 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {styles} from "./Main.styles";
 
 import {Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
-import {collection, getDocs, query, where} from "firebase/firestore";
+import {collection, deleteDoc, doc, getDocs, query, where} from "firebase/firestore";
 import {db} from "../../../firebase/config";
 
 import {MaterialIcons} from '@expo/vector-icons';
@@ -20,9 +20,9 @@ import {MaterialIcons} from '@expo/vector-icons';
 
 const ProfileScreen = ({navigation, route}) => {
 
-    const {userId} = useSelector(state => state.auth);
-
+    const {userId, avatar} = useSelector(state => state.auth);
     const [posts, setPosts] = useState([])
+    const [deletedPost, setDeletedPost] = useState('');
 
     const dispatch = useDispatch();
     const signOut = () => {
@@ -49,12 +49,14 @@ const ProfileScreen = ({navigation, route}) => {
 
         getAllPosts();
 
-    }, [])
+    }, [deletedPost])
+
 
     const deletePost = async (postId) => {
-        console.log('to delete: id', postId);
+        // console.log('to delete: id', postId);
+        await deleteDoc(doc(db, "posts", postId));
+        setDeletedPost(postId);
     }
-
 
     return (
         <View style={{
@@ -65,7 +67,7 @@ const ProfileScreen = ({navigation, route}) => {
                 <View style={styles.regField}>
                     <View style={styles.regInputs}>
                         <View style={styles.avatarPlace}>
-                            <Image source={require('../../../img/avatar.png')}/>
+                            <Image style={styles.avatarImg} source={{uri: avatar}}/>
                         </View>
                         <Pressable title={"Login"} style={styles.add}
                                    onPress={() => alert("This is a pick photo button!")}>

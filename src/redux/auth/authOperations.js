@@ -10,20 +10,28 @@ import {authSlice} from './authReducer'
 
 // todo: /DONE/ https://amanhimself.dev/blog/remove-asyncstorage-has-been-extracted-warning-using-firebase//
 
-export const authSignUpUser = ({email, password, login}) => async (dispatch, getState) => {
+export const authSignUpUser = ({email, password, login, avatar}) => async (dispatch, getState) => {
     try {
         await createUserWithEmailAndPassword(auth, email, password)
         await updateProfile(auth.currentUser, {
             displayName: login,
+        });
+        try {
+        await updateProfile(auth.currentUser, {
+            photoURL: avatar,
         })
+            } catch(err) {
+            console.log(err);
+        }
 
         const updatedUser = await auth.currentUser;
-        // console.log('test: ', test);
+        console.log('avatar: in authOperation', avatar);
         const {uid, displayName} = updatedUser;
         // console.log(displayName, uid);
         dispatch(authSlice.actions.updateUserProfile({
             userId: uid,
             login: displayName,
+            avatar: avatar,
         }))
 
     } catch (err) {
@@ -56,12 +64,12 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
         await onAuthStateChanged(auth, (user) => {
             if (user) {
                 const authUser = auth.currentUser;
-                // console.log('test: ', test);
-                const {uid, displayName} = authUser;
-                // console.log(displayName, uid);
+                const {uid, displayName, photoURL} = authUser;
+
                 dispatch(authSlice.actions.updateUserProfile({
                     userId: uid,
                     login: displayName,
+                    avatar: photoURL,
                 }));
                 dispatch(authSlice.actions.authStateChange({currentState: true}))
             }

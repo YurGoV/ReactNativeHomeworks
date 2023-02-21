@@ -11,13 +11,19 @@ import {Ionicons} from '@expo/vector-icons';
 import {styles} from './Posts.styles'
 import {collection, getDocs, query} from "firebase/firestore";
 import {db} from "../../../firebase/config";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {authSignOutUser} from "../../redux/auth/authOperations";
 
 
 const PostsDefaultScreen = ({navigation, route}) => {
 
+    const {login, avatar} = useSelector(state => state.auth);
+
+
     const [posts, setPosts] = useState([])
+
+
+    console.log('avatar in pDefault', avatar);
 
 
     let uniquePostId = '';
@@ -54,10 +60,9 @@ const PostsDefaultScreen = ({navigation, route}) => {
     return (
         <View style={styles.postsMain}>
             <View style={styles.postsOwnerSection}>
-                <Image source={require('../../../img/avatar.png')}/>
+                <Image style={styles.avatarImg} source={{uri: avatar}}/>
                 <View style={styles.postsProfileText}>
-                    <Text>Natali Romanova</Text>
-                    <Text>example@email.com</Text>
+                    <Text>{login}</Text>
                 </View>
             </View>
             <FlatList data={posts} keyExtractor={post => post.id}

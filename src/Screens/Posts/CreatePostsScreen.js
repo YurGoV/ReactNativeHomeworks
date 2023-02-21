@@ -107,7 +107,7 @@ const CreatePostsScreen = ({navigation}) => {
         const file = await response.blob();
         const uniquePostId = Date.now().toString()// todo: refactoring
 
-        const imageRef = await ref(storage, `test/${uniquePostId}`)
+        const imageRef = await ref(storage, `photos/${uniquePostId}`)
         // const loadImage = await uploadBytes(imageRef, file);
         await uploadBytes(imageRef, file);
 
@@ -129,7 +129,6 @@ const CreatePostsScreen = ({navigation}) => {
     }*/
 
     const makePost = async () => {
-        // await uploadPost();
 
         const uniquePostId = Date.now().toString()// todo: refactoring ??
         const photo = await uploadPhoto();
@@ -145,8 +144,6 @@ const CreatePostsScreen = ({navigation}) => {
         setPictureHeaders(initialPictureHeaders);
         setPictureUrl(null);
         // setLocation(null);
-
-
 
         await navigation.navigate("PostsDefaultScreen", {
             uniquePostId,

@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
 
     makePhotoButton: {
         alignContent: 'center',
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(255,255,255,0.3)',
         width: 60,
         height: 60,
         justifyContent: 'center',
@@ -96,6 +96,12 @@ export const styles = StyleSheet.create({
     postsOwnerSection: {
         flexDirection: 'row',
         paddingBottom: 10,
+    },
+
+    avatarImg: {
+        height: 120,
+        width: 120,
+        borderRadius: 16,
     },
 
     postsProfileText: {

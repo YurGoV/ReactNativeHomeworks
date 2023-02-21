@@ -40,22 +40,3 @@ export const auth = initializeAuth(app, {
     persistence: getReactNativePersistence(AsyncStorage)
 });
 
-
-// =============
-
-// add doc draft
-/*
-
-const aaap = initializeApp(firebaseConfig);
-const dbbb = getFirestore(aaap);
-
-import { doc, setDoc } from "firebase/firestore";
-const ttt = async () => await setDoc(doc(dbbb, "cities", "LA"), {
-    name: "Los Angeles",
-    state: "CA",
-    country: "USA"
-});
-
-console.log(ttt);
-*/
-

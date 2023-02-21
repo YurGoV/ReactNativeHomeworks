@@ -39,6 +39,12 @@ export const styles = StyleSheet.create({
         backgroundColor: '#F6F6F6',
     },
 
+    avatarImg: {
+        height: 120,
+        width: 120,
+        borderRadius: 16,
+    },
+
     add: {
         display: 'flex',
         position: "absolute",
