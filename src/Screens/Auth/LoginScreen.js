@@ -40,6 +40,9 @@ const LoginScreen = ({navigation}) => {
         setState(initialState);
     };
 
+    const goToSignIn = () => {
+        navigation.navigate("Registration")
+    }
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -69,7 +72,7 @@ const LoginScreen = ({navigation}) => {
                                 <Pressable title={"Login"} style={styles.button} onPress={onLogin}>
                                     <Text>L O G I N</Text>
                                 </Pressable>
-                                <Pressable onPress={() => navigation.navigate("Registration")}><Text>No account? Sign
+                                <Pressable onPress={goToSignIn}><Text>No account? Sign
                                     up</Text></Pressable>
                             </View>
                         </View>

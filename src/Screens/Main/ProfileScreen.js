@@ -96,6 +96,31 @@ const ProfileScreen = ({navigation, route}) => {
         }
     }
 
+    const takePicture = async () => {
+        if (cameraRef) {
+            const {uri} = await cameraRef.takePictureAsync();
+            setAvatarUrl(uri);
+            setMakePhoto('user')
+            await MediaLibrary.createAssetAsync(uri);
+        }
+    }
+
+    const goToMap = (location) => {
+        navigation.navigate("Map", {
+            location: location,
+        })
+    }
+
+    const goToComments = (item) => (
+        navigation.navigate("Comments", {
+            id: item.id,
+            header: item.headers.name,
+            photo: item.photo,
+            place: item.headers.place,
+            location: item.location,
+        })
+    )
+
 
     return (
         <View style={{
@@ -123,14 +148,7 @@ const ProfileScreen = ({navigation, route}) => {
                                     <View style={styles.makePhotoButton}>
                                         {makePhoto === 'camera' &&
                                             <Pressable
-                                                onPress={async () => {
-                                                    if (cameraRef) {
-                                                        const {uri} = await cameraRef.takePictureAsync();
-                                                        setAvatarUrl(uri);
-                                                        setMakePhoto('user')
-                                                        await MediaLibrary.createAssetAsync(uri);
-                                                    }
-                                                }}
+                                                onPress={takePicture}
                                                 title="TakePicture"
                                             >
                                                 <MaterialIcons name="add-a-photo" size={24} color="grey"/>
@@ -180,9 +198,7 @@ const ProfileScreen = ({navigation, route}) => {
 
                                               <View>
                                                   {item.location ? (<Pressable title={"Map"}
-                                                                               onPress={() => navigation.navigate("Map", {
-                                                                                   location: item.location,
-                                                                               })}>
+                                                                               onPress={goToMap(item.location)}>
                                                       <Ionicons name="location-outline" size={24} color="green"/>
                                                       <Text style={{paddingBottom: 20}}>{item.headers.place}</Text>
                                                   </Pressable>) : (
@@ -196,13 +212,7 @@ const ProfileScreen = ({navigation, route}) => {
                                                   justifyContent: 'space-between',
                                               }}>
                                                   <Pressable title={"Comments"}
-                                                             onPress={() => navigation.navigate("Comments", {
-                                                                 id: item.id,
-                                                                 header: item.headers.name,
-                                                                 photo: item.photo,
-                                                                 place: item.headers.place,
-                                                                 location: item.location,
-                                                             })}>
+                                                             onPress={goToComments(item)}>
                                                       <Text>
                                                           <Ionicons name="chatbubble-outline" size={24} color="grey"/>
                                                           {item.commentsCount ?? 0}

@@ -125,6 +125,28 @@ const CreatePostsScreen = ({navigation}) => {
         })
     }
 
+    const takePicture = async () => {
+        if (cameraRef) {
+            const {uri} = await cameraRef.takePictureAsync();
+            setPictureUrl(uri);
+            await MediaLibrary.createAssetAsync(uri);
+        }
+    }
+
+    const reverseCamera = async () => {
+        setType(
+            type === Camera.Constants.Type.back
+                ? Camera.Constants.Type.front
+                : Camera.Constants.Type.back
+        );
+    }
+
+    const goToMap = () => {
+        navigation.navigate("Map", {
+            location,
+        })
+    }
+
     return (
         <View style={styles.createPostMain}>
             <View style={styles.createPostPhoto}>
@@ -139,13 +161,7 @@ const CreatePostsScreen = ({navigation}) => {
                         <View style={styles.makePhotoButton}>
                             {!pictureUrl &&
                                 <Pressable
-                                    onPress={async () => {
-                                        if (cameraRef) {
-                                            const {uri} = await cameraRef.takePictureAsync();
-                                            setPictureUrl(uri);
-                                            await MediaLibrary.createAssetAsync(uri);
-                                        }
-                                    }}
+                                    onPress={takePicture}
                                     title="TakePicture"
                                 >
                                     <MaterialIcons name="add-a-photo" size={24} color="grey"/>
@@ -163,13 +179,7 @@ const CreatePostsScreen = ({navigation}) => {
             </View>
             {!pictureUrl ? (
                 <Pressable style={styles.retakePhotoButton}
-                           onPress={() => {
-                               setType(
-                                   type === Camera.Constants.Type.back
-                                       ? Camera.Constants.Type.front
-                                       : Camera.Constants.Type.back
-                               );
-                           }}
+                           onPress={reverseCamera}
                            title="Reverse Camera"
                 >
                     <MaterialIcons name="flip-camera-android" size={24} color="grey"/>
@@ -192,9 +202,7 @@ const CreatePostsScreen = ({navigation}) => {
 
                 {location ? (
                     <Pressable title={"Map"}
-                               onPress={() => navigation.navigate("Map", {
-                                   location,
-                               })}>
+                               onPress={goToMap}>
                         <Ionicons name="location-outline" size={24} color="green"/>
                     </Pressable>
                 ) : (

@@ -98,6 +98,19 @@ const RegistrationScreen = ({navigation}) => {
         setMakePhoto(null)
     };
 
+    const takePicture = async () => {
+        if (cameraRef) {
+            const {uri} = await cameraRef.takePictureAsync();
+            setAvatarUrl(uri);
+            setMakePhoto('user')
+            await MediaLibrary.createAssetAsync(uri);
+        }
+    }
+
+    const goToLogin = () => {
+        navigation.navigate("Login")
+    }
+
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -125,14 +138,7 @@ const RegistrationScreen = ({navigation}) => {
                                             <View style={styles.makePhotoButton}>
                                                 {makePhoto &&
                                                     <Pressable
-                                                        onPress={async () => {
-                                                            if (cameraRef) {
-                                                                const {uri} = await cameraRef.takePictureAsync();
-                                                                setAvatarUrl(uri);
-                                                                setMakePhoto('user')
-                                                                await MediaLibrary.createAssetAsync(uri);
-                                                            }
-                                                        }}
+                                                        onPress={takePicture}
                                                         title="TakePicture"
                                                     >
                                                         <MaterialIcons name="add-a-photo" size={24} color="grey"/>
@@ -176,7 +182,7 @@ const RegistrationScreen = ({navigation}) => {
                                 <Pressable title={"Register"} style={styles.button} onPress={onRegistration}>
                                     <Text>R E G I S T E R</Text>
                                 </Pressable>
-                                <Pressable onPress={() => navigation.navigate("Login")}><Text>Already have an account?
+                                <Pressable onPress={goToLogin}><Text>Already have an account?
                                     Sign in</Text></Pressable>
                             </View>
                         </View>
