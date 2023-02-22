@@ -3,27 +3,22 @@ import {
     View, TextInput,
     Text, Pressable, Image,
 } from "react-native";
-
 import {useSelector} from "react-redux";
-
-import {styles} from "./Posts.styles";
-import {Ionicons, MaterialIcons} from "@expo/vector-icons";
 import {Camera} from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
-import axios from "axios";
-
-import {db} from '../../../firebase/config'
-import 'firebase/storage';// todo: allInOne
+import {db} from '../../firebase/config'
+import 'firebase/storage';
 import {getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
 import {doc, setDoc} from "firebase/firestore";
-
+import axios from "axios";
+import {styles} from "./Posts.styles";
+import {Ionicons, MaterialIcons} from "@expo/vector-icons";
 
 const initialPictureHeaders = {
     name: '',
     place: '',
 }
-
 
 const CreatePostsScreen = ({navigation}) => {
 
@@ -65,12 +60,8 @@ const CreatePostsScreen = ({navigation}) => {
                 longitude: locationData.coords.longitude,
             };
 
-            // console.log('locationDataa', coords);
             await setLocation(coords);
-            // console.log('location aaa:', location);
         })();
-
-
     }, []);
 
     useEffect(() => {
@@ -105,32 +96,17 @@ const CreatePostsScreen = ({navigation}) => {
 
         const response = await fetch(`${pictureUrl}`)
         const file = await response.blob();
-        const uniquePostId = Date.now().toString()// todo: refactoring
+        const uniquePostId = Date.now().toString()
 
         const imageRef = await ref(storage, `photos/${uniquePostId}`)
-        // const loadImage = await uploadBytes(imageRef, file);
         await uploadBytes(imageRef, file);
 
         return await getDownloadURL(imageRef);
     }
 
-    /*const uploadPost = async () => {
-        const uniquePostId = Date.now().toString()// todo: refactoring
-        const photo = await uploadPhoto();
-        // console.log('photo', photo);
-        await setDoc(doc(db, "posts", `${uniquePostId}`), {
-            photo: photo,
-            location: location,
-            headers: pictureHeaders,
-            login: login,
-            userId: userId,
-            commentsCount: 0,
-        });
-    }*/
-
     const makePost = async () => {
 
-        const uniquePostId = Date.now().toString()// todo: refactoring ??
+        const uniquePostId = Date.now().toString()
         const photo = await uploadPhoto();
         await setDoc(doc(db, "posts", `${uniquePostId}`), {
             photo: photo,
@@ -143,7 +119,6 @@ const CreatePostsScreen = ({navigation}) => {
 
         setPictureHeaders(initialPictureHeaders);
         setPictureUrl(null);
-        // setLocation(null);
 
         await navigation.navigate("PostsDefaultScreen", {
             uniquePostId,
@@ -162,7 +137,7 @@ const CreatePostsScreen = ({navigation}) => {
                         }}
                     >
                         <View style={styles.makePhotoButton}>
-                            {!pictureUrl &&// todo twiced pictureUrl
+                            {!pictureUrl &&
                                 <Pressable
                                     onPress={async () => {
                                         if (cameraRef) {
@@ -234,15 +209,13 @@ const CreatePostsScreen = ({navigation}) => {
                 />
             </View>
 
-            {!pictureUrl ? (//todo: disabled???
+            {!pictureUrl ? (
                 <View style={styles.postButtonInactive}>
                     <Text>Publish</Text>
                 </View>
             ) : (
-                <Pressable title={"Post"} style={styles.postButtonActive}//todo: if is photo
+                <Pressable title={"Post"} style={styles.postButtonActive}
                            onPress={makePost}
-                           // disabled={false}
-                           // style={{backgroundColor: 'white'}}
                 >
                     <Text>Publish</Text>
                 </Pressable>

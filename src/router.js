@@ -13,7 +13,7 @@ export const useRoute = (authState) => {
 
     if (authState) {
         return (
-            <MainStack.Navigator initialRouteName="Home"// todo: maybe home?
+            <MainStack.Navigator initialRouteName="Home"
                                  screenOptions={{
                                      tabBarShowLabel: false,
                                  }}>

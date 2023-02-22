@@ -7,7 +7,6 @@ import {
     ImageBackground,
     KeyboardAvoidingView,
 } from "react-native";
-
 import {authSignUpUser} from "../../redux/auth/authOperations";
 import {useDispatch} from "react-redux";
 import {styles} from "./Auth.styles";
@@ -30,12 +29,11 @@ const RegistrationScreen = ({navigation}) => {
     const [cameraRef, setCameraRef] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.front);
     const [avatarUrl, setAvatarUrl] = useState(null);
-    const [profilePhotoUrl, setProfilePhotoUrl] = useState(null);
     const [makePhoto, setMakePhoto] = useState(null);
     const [state, setState] = useState(initialState);
     const dispatch = useDispatch();
 
-    const storage = getStorage()
+    const storage = getStorage();
 
     useEffect(() => {
         (async () => {
@@ -43,8 +41,6 @@ const RegistrationScreen = ({navigation}) => {
             await MediaLibrary.requestPermissionsAsync();
             setHasPermission(status === "granted");
         })();
-
-
     }, []);
 
 
@@ -66,52 +62,38 @@ const RegistrationScreen = ({navigation}) => {
             setMakePhoto('camera')
         }
         if (makePhoto === 'camera' || makePhoto === 'user') {
-            setMakePhoto(null)// todo userPic?
+            setMakePhoto(null)
         }
     }
 
 
-
-
     const uploadAvatar = async () => {
 
-        const response = await fetch(`${avatarUrl}`)
-        const file = await response.blob();
-        const uniquePostId = Date.now().toString()// todo: refactoring
+        if (avatarUrl) {
+            const response = await fetch(`${avatarUrl}`)
+            const file = await response.blob();
+            const uniquePostId = Date.now().toString()
 
-        const imageRef = await ref(storage, `avatars/${uniquePostId}`)
-        // const loadImage = await uploadBytes(imageRef, file);
-        await uploadBytes(imageRef, file);
-       return await getDownloadURL(imageRef);
+            const imageRef = await ref(storage, `avatars/${uniquePostId}`)
+            await uploadBytes(imageRef, file);
+            return await getDownloadURL(imageRef);
+        }
 
-        // console.log('newAvatarUrl', newAvatarUrl)
-        // // console.log('settedAvatarUrl', avatarUrl)
-        // console.log('settedState', state);
+        return 'https://firebasestorage.googleapis.com/v0/b/reactnative-hw.appspot.com/o/avatars%2FfakeAvatar.png?alt=media&token=b2d7eab5-06f2-46b3-a6d9-5773457e302f'
 
     }
 
 
     const onRegistration = async () => {
-        // console.log(state);
-        if (state.login.length < 3) {// todo: normal check  (inactive button) and notify
+
+        if (state.login.length < 4) {// todo: normal check  (inactive button) and notify
             return
         }
-        // console.log('avatarUrl', avatarUrl);
-        // Keyboard.dismiss();
-        // const avatarToProfile = async () => {
-        //     if (avatarUrl) {
-        //         // await uploadAvatar()
-        //         return await uploadAvatar()
-        //
-        //     }
-        //     return '';
-        // }
+        Keyboard.dismiss();
 
-        // console.log('avatarToProfile()', avatarToProfile());
+        const avatar = await uploadAvatar();
 
-        const ava = await uploadAvatar() ?? '';
-
-        dispatch(authSignUpUser({...state, avatar: ava}));
+        dispatch(authSignUpUser({...state, avatar: avatar}));
         setState(initialState);
         setMakePhoto(null)
     };
@@ -141,7 +123,7 @@ const RegistrationScreen = ({navigation}) => {
                                             }}
                                         >
                                             <View style={styles.makePhotoButton}>
-                                                {makePhoto &&// todo twiced makePhoto
+                                                {makePhoto &&
                                                     <Pressable
                                                         onPress={async () => {
                                                             if (cameraRef) {
@@ -163,6 +145,7 @@ const RegistrationScreen = ({navigation}) => {
                                         <Image style={styles.avatarImage} source={{uri: avatarUrl}}/>
                                     }
                                 </View>
+
                                 <Pressable title={"Login"} style={styles.add} onPress={toggleMakePhoto}>
                                     <View>
                                         <Image source={require('../../../img/add.png')}/>
@@ -197,6 +180,7 @@ const RegistrationScreen = ({navigation}) => {
                                     Sign in</Text></Pressable>
                             </View>
                         </View>
+
                     </KeyboardAvoidingView>
                 </ImageBackground>
             </View>
@@ -205,38 +189,3 @@ const RegistrationScreen = ({navigation}) => {
 };
 
 export default RegistrationScreen;
-
-/*
-
-{!makePhoto ?? !avatarUrl ? (
-    <Image style={styles.avatarImage}
-           source={require('../../../img/fakeAvatar.png')}/>
-) : (
-    <Camera
-        style={styles.avatarImage}
-        type={type}
-        ref={(ref) => {
-            setCameraRef(ref);
-        }}
-    >
-        <View style={styles.makePhotoButton}>
-            {makePhoto &&// todo twiced makePhoto
-                <Pressable
-                    onPress={async () => {
-                        if (cameraRef) {
-                            const {uri} = await cameraRef.takePictureAsync();
-                            setAvatarUrl(uri);
-                            await MediaLibrary.createAssetAsync(uri);
-                        }
-                    }}
-                    title="TakePicture"
-                >
-                    <MaterialIcons name="add-a-photo" size={24} color="grey"/>
-                </Pressable>
-            }
-        </View>
-    </Camera>
-)}
-{avatarUrl && <Image style={styles.avatarImage} source={{uri: avatarUrl}}/>
-}
-*/

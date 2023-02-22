@@ -1,20 +1,14 @@
 import React from "react";
-
 import {
     View,
 } from "react-native";
-// import {styles} from "../Posts.styles";
 import {styles} from "./Additional.styles";
-
-
 import MapView, {Marker} from "react-native-maps";
 
 
-const MapScreen = ({navigation, route}) => {
+const MapScreen = ({route}) => {
 
-    // console.log('rp: ', route.params);
     const {latitude, longitude} = route.params.location
-    // console.log('live data: ', latitude, longitude);
 
     return (
         <View style={styles.mapMain}>
@@ -30,8 +24,6 @@ const MapScreen = ({navigation, route}) => {
 
                 mapType="standard"
                 minZoomLevel={15}
-                // onMapReady={() => console.log("Map is ready")}
-                // onRegionChange={() => console.log("Region change")}
             >
                 <Marker
                     title="I am here"

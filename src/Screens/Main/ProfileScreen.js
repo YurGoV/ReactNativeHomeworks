@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-
 import {
     View,
     Pressable,
@@ -7,15 +6,15 @@ import {
     ImageBackground, Text,
     FlatList,
 } from "react-native";
-import {authSignOutUser} from "../../redux/auth/authOperations";
+import {authSignOutUser, profileUpdateAvatar} from "../../redux/auth/authOperations";
 import {useDispatch, useSelector} from "react-redux";
-import {styles} from "./Main.styles";
-
-import {Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
 import {collection, deleteDoc, doc, getDocs, query, where} from "firebase/firestore";
-import {db} from "../../../firebase/config";
-
-import {MaterialIcons} from '@expo/vector-icons';
+import {db} from "../../firebase/config";
+import {Camera} from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
+import {getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage";
+import {styles} from "./Main.styles";
+import {Ionicons, MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 
 
 const ProfileScreen = ({navigation, route}) => {
@@ -23,14 +22,28 @@ const ProfileScreen = ({navigation, route}) => {
     const {userId, avatar} = useSelector(state => state.auth);
     const [posts, setPosts] = useState([])
     const [deletedPost, setDeletedPost] = useState('');
-
+    const [makePhoto, setMakePhoto] = useState(null);
+    const [cameraRef, setCameraRef] = useState(null);
+    const [avatarUrl, setAvatarUrl] = useState(null);
+    const [hasPermission, setHasPermission] = useState(null);
+    const [type, setType] = useState(Camera.Constants.Type.front);
     const dispatch = useDispatch();
+
+    const storage = getStorage();
+
     const signOut = () => {
         dispatch(authSignOutUser())
     }
 
-    const userPostsRef = query(collection(db, "posts"), where("userId", "==", userId));// todo: change to userId
+    const userPostsRef = query(collection(db, "posts"), where("userId", "==", userId));
 
+    useEffect(() => {
+        (async () => {
+            const {status} = await Camera.requestCameraPermissionsAsync();
+            await MediaLibrary.requestPermissionsAsync();
+            setHasPermission(status === "granted");
+        })();
+    }, []);
 
     const getAllPosts = async () => {
         const querySnapshot = await getDocs(userPostsRef);
@@ -42,7 +55,6 @@ const ProfileScreen = ({navigation, route}) => {
             (firstContact, secondContact) =>
                 secondContact.id - firstContact.id);
         setPosts(sortedPosts);
-        // console.log(sortedPosts);
     }
 
     useEffect(() => {
@@ -53,10 +65,37 @@ const ProfileScreen = ({navigation, route}) => {
 
 
     const deletePost = async (postId) => {
-        // console.log('to delete: id', postId);
         await deleteDoc(doc(db, "posts", postId));
         setDeletedPost(postId);
     }
+
+    const toggleMakePhoto = () => {
+        if (!makePhoto) {
+            setMakePhoto('camera')
+        }
+        if (makePhoto === 'camera' || makePhoto === 'user') {
+            setMakePhoto(null)
+        }
+    }
+
+    const uploadAvatar = async () => {
+
+        if (avatarUrl) {
+            const response = await fetch(`${avatarUrl}`)
+            const file = await response.blob();
+            const uniquePostId = Date.now().toString()
+
+            const imageRef = await ref(storage, `avatars/${uniquePostId}`)
+            await uploadBytes(imageRef, file);
+            const newAvatar = await getDownloadURL(imageRef);
+
+            dispatch(profileUpdateAvatar({avatar: newAvatar}));
+
+            setAvatarUrl(null);
+            setMakePhoto(null);
+        }
+    }
+
 
     return (
         <View style={{
@@ -66,15 +105,61 @@ const ProfileScreen = ({navigation, route}) => {
             <ImageBackground resizeMode="cover" source={require('../../../img/background.png')} style={styles.img}>
                 <View style={styles.regField}>
                     <View style={styles.regInputs}>
+
                         <View style={styles.avatarPlace}>
-                            <Image style={styles.avatarImg} source={{uri: avatar}}/>
+                            {!makePhoto &&
+                                <Image style={styles.avatarImage}
+                                       source={{uri: avatar}}/>
+                            }
+                            {makePhoto === 'camera' &&
+                                <Camera
+                                    style={styles.avatarImage}
+                                    type={type}
+                                    ref={(ref) => {
+                                        setCameraRef(ref);
+                                    }}
+                                >
+
+                                    <View style={styles.makePhotoButton}>
+                                        {makePhoto === 'camera' &&
+                                            <Pressable
+                                                onPress={async () => {
+                                                    if (cameraRef) {
+                                                        const {uri} = await cameraRef.takePictureAsync();
+                                                        setAvatarUrl(uri);
+                                                        setMakePhoto('user')
+                                                        await MediaLibrary.createAssetAsync(uri);
+                                                    }
+                                                }}
+                                                title="TakePicture"
+                                            >
+                                                <MaterialIcons name="add-a-photo" size={24} color="grey"/>
+                                            </Pressable>
+                                        }
+                                    </View>
+
+                                </Camera>
+                            }
+                            {makePhoto === 'user' &&
+                                <View>
+                                    <Image style={styles.avatarImage} source={{uri: avatarUrl}}/>
+                                    <Pressable
+                                        style={styles.makePhotoButton}
+                                        onPress={uploadAvatar}
+                                        title="UploadPicture"
+                                    >
+                                        <MaterialCommunityIcons name="cloud-upload" size={24} color="grey"/>
+                                    </Pressable>
+                                </View>
+                            }
                         </View>
-                        <Pressable title={"Login"} style={styles.add}
-                                   onPress={() => alert("This is a pick photo button!")}>
+
+                        <Pressable title={"Login"} style={styles.add} onPress={toggleMakePhoto}>
                             <View>
                                 <Image source={require('../../../img/add.png')}/>
                             </View>
                         </Pressable>
+
                         <Pressable
                             onPress={signOut}
                             title="LogOut"
@@ -84,14 +169,12 @@ const ProfileScreen = ({navigation, route}) => {
                         </Pressable>
 
                         <FlatList data={posts} keyExtractor={post => post.id}
-                            // extraData={selectedId}// todo: postsInState?
                                   renderItem={({item}) => (
                                       <View style={styles.postSection}>
                                           <Text style={{paddingBottom: 20}}>{item.headers.name}</Text>
 
                                           <Image style={styles.postImage}
                                                  source={{uri: item.photo}}
-                                              // onLoad={() => loaded(item.id)}
                                           />
                                           <View style={styles.postText}>
 
@@ -136,9 +219,7 @@ const ProfileScreen = ({navigation, route}) => {
                                   )}
                         />
 
-
                     </View>
-                    <Text>lllll</Text>
                 </View>
             </ImageBackground>
         </View>
@@ -146,3 +227,4 @@ const ProfileScreen = ({navigation, route}) => {
 };
 
 export default ProfileScreen;
+

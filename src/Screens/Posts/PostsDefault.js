@@ -5,39 +5,25 @@ import {
     Image, Pressable,
     FlatList,
 } from "react-native";
-
-
 import {Ionicons} from '@expo/vector-icons';
 import {styles} from './Posts.styles'
 import {collection, getDocs, query} from "firebase/firestore";
-import {db} from "../../../firebase/config";
-import {useDispatch, useSelector} from "react-redux";
-import {authSignOutUser} from "../../redux/auth/authOperations";
+import {db} from "../../firebase/config";
+import {useSelector} from "react-redux";
 
 
 const PostsDefaultScreen = ({navigation, route}) => {
 
-    const {login, avatar} = useSelector(state => state.auth);
-
-
     const [posts, setPosts] = useState([])
 
-
-    console.log('avatar in pDefault', avatar);
-
+    const {login, avatar} = useSelector(state => state.auth);
 
     let uniquePostId = '';
     if (route.params) {
         uniquePostId = route.params.uniquePostId;
     }
 
-    // const dispatch = useDispatch();
-    /*  const signOut = () => {
-          dispatch(authSignOutUser())
-      }*/
-
     const q = query(collection(db, "posts"));
-
 
     const getAllPosts = async () => {
         const querySnapshot = await getDocs(q);
@@ -50,6 +36,7 @@ const PostsDefaultScreen = ({navigation, route}) => {
                 secondContact.id - firstContact.id);
         setPosts(sortedPosts);
     }
+
 
     useEffect(() => {
 
@@ -66,13 +53,11 @@ const PostsDefaultScreen = ({navigation, route}) => {
                 </View>
             </View>
             <FlatList data={posts} keyExtractor={post => post.id}
-                // extraData={selectedId}// todo: postsInState?
                       renderItem={({item}) => (
                           <View style={styles.postSection}>
                               <Text style={{paddingBottom: 20}}>{item.headers.name}</Text>
                               <Image style={styles.postImage}
                                      source={{uri: item.photo}}
-                                  // onLoad={() => loaded(item.id)}
                               />
                               <View style={styles.postText}>
 
@@ -102,11 +87,9 @@ const PostsDefaultScreen = ({navigation, route}) => {
                                       </Text>
                                   </Pressable>
                               </View>
-
                           </View>
                       )}
             />
-
         </View>
     )
 };

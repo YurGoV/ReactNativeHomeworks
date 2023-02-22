@@ -1,6 +1,6 @@
 import React from "react";
 import {useFonts} from 'expo-font';
-import {Provider, useSelector} from "react-redux";
+import {Provider} from "react-redux";
 import {store} from "./redux/store";
 import Main from "./Main";
 

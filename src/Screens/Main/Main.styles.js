@@ -34,15 +34,15 @@ export const styles = StyleSheet.create({
         minHeight: 120,
         minWidth: 120,
         position: "absolute",
-        top: -120,
+        top: -180,
         borderRadius: 16,
         backgroundColor: '#F6F6F6',
     },
 
-    avatarImg: {
-        height: 120,
-        width: 120,
-        borderRadius: 16,
+    avatarImage: {
+        width: 150,
+        height: 200,
+        borderRadius: 8
     },
 
     add: {
@@ -52,8 +52,21 @@ export const styles = StyleSheet.create({
         minWidth: 25,
         borderRadius: 100,
         color: 'blue',
-        top: -50,
-        right: '39%',
+        top: -25,
+        right: '31%',
+    },
+
+    makePhotoButton: {
+        alignContent: 'center',
+        position: "absolute",
+        backgroundColor: 'rgba(255,255,255,0.3)',
+        width: 60,
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        top: '40%',
+        right: '30%',
+        borderRadius: 50,
     },
 
     profileLogOut: {
@@ -69,17 +82,15 @@ export const styles = StyleSheet.create({
 
     postSection: {
         flex: 1,
-        // flexDirection: 'column',
         backgroundColor: 'white',
         justifyContent: 'flex-start',
-        // alignItems: 'center',
         minHeight: 255,
         maxWidth: '100%',
     },
 
     postImage: {
-        width: 270,
-        height: 360,
+        width: 225,
+        height: 300,
         borderRadius: 8
     },
 
