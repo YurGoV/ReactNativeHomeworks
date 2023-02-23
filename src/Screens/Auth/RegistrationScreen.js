@@ -14,6 +14,7 @@ import {Camera} from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import {getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
 import {MaterialIcons} from "@expo/vector-icons";
+// import {notification} from "../../utils/notifee";
 
 const initialState = {
     login: '',
@@ -86,8 +87,8 @@ const RegistrationScreen = ({navigation}) => {
 
     const onRegistration = async () => {
 
-        if (state.login.length < 4) {// todo: normal check  (inactive button) and notify
-            return
+        if (state.login.length < 4) {
+            return alert("Login must be at least 4 symbols!")
         }
         Keyboard.dismiss();
 

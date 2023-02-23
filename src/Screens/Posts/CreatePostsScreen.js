@@ -51,10 +51,9 @@ const CreatePostsScreen = ({navigation}) => {
             let {status} = await Location.requestForegroundPermissionsAsync();
             if (status !== "granted") {
                 console.log("Permission to access location was denied");
+                alert("Permission to access location was denied")
             }
-            // console.log('location get started');
             let locationData = await Location.getCurrentPositionAsync({});
-            // console.log('location dada await passed');
             const coords = {
                 latitude: locationData.coords.latitude,
                 longitude: locationData.coords.longitude,
@@ -64,7 +63,7 @@ const CreatePostsScreen = ({navigation}) => {
         })();
     }, []);
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (location) {
             axios.get(`http://api.weatherbit.io/v2.0/current?lat=${location.latitude}&lon=${location.longitude}&key=161b71ae33f348868722ad1c9f0e1796`)// todo: refactor out (services folder)
                 .then(response => response.data.data)
@@ -76,9 +75,10 @@ const CreatePostsScreen = ({navigation}) => {
                 })
                 .catch((err) => {
                     console.log(err);
+                    alert(err.message)
                 })
         }
-    }, [location])
+    }, [location])*/
 
     if (hasPermission === null) {
         return <View/>;
@@ -127,9 +127,14 @@ const CreatePostsScreen = ({navigation}) => {
 
     const takePicture = async () => {
         if (cameraRef) {
-            const {uri} = await cameraRef.takePictureAsync();
-            setPictureUrl(uri);
-            await MediaLibrary.createAssetAsync(uri);
+            try {
+                const {uri} = await cameraRef.takePictureAsync();
+                setPictureUrl(uri);
+                await MediaLibrary.createAssetAsync(uri);
+            }    catch (err) {
+                console.log(err.message);
+                alert(err.message)
+            }
         }
     }
 

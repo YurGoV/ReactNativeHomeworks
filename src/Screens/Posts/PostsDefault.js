@@ -15,8 +15,10 @@ import {useSelector} from "react-redux";
 const PostsDefaultScreen = ({navigation, route}) => {
 
     const [posts, setPosts] = useState([])
+    // const [avatar, setAvatar] = useState('')
 
-    const {login, avatar} = useSelector(state => state.auth);
+    const {login} = useSelector(state => state.auth);
+    const {avatar} = useSelector(state => state.auth)
 
     let uniquePostId = '';
     if (route.params) {
@@ -39,6 +41,9 @@ const PostsDefaultScreen = ({navigation, route}) => {
 
 
     useEffect(() => {
+
+        // setAvatar(getAvatar);
+        // console.log(getAvatar);
 
         getAllPosts();
 

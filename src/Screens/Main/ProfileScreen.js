@@ -45,6 +45,21 @@ const ProfileScreen = ({navigation, route}) => {
         })();
     }, []);
 
+    useEffect(() => {
+
+        getAllPosts();
+
+    }, [deletedPost])
+
+    const toggleMakePhoto = () => {
+        if (!makePhoto) {
+            setMakePhoto('camera')
+        }
+        if (makePhoto === 'camera' || makePhoto === 'user') {
+            setMakePhoto(null)
+        }
+    }
+
     const getAllPosts = async () => {
         const querySnapshot = await getDocs(userPostsRef);
         const allPosts = querySnapshot.docs.map((post) => ({
@@ -57,26 +72,12 @@ const ProfileScreen = ({navigation, route}) => {
         setPosts(sortedPosts);
     }
 
-    useEffect(() => {
-
-        getAllPosts();
-
-    }, [deletedPost])
-
 
     const deletePost = async (postId) => {
         await deleteDoc(doc(db, "posts", postId));
         setDeletedPost(postId);
     }
 
-    const toggleMakePhoto = () => {
-        if (!makePhoto) {
-            setMakePhoto('camera')
-        }
-        if (makePhoto === 'camera' || makePhoto === 'user') {
-            setMakePhoto(null)
-        }
-    }
 
     const uploadAvatar = async () => {
 
@@ -196,28 +197,17 @@ const ProfileScreen = ({navigation, route}) => {
                                           />
                                           <View style={styles.postText}>
 
-                                              <View>
-                                                  {item.location ? (<Pressable title={"Map"}
-                                                                               onPress={goToMap(item.location)}>
-                                                      <Ionicons name="location-outline" size={24} color="green"/>
-                                                      <Text style={{paddingBottom: 20}}>{item.headers.place}</Text>
-                                                  </Pressable>) : (
-                                                      <Text style={{paddingBottom: 20}}>{item.headers.place}</Text>
-                                                  )}
 
-                                              </View>
                                               <View style={{
                                                   display: 'flex',
                                                   flexDirection: 'row',
                                                   justifyContent: 'space-between',
                                               }}>
-                                                  <Pressable title={"Comments"}
-                                                             onPress={goToComments(item)}>
-                                                      <Text>
-                                                          <Ionicons name="chatbubble-outline" size={24} color="grey"/>
-                                                          {item.commentsCount ?? 0}
+                                                  <View>
+                                                      <Text style={{paddingBottom: 20, paddingRight: 10}}>
+                                                          {item.headers.place}
                                                       </Text>
-                                                  </Pressable>
+                                                  </View>
                                                   <Pressable title={"Delete"}
                                                              onPress={() => deletePost(item.id)}>
                                                       <MaterialIcons name="delete-outline" size={24} color="#FFCCCB"/>
@@ -229,6 +219,7 @@ const ProfileScreen = ({navigation, route}) => {
                                   )}
                         />
 
+
                     </View>
                 </View>
             </ImageBackground>
@@ -237,4 +228,48 @@ const ProfileScreen = ({navigation, route}) => {
 };
 
 export default ProfileScreen;
+
+
+/*<FlatList data={posts} keyExtractor={post => post.id}
+          renderItem={({item}) => (
+              <View style={styles.postSection}>
+                  <Text style={{paddingBottom: 20}}>{item.headers.name}</Text>
+
+                  <Image style={styles.postImage}
+                         source={{uri: item.photo}}
+                  />
+                  <View style={styles.postText}>
+
+                      <View>
+                          {item.location ? (<Pressable title={"Map"}
+                                                       onPress={goToMap(item.location)}>
+                              <Ionicons name="location-outline" size={24} color="green"/>
+                              <Text style={{paddingBottom: 20}}>{item.headers.place}</Text>
+                          </Pressable>) : (
+                              <Text style={{paddingBottom: 20}}>{item.headers.place}</Text>
+                          )}
+
+                      </View>
+                      <View style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                      }}>
+                          <Pressable title={"Comments"}
+                                     onPress={goToComments(item)}>
+                              <Text>
+                                  <Ionicons name="chatbubble-outline" size={24} color="grey"/>
+                                  {item.commentsCount ?? 0}
+                              </Text>
+                          </Pressable>
+                          <Pressable title={"Delete"}
+                                     onPress={() => deletePost(item.id)}>
+                              <MaterialIcons name="delete-outline" size={24} color="#FFCCCB"/>
+                          </Pressable>
+                      </View>
+                  </View>
+
+              </View>
+          )}
+/>*/
 

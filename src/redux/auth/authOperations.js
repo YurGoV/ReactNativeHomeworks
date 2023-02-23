@@ -19,7 +19,8 @@ export const authSignUpUser = ({email, password, login, avatar}) => async (dispa
                 photoURL: avatar,
             })
         } catch (err) {
-            console.log(err);
+            console.log(err.message);
+            alert(err.message)
         }
 
         const updatedUser = await auth.currentUser;
@@ -32,6 +33,7 @@ export const authSignUpUser = ({email, password, login, avatar}) => async (dispa
 
     } catch (err) {
         console.log('error message', err.message);
+        alert(err.message)
     }
 }
 
@@ -48,6 +50,7 @@ export const authSignInUser = ({email, password}) => async (dispatch, getState) 
 
     } catch (err) {
         console.log('error message', err.message);
+        alert(err.message)
     }
 }
 
@@ -70,6 +73,7 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
 
     } catch (err) {
         console.log('error message', err.message);
+        alert(err.message)
     }
 }
 
@@ -90,11 +94,17 @@ export const profileUpdateAvatar = ({avatar}) => async (dispatch, getState) => {
 
     } catch (err) {
         console.log('error message', err.message);
+        alert(err.message)
     }
 }
 
 
 export const authSignOutUser = () => async (dispatch, getState) => {
-    await auth.signOut();
-    dispatch(authSlice.actions.authSignOut())
+    try {
+        await auth.signOut();
+        dispatch(authSlice.actions.authSignOut())
+    } catch (err) {
+        console.log('error message', err.message);
+        alert(err.message)
+    }
 }
